@@ -1,0 +1,47 @@
+<% var title = 'Login' %>
+<% include ../partial/head %>
+
+<div class="ui center aligned middle aligned grid">
+  <div class="column">
+    <h2 class="ui image header" style="color: green;" >
+      <img src="/assets/images/ooaa_logo.png" class="image">
+      <div class="content">
+        Log-in to your account
+      </div>
+    </h2>
+    <form class="ui large form" action="/login" method="post" >
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input type="text" name="email" placeholder="E-mail address">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" name="password" placeholder="Password">
+          </div>
+        </div>
+        <div class="ui fluid black large submit button" style="background-color: green;">Login</div>
+      </div>
+
+      <% if (messages.error) { %>
+        <div class="ui negative message">
+          <i class="close icon"></i>
+          <div class="header">
+            <%= messages.error %>
+          </div>
+        </div>
+      <% } %>
+
+
+    </form>
+
+    <div class="ui message">
+      New to us? <a href="/signup">Sign Up</a>
+    </div>
+  </div>
+</div>
+
+<% include ../partial/foot %>

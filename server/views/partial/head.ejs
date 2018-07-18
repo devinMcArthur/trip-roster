@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" /> 
+
+    <title><%= (typeof title != "undefined" ? title : "Trip Roster") %></title>
+
+    <script type="text/javascript" src="\js\lib\jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/semantic/dist/semantic.min.css">
+    <link rel="stylesheet" type='text/css' href="/css/style.css" />
+    <script src="/semantic/dist/semantic.min.js"></script>
+    <script type="text/javascript" src="/js/head.js"></script>
+  </head>
+  <body>
+    <div class="ui secondary pointing menu">
+      <% if (locals.user) { %>
+        <a class="item" href="/">
+          <i class="home icon"></i> Home
+        </a>
+        <a class="item" href="/teams">
+          <i class="hockey puck icon"></i> Teams
+        </a>
+        <div class="right menu">
+          <a class="ui item" href="/logout">
+            Logout
+          </a>
+        </div>
+      <% } else { %>
+        <a class="item" href="/">
+          <i class="home icon"></i> Home
+        </a>
+        <div class="right menu">
+          <a class="ui item" href="/login">
+            Login
+          </a>
+        </div>
+      <% } %>
+    </div>
+    <div class="ui container" id="content">
