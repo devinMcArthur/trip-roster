@@ -1,7 +1,9 @@
 <% var title = 'Login' %>
 <% include ../partial/head %>
 
-<div class="ui center aligned middle aligned grid">
+<script src="/js/login.js"></script>
+
+<div class="ui center aligned middle aligned grid segment" style="margin-top: 20vh;">
   <div class="column">
     <h2 class="ui image header" style="color: green;" >
       <img src="/assets/images/ooaa_logo.png" class="image">
@@ -9,6 +11,14 @@
         Log-in to your account
       </div>
     </h2>
+    <% if (messages.error) { %>
+      <div class="ui negative message">
+        <i class="close icon"></i>
+        <div class="header">
+          <%= messages.error %>
+        </div>
+      </div>
+    <% } %>
     <form class="ui large form" action="/login" method="post" >
       <div class="ui stacked segment">
         <div class="field">
@@ -23,18 +33,17 @@
             <input type="password" name="password" placeholder="Password">
           </div>
         </div>
-        <div class="ui fluid black large submit button" style="background-color: green;">Login</div>
-      </div>
-
-      <% if (messages.error) { %>
-        <div class="ui negative message">
-          <i class="close icon"></i>
-          <div class="header">
-            <%= messages.error %>
+        <div class="ui field grid">
+          <div class="ui left floated left aligned twelve wide column" style="padding: 0;">
+            <p>Forgot your password? <a href="/forgot">Reset Password</a></p>
+          </div>
+          <div class="ui checkbox right floated">
+            <label>Remember Me</label>
+            <input class="checkbox" id="remember" type="checkbox" name="remember" checked=""/>
           </div>
         </div>
-      <% } %>
-
+        <div class="ui fluid black large submit button" style="background-color: green;">Login</div>
+      </div>
 
     </form>
 
