@@ -10,28 +10,13 @@
         Create an account
       </div>
     </h2>
-    <% if (messages.error) { %>
-      <div class="ui negative message">
-        <i class="close icon"></i>
-        <div class="header">
-          <%= messages.error %>
-        </div>
-      </div>
-    <% } %>
     <form class="ui large form" action="/signup" method="post" >
       <div class="ui stacked segment">
         <label style="float: left;">Name</label>
         <div class="field">
-          <div class="two fields">
-            <div class="field">
-              <div class="ui left icon input">
-                <i class="user icon"></i>
-                <input id="first-name-form" type="text" name="firstName" placeholder="First Name">
-              </div>
-            </div>
-            <div class="field">
-              <input id="last-name-form" type="text" name="lastName" placeholder="Last Name">
-            </div>
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input id="name-form" type="text" name="name" placeholder="Full Name">
           </div>
         </div>
         <div class="field">

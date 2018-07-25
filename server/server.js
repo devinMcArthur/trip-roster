@@ -15,7 +15,9 @@ const nodemailer = require('nodemailer');
 const async = require('async');
 const flash = require('express-flash');
 
-const {User} = require('./models/user')
+const {User} = require('./models/user');
+const {Team} = require('./models/team');
+const {Member} = require('./models/member');
 
 const port = process.env.PORT || 3000;
 var app = express();
@@ -144,7 +146,6 @@ app.get('/signup', (req, res) => {
 
 // POST /signup
 app.post('/signup', async (req, res) => {
-  console.log('hi');
   try {
     const user = new User(req.body);
     await user.save();
@@ -268,6 +269,184 @@ app.post('/reset/:token', function(req, res) {
   ], function(err) {
     res.redirect('/');
   });
+});
+
+// GET /user/:id
+app.get('/user/:id', async (req, res) => {
+  try {
+    var id = req.params.id;
+    if(!ObjectID.isValid(id)) {throw new Error('Not a valid User ID');}
+    var user = await User.findById(id);
+    var teamArray = await Team.getAll();
+    res.render('user/user', {user, teamArray});
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// GET /teams
+app.get('/teams', async (req, res) => {
+  try {
+    var teamArray = await Team.getAll();
+    var userArray = await User.getAll();
+    res.render('team/teamIndex', {teamArray, userArray});
+  } catch (e) {
+    try {
+      var userArray = await User.getAll();
+      console.log(e);
+      req.flash('error', e);
+      res.render('team/teamIndex', {userArray});
+    } catch (e) {
+      console.log(e);
+      req.flash('error', e);
+      res.render('team/teamIndex');
+    }
+  }
+});
+
+// POST /team
+app.post('/team', async (req, res) => {
+  try {
+    var team = new Team({
+      name: req.body.name,
+      age: req.body.age,
+      league: req.body.league,
+      managers: req.body.managers.split(',')
+    });
+    await team.save();
+    for (var i in req.body.managers.split(',')) {
+      var user = await User.findById(req.body.managers.split(',')[i]);
+      await user.teams.push(team._id);
+      await user.save();
+    } 
+    res.redirect('back');
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e);
+    res.redirect('back');
+  }
+});
+
+// GET /team/:id
+app.get('/team/:id', async (req, res) => {
+  try {
+    var id = req.params.id;
+    if (!ObjectID.isValid(id)) {throw new Error('Not a valid Team ID')}
+    var team = await Team.findById(id);
+    var userArray = await User.getAll();
+    var array = await Member.getAll();
+    var memberArray = [];
+    for (var i in array) {
+      if (array[i].teams.indexOf(team._id) != -1) {
+        memberArray[i] = array[i];
+      }
+    }
+    res.render('team/team', {team, userArray, memberArray});
+  } catch (e) {
+    console.log(e);
+    try {
+      var id = req.params.id;
+      if (!ObjectID.isValid(id)) {throw new Error('Not a valid Team ID')}
+      var team = await Team.findById(id);
+      var userArray = await User.getAll();
+      res.render('team/team', {team, userArray});
+    } catch (e) {
+      console.log(e);
+      req.flash('error', e.message);
+      res.redirect('back');
+    }
+  }
+});
+
+// GET /team/:id/update
+app.post('/team/:id/update', async (req, res) => {
+  try {
+    if (req.body.managers != undefined && req.body.managers.length != 0) {
+      req.body.managers = (req.body.managers.split(','));
+    } else {
+      req.body.managers = [];
+    }
+    var teamId = req.params.id;
+    if (!ObjectID.isValid(teamId)) {throw new Error('Team ID is not valid');}
+    var team = await Team.findOneAndUpdate({_id: teamId}, req.body, {new: true});
+    res.redirect('back');
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  } 
+});
+
+// POST /member
+app.post('/member', async (req, res) => {
+  try {
+    if (req.body.player == 'on') {
+      req.body.player = true;
+    }
+    if (req.body.relationships != undefined && req.body.relationships.length != 0) {
+      req.body.relationships = (req.body.relationships.split(','));
+    } else {
+      req.body.relationships = [];
+    }
+    var member = new Member(req.body);
+    await member.save();
+    for (var i in req.body.relationships) {
+      var tempMember = await Member.findById(req.body.relationships[i]);
+      tempMember.relationships.push(member._id);
+      await tempMember.save();
+    }
+    var team = await Team.findById(req.body.teams);
+    team.members.push(member);
+    await team.save();
+    res.redirect('back');
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// POST /member/:id/update
+app.post('/member/:id/update', async (req, res) => {
+  try {
+    var id = req.params.id;
+    if (!ObjectID.isValid(id)) {throw new Error('Member ID is not valid');}
+    var oldMember = await Member.findById(id);
+    if (req.body.relationships != undefined && req.body.relationships.length != 0) {
+      req.body.relationships = (req.body.relationships.split(','));
+      if (req.body.relationships.includes(id)) {
+        var index = req.body.relationships.indexOf(id);
+        req.body.relationships.splice(index, 1);
+      }
+      for (var i in req.body.relationships) {
+        // Add relationship to other member if it doesn't already exist
+        var tempMember = await Member.findById(req.body.relationships[i]);
+        if (tempMember.relationships.indexOf(oldMember._id) == -1) {
+          console.log('Test:', tempMember.relationships.indexOf(oldMember._id) != -1);
+          console.log(tempMember.name + ' ' + tempMember.relationships);
+          console.log(oldMember._id);
+          tempMember.relationships.push(oldMember._id);
+          await tempMember.save();
+        }
+      }
+    } else {
+      req.body.relationships = [];
+    }
+    oldMember.relationships.forEach(async (rel) => {
+      if (!req.body.relationships.includes(rel.toString())) {
+        var otherMember = await Member.findByIdAndUpdate(rel, {$pull: {relationships: oldMember._id}}, {new: true});
+      }
+    });
+    if (req.body.player == 'on') {req.body.player = true;}
+    var member = await Member.findOneAndUpdate({_id: id}, {$set: req.body}, {new: true});
+    res.redirect('back');
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
 });
 
 app.listen(port, () => {

@@ -1,0 +1,73 @@
+<div class="edit-form" id="member-<%= id %>-edit-div">
+  <div class="ui center aligned middle aligned grid segment" style="margin: 0;padding: 0;" id="member-<%= id %>-edit-form">
+    <div class="column">
+      <a onclick="closeMemberEditForm('<%= id %>')"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+      <h2 class="ui header" style="color: green;" >
+        <div class="content">
+          Edit Member
+        </div>
+      </h2>
+      <form class="ui large form" action="/member/<%= member %>/update" method="post">
+        <div class="ui stacked segment">
+          <label style="float: left;"><b>Name</b></label>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input id="name-form" type="text" name="name" placeholder="Full Name" value="<%= name %>">
+            </div>
+          </div>
+          <div class="field">
+            <label style="float: left;">Phone Number</label>
+            <div class="ui left icon input">
+              <i class="phone icon"></i>
+              <input id="email-form" type="tel" name="phoneNumber" placeholder="Phone Number" value="<%= phoneNumber %>">
+            </div>
+          </div>
+          <label style="float: left;"><b>Emergency Contact</b></label>
+          <div class="field">
+            <div class="two fields">
+              <div class="field">
+                <div class="ui left icon input">
+                  <i class="user md icon"></i>
+                  <input id="emergency-name-form" type="text" name="emergencyName" placeholder="Full Name" value="<%= emergencyName %>">
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui left icon input">
+                  <i class="phone square icon"></i>
+                  <input id="emergency-phone-form" type="tel" name="emergencyPhone" placeholder="Phone Number" value="<%= emergencyPhone %>">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui field">
+            <div class="ui checkbox" id="player-toggle">
+              <label>Player?</label>
+              <input class="checkbox" id="player-toggle" type="checkbox" name="player" 
+                <% if (player) { %> checked="" <%}%> />
+            </div>
+          </div>
+          <div class="field" id="relationship-form">
+            <div class="ui fluid multiple search selection dropdown" id="member-<%= id %>">
+              <input type="hidden" name="relationships">
+              <i class="dropdown icon"></i>
+              <div class="default text">Relationships</div>
+              <div class="menu">
+                <% if (typeof array != 'undefined') { %>
+                  <% for (var i in array) { %>
+                    <% if (i != id && (array[i].player == true || array[id].player == true)) { %>
+                      <div class="item" data-value="<%= i %>"><%= array[i].name %></div>
+                    <% } %>
+                  <% } %>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <div id="relationship-form-div"></div>
+          <input type="hidden" name="teams" value="<%= team._id %>">
+          <div id="submit-button" class="ui fluid black large submit button" style="background-color: green;">Update</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

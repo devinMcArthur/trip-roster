@@ -3,17 +3,11 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 var UserSchema = new mongoose.Schema({
-  firstName: {
+  name: {
     type: String,
     require: true,
     minlength: 1,
-    time: true
-  },
-  lastName: {
-    type: String,
-    require: true,
-    minlength: 1,
-    time: true
+    trim: true
   },
   email: {
     type: String,
@@ -37,7 +31,11 @@ var UserSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
     default: false
-  }
+  },
+  teams: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Team'
+  }]
 });
 
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
@@ -64,7 +62,7 @@ UserSchema.pre('save', function (next) {
 UserSchema.statics.getAll = function() {
   var User = this
   var userArray = [];
-  return User.find({}).sort({name: 'asc'}).then((users) => {
+  return User.find({}).sort({firstName: 'asc'}).then((users) => {
     if (!users) {return Promise.reject();}
     return new Promise(async (resolve, reject) => {
       await users.forEach((user) => {
@@ -73,7 +71,7 @@ UserSchema.statics.getAll = function() {
       if (Object.keys(userArray).length > 0) {
         resolve(userArray);
       } else {
-        reject('Error: Unable to create Employee array (check to ensure Employees have been created)');
+        reject('Error: Unable to create User array (check to ensure Users have been created)');
       }
     });
   });

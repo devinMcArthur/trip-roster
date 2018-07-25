@@ -16,26 +16,40 @@
   <body>
     <div class="ui secondary pointing menu">
       <% if (locals.user) { %>
-        <a class="item" href="/">
+        <a class="item" href="/" id="home-item">
           <i class="home icon"></i> Home
         </a>
-        <a class="item" href="/teams">
-          <i class="hockey puck icon"></i> Teams
-        </a>
+        <% if (locals.user.admin) { %>
+          <a class="item" href="/teams" id="teams-item">
+            <i class="hockey puck icon"></i> Teams
+          </a>
+        <% } else { %>
+          <a class="item" href="/team">
+            <i class="hockey puck icon"></i> Team
+          </a>
+        <% } %>
         <div class="right menu">
           <a class="ui item" href="/logout">
             Logout
           </a>
         </div>
       <% } else { %>
-        <a class="item" href="/">
+        <a class="item" href="/" id="home-item">
           <i class="home icon"></i> Home
         </a>
         <div class="right menu">
-          <a class="ui item" href="/login">
+          <a class="item" href="/login" id="login-item">
             Login
           </a>
         </div>
       <% } %>
     </div>
     <div class="ui container" id="content">
+      <% if (messages.error) { %>
+        <div class="ui negative message" id="alert-box">
+          <i class="close icon" id="alert-close"></i>
+          <div class="header">
+            <%= messages.error %>
+          </div>
+        </div>
+      <% } %>

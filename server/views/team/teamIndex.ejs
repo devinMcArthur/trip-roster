@@ -1,0 +1,114 @@
+<% include ../partial/head %>
+
+<script src="/js/lib/mustache.js"></script>
+<script src="/js/teamIndex.js"></script>
+
+<div class="ui grid">
+  <div class="eight wide column">
+    <h1 class="ui header">Teams</h1>
+  </div>
+  <div class="eight wide column float right">
+    <div id="team-form-button-div"></div>
+    <div id="team-add-button" class="ui black button" style="background-color: green; float: right;" onclick="loadTeamForm()">
+      <i class="add icon"></i>
+      Add
+    </div>
+  </div>
+</div>
+<div id="team-form-div" class="sixteen wide column"></div>
+
+<% if (typeof teamArray != 'undefined') { %>
+  <% for (var i in teamArray) { %>
+    <div class="ui stacked segment">
+      <h4 class="header"><a href="/team/<%= teamArray[i]._id %>"><%= teamArray[i].name %></a></h4>
+      <p><%= teamArray[i].age %> <%= teamArray[i].league %></p>
+    
+      <h5 class="header">Manager(s)</h5>
+      <% teamArray[i].managers.forEach((manager) => { %>
+        <div class="ui segment">
+          <%= userArray[manager].name %>
+        </div>
+      <% }); %>
+    </div>
+  <% } %>
+<% } else { %>
+  <div class="ui segment fluid">
+    <p class="ui content">No teams were found</p>
+  </div>
+<% } %>
+
+
+
+<% include ../partial/foot %>
+
+<script type="text/template" id="team-form-button-template">
+  <div id="team-add-button" class="ui black button" style="background-color: green; float: right;" onclick="loadTeamForm()">
+    <i class="add icon"></i>
+    Add
+  </div>
+</script>
+
+<script type="text/template" id="team-form-template">
+  <div class="ui center aligned middle aligned grid segment" id="team-form" style="margin:0;">
+      <div class="column">
+        <a class="black" href="" onclick="closeTeamForm()"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+        <h2 class="ui header" style="color: green;">Add a team</h2>
+        <form class="ui large form" action="/team" method="post">
+          <div class="ui stacked segment">
+            <label style="float: left;"><b>Name</b></label>
+            <div class="field">
+              <div class="ui input">
+                <input id="first-name-form" type="text" name="name" placeholder="Team Name">
+              </div>
+            </div>
+            <label style="float: left;"><b>Categories</b></label>
+            <div class="field">
+              <div class="two fields">
+                <div class="field">
+                  <div class="ui fluid search selection dropdown">
+                    <input type="hidden" name="age">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Select Age Group</div>
+                    <div class="menu">
+                      <div class="item" data-value="Peewee">Peewee</div>
+                      <div class="item" data-value="Bantam">Bantam</div>
+                      <div class="item" data-value="Midget">Midget</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui fluid search selection dropdown">
+                    <input type="hidden" name="league">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Select League</div>
+                    <div class="menu">
+                      <div class="item" data-value="AA">AA</div>
+                      <div class="item" data-value="AAA">AAA</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <label style="float: left;"><b>Manager(s)</b></label>
+            <div class="field">
+              <div class="ui fluid multiple search selection dropdown">
+                <input type="hidden" name="managers">
+                <i class="dropdown icon"></i>
+                <div class="default text">Select Managers</div>
+                <div class="menu">
+                  <% if (typeof userArray != 'undefined') { %>
+                    <% for (var i in userArray) { %>
+                      <div class="item" data-value="<%= i %>"><%= userArray[i].name %></div>
+                    <% } %>
+                  <% } else { %>
+                    <div class="item" data-value="">We were unable to retreive any users, please try again</div>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+            <div id="submit-button" class="ui fluid black submit button" style="background-color: green;">Create</div>
+          </div>
+        </form>
+      </div>
+    </div>
+</script>
