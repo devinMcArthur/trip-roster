@@ -24,9 +24,17 @@
             <i class="hockey puck icon"></i> Teams
           </a>
         <% } else { %>
-          <a class="item" href="/team">
-            <i class="hockey puck icon"></i> Team
-          </a>
+          <% if (locals.user.teams.length == 0) { %>
+          
+          <% } else if(locals.user.teams.length > 1) { %>
+            <a class="item" href="/teams">
+              <i class="hockey puck icon"></i> Teams
+            </a>
+          <% } else { %>
+            <a class="item" href="/team/<%= locals.user.teams %>">
+              <i class="hockey puck icon"></i> Team
+            </a>
+          <% } %>
         <% } %>
         <div class="right menu">
           <a class="ui item" href="/logout">
@@ -44,7 +52,7 @@
         </div>
       <% } %>
     </div>
-    <div class="ui container" id="content">
+    <div class="ui container">
       <% if (messages.error) { %>
         <div class="ui negative message" id="alert-box">
           <i class="close icon" id="alert-close"></i>

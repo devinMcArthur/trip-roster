@@ -12,7 +12,9 @@
       <h5 class="header">Manager(s)</h5>
     </div>
     <div class="two wide column">
-      <a href="" onclick="loadManagerForm('<%= team.managers %>'); return false;" id="edit-button-holder" style="float: right;"><i id="edit-button" class="edit icon black"></i></a>
+      <% if (locals.user.admin == true) { %>
+        <a href="" onclick="loadManagerForm('<%= team.managers %>'); return false;" id="edit-button-holder" style="float: right;"><i id="edit-button" class="edit icon black"></i></a>
+      <% } %>
     </div>
   </div>
   <div id="manager-form-div"></div>
@@ -124,6 +126,8 @@
               <input id="name-form" type="text" name="name" placeholder="Full Name">
             </div>
           </div>
+          <div class="ui header"><div class="sub header"> - Optional - </div></div>
+          <div class="ui divider"></div>
           <div class="field">
             <label style="float: left;">Phone Number</label>
             <div class="ui left icon input">

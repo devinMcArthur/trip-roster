@@ -8,7 +8,8 @@ var MemberSchema = new mongoose.Schema({
     trim: true
   },
   phoneNumber: {
-    type: String
+    type: String,
+    trim: true
   },
   player: {
     type: Boolean,

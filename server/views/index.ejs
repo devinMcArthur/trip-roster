@@ -1,58 +1,67 @@
 <% include partial/head %>
 
+
+
   <% if (locals.user) { %>
-    Hello there returning user!
+
+    <div style="margin-top: 15vh;">
+      <% if (typeof tripArray != 'undefined') { %>
+        <h3 class="ui header">Upcoming Trip(s)</h3>
+        <div class="ui divider"></div>
+      <% } %>
+
+      <% if (typeof teamArray != 'undefined') { %>
+        <h3 class="ui header">Team(s)</h3>
+        <div class="ui divider"></div>
+        <% for (var i in teamArray) { %>
+          <div class="ui clearing segment">
+            <div class="ui right floated mini button">Start Trip</div>
+            <a href="/team/<%= teamArray[i]._id %>"><b><%= teamArray[i].name %></b></a>
+          </div>
+        <% } %>
+      <% } %>
+
+    </div>
+
   <% } else { %>
-    <!-- Present Signup form if not logged in -->
-    <script src="/js/signup.js"></script>
 
-    <div class="ui center aligned middle aligned grid segment" style="margin-top: 15vh;">
-      <div class="column">
-        <h2 class="ui image header" style="color: green;" >
-          <img src="/assets/images/ooaa_logo.png" class="image">
-          <div class="content">
-            Welcome to Trip Roster!
-          </div>
-        </h2>
-        <form class="ui large form" action="/signup" method="post" >
-          <div class="ui stacked segment">
-            <label style="float: left;">Name</label>
-            <div class="field">
-              <div class="ui left icon input">
-                <i class="user icon"></i>
-                <input id="name-form" type="text" name="name" placeholder="Full Name">
-              </div>
-            </div>
-            <div class="field">
-              <label style="float: left;">Email</label>
-              <div class="ui left icon input">
-                <i class="at icon"></i>
-                <input id="email-form" type="email" name="email" placeholder="Email">
-              </div>
-            </div>
-            <div class="field">
-              <label style="float: left;">Password</label>
-              <div class="ui left icon input">
-                <i class="lock icon"></i>
-                <input id="password-form" type="password" name="password" placeholder="Password">
-              </div>
-            </div>
-            <div class="field">
-              <div class="ui left icon input">
-                <i id="confirm-icon" class="lock open icon"></i>
-                <input id="confirm-form" type="password" name="confirm" placeholder="Confirm Password">
-              </div>
-            </div>
-            <div id="submit-button" class="ui fluid black large submit button disabled" style="background-color: green;">Signup!</div>
-          </div>
-       
-        </form>
+  <style>
+    .ui.container {
+      padding: 0 !important;
+      margin: 0 !important;
+      width: 100vw;
+    }
+    .ui.secondary.menu {
+      margin-bottom: 0.4em;
+    }
+  </style>
 
-        <div class="ui message">
-            Already have an account? <a href="/login">Login</a>
+  <div class="masthead segment">
+    <div class="introduction">
+      <h1 class="ui inverted header">
+        <span class="library">Trip Roster</span>
+      </h1>
+      <div class="ui hidden divider"></div>
+      <a href="/signup" class="ui huge inverted basic button">Signup Now</a>
+      <p class="or">or</p>
+      <a href="/signup" class="ui huge inverted basic button">Login</a>
+    </div>
+  </div>
+
+  <div class="ui vertical stripe intro segment">
+    <div class="introduction">
+      <div class="row">
+        <div class="seven wide column">
+          <div class="row">
+            <img class="ui image home" src="/assets/images/ooaa_logo.png">
           </div>
+          <h1 class="ui header">Easily Record Bus Attendance</h1>
+          <p>Trip Roster is a website to manage who is on bus trips and provide that information to the association</p>
+        </div>
       </div>
     </div>
+  </div>
+
   <% } %>
 
 <% include partial/foot %>

@@ -22,6 +22,17 @@ var TeamSchema = new mongoose.Schema({
   members: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Member'
+  }],
+  managementRequests: [{
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User' 
+    },
+    status: {
+      type: Boolean,
+      require: true,
+      default: false
+    }
   }]
 });
 

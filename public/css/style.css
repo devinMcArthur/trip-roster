@@ -1,0 +1,103 @@
+/* Homepage */
+
+.masthead {
+  background: #ADD100;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, rgb(49, 146, 10), #ADD100);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, rgb(49, 146, 10), #ADD100); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  border-bottom: solid 2px black;
+  width: 100vw;
+  height: 50vh;
+}
+
+@media (max-width: 600px) {
+  .masthead {
+    height: 60vh;
+  }
+}
+
+
+.masthead.segment h1 {
+  font-size: 3em;
+  color: rgba(255, 255, 255, 1);
+  line-height: 1.2;
+  margin: 0px 0px 0px;
+  padding-bottom: 0px;
+  -moz-perspective: 500px;
+  -webkit-perspective: 500px;
+  perspective: 500px;
+
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+
+  -moz-transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.masthead.segment h1 > .library {
+  display: block;
+  font-size: 8vh;
+  font-weight: bold;
+}
+
+.masthead.segment h1 {
+  padding-top: 10vh;
+}
+
+.masthead.segment h1 b {
+  display: inline-block;
+  font-weight: 500;
+}
+
+.introduction {
+  position: relative;
+  clear: both;
+  display: block;
+  text-align: center;
+}
+
+.or {
+  color: rgba(255, 255, 255, 1);
+  padding-top: 0.9em;
+}
+
+.ui.vertical.stripe.intro {
+  width: auto;
+}
+
+.stripe .grid .row {
+  margin: 2rem 0rem;
+}
+
+.grid .row {
+  margin: 0rem;
+}
+
+.column {
+  display: flex;
+  -ms-flex-direction: column;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
+}
+
+.ui.vertical.divider {
+  font-size: 1rem;
+}
+
+.intro.segment h1 + p {
+  font-size: 22px;
+  text-align: center;
+}
+
+.stripe .icon.header .icon.image {
+  height: 65px;
+  margin-bottom: 20px;
+}
+
+.ui.image.home {
+  width: 10vw;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+

@@ -87,8 +87,30 @@ app.use( function (req, res, next) {
 });
 
 // GET root
-app.get('/', (req, res) => {
-  res.render('index');
+app.get('/', async (req, res) => {
+  try {
+    if (req.user) {
+      var teamArray = await Team.getAll();
+      var userArray = await User.getAll();
+      var array = [];
+      if (req.user.admin == true) {
+        res.render('index', {teamArray});
+      } else {
+        for (var i in teamArray) {
+          if(teamArray[i].managers.toString().includes(req.user._id)) {
+            array[i] = teamArray[i];
+          }
+        }
+        res.render('index', {teamArray: array});
+      }
+    } else {
+      res.render('index');
+    }
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('/');
+  }
 });
 
 // GET /login
@@ -291,7 +313,17 @@ app.get('/teams', async (req, res) => {
   try {
     var teamArray = await Team.getAll();
     var userArray = await User.getAll();
-    res.render('team/teamIndex', {teamArray, userArray});
+    var array = [];
+    if (req.user.admin == true) {
+      res.render('team/teamIndex', {teamArray, userArray});
+    } else {
+      for (var i in teamArray) {
+        if(teamArray[i].managers.toString().includes(req.user._id)) {
+          array[i] = teamArray[i];
+        }
+      }
+      res.render('team/teamIndex', {teamArray: array, userArray});
+    }
   } catch (e) {
     try {
       var userArray = await User.getAll();
@@ -363,14 +395,21 @@ app.get('/team/:id', async (req, res) => {
 // GET /team/:id/update
 app.post('/team/:id/update', async (req, res) => {
   try {
+    var team = await Team.findById(req.params.id);
     if (req.body.managers != undefined && req.body.managers.length != 0) {
       req.body.managers = (req.body.managers.split(','));
     } else {
       req.body.managers = [];
     }
+    team.managers.forEach(async (i) => {
+      // Remove team from User model
+      if (!req.body.managers.toString().includes(i)) {
+        var user = await User.findByIdAndUpdate(i, {$pull: {teams: team._id}}, {new: true});
+      }
+    });
     var teamId = req.params.id;
     if (!ObjectID.isValid(teamId)) {throw new Error('Team ID is not valid');}
-    var team = await Team.findOneAndUpdate({_id: teamId}, req.body, {new: true});
+    await Team.findOneAndUpdate({_id: teamId}, req.body, {new: true});
     res.redirect('back');
   } catch (e) {
     console.log(e);

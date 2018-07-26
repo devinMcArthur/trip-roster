@@ -7,13 +7,15 @@
   <div class="eight wide column">
     <h1 class="ui header">Teams</h1>
   </div>
-  <div class="eight wide column float right">
-    <div id="team-form-button-div"></div>
-    <div id="team-add-button" class="ui black button" style="background-color: green; float: right;" onclick="loadTeamForm()">
-      <i class="add icon"></i>
-      Add
+  <% if (locals.user.admin) { %>
+    <div class="eight wide column float right">
+      <div id="team-form-button-div"></div>
+      <div id="team-add-button" class="ui black button" style="background-color: green; float: right;" onclick="loadTeamForm()">
+        <i class="add icon"></i>
+        Add
+      </div>
     </div>
-  </div>
+  <% } %>
 </div>
 <div id="team-form-div" class="sixteen wide column"></div>
 
