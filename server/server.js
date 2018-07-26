@@ -424,9 +424,6 @@ app.post('/member/:id/update', async (req, res) => {
         // Add relationship to other member if it doesn't already exist
         var tempMember = await Member.findById(req.body.relationships[i]);
         if (tempMember.relationships.indexOf(oldMember._id) == -1) {
-          console.log('Test:', tempMember.relationships.indexOf(oldMember._id) != -1);
-          console.log(tempMember.name + ' ' + tempMember.relationships);
-          console.log(oldMember._id);
           tempMember.relationships.push(oldMember._id);
           await tempMember.save();
         }

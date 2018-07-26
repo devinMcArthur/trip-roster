@@ -1,7 +1,6 @@
 $(document).ready(function () {
   $('.edit-form').hide();
-})
-
+});
 
 function loadManagerForm(managers) {
   managers = managers.split(',');
@@ -36,8 +35,9 @@ function closeMemberForm() {
 function loadMemberEditForm(id, rels) {
   rels = rels.split(',');
   $(`#member-${id}-edit-button`).remove();
-  $('.ui.search.dropdown'+ `#member-${id}`).dropdown('set selected', rels);
   $('form').form().submit(function(evt) {});
+  $(`#member-${id}`+'.ui.search.dropdown').dropdown('set selected', rels);
+  $(`#member-${id}`+'.ui.search.dropdown').dropdown('bind mouse events');
   $('.ui.checkbox').checkbox();
   $(`#member-${id}-edit-div`).show();
 }

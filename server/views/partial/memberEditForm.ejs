@@ -7,7 +7,7 @@
           Edit Member
         </div>
       </h2>
-      <form class="ui large form" action="/member/<%= member %>/update" method="post">
+      <form class="ui large form" action="/member/<%= id %>/update" method="post">
         <div class="ui stacked segment">
           <label style="float: left;"><b>Name</b></label>
           <div class="field">
@@ -48,7 +48,7 @@
             </div>
           </div>
           <div class="field" id="relationship-form">
-            <div class="ui fluid multiple search selection dropdown" id="member-<%= id %>">
+            <div class="ui fluid multiple search normal selection dropdown" id="member-<%= id %>">
               <input type="hidden" name="relationships">
               <i class="dropdown icon"></i>
               <div class="default text">Relationships</div>
@@ -63,7 +63,6 @@
               </div>
             </div>
           </div>
-          <div id="relationship-form-div"></div>
           <input type="hidden" name="teams" value="<%= team._id %>">
           <div id="submit-button" class="ui fluid black large submit button" style="background-color: green;">Update</div>
         </div>
