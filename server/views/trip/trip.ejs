@@ -32,9 +32,11 @@
     </div>
   </div>
   <div class="ui grid">
+    <% var time %>
     <div class="four wide column">
       <% if (trip.homeDepartTime) { %>
-        <a href="" id="homeDepartTime-edit" onclick="loadTimeEditForm('homeDepartTime', 'Home Depart', 'false'); return false;">
+        <% time = trip.homeDepartTime.toString().split(' ')[4] %>
+        <a href="" id="homeDepartTime-edit" onclick="loadTimeEditForm('homeDepartTime', 'Home Depart', 'false', '<%= time %>'); return false;">
           <div class="ui green fluid segment" id="homeDepartTime">
             <%= trip.homeDepartTime.toString().split('G')[0] %>
           </div>
@@ -47,7 +49,8 @@
     </div>
     <div class="four wide column">
       <% if (trip.destinationArrivalTime) { %>
-        <a href="" id="destinationArrivalTime-edit" onclick="loadTimeEditForm('destinationArrivalTime', 'Destination Arrival', 'false'); return false;">
+        <% time = trip.destinationArrivalTime.toString().split(' ')[4] %>
+        <a href="" id="destinationArrivalTime-edit" onclick="loadTimeEditForm('destinationArrivalTime', 'Destination Arrival', 'false', '<%= time %>'); return false;">
           <div class="ui green fluid segment" id="destinationArrivalTime">
             <%= trip.destinationArrivalTime.toString().split('G')[0] %>
           </div>
@@ -60,7 +63,8 @@
     </div>
     <div class="four wide column">
       <% if (trip.destinationDepartTime) { %>
-        <a href="" id="destinationDepartTime-edit" onclick="loadTimeEditForm('destinationDepartTime', 'Destination Depart', 'false'); return false;">
+        <% time = trip.destinationDepartTime.toString().split(' ')[4] %>
+        <a href="" id="destinationDepartTime-edit" onclick="loadTimeEditForm('destinationDepartTime', 'Destination Depart', 'false', '<%= time %>'); return false;">
           <div class="ui green fluid segment" id="destinationDepartTime">
             <%= trip.destinationDepartTime.toString().split('G')[0] %>
           </div>
@@ -73,7 +77,8 @@
     </div>
     <div class="four wide column">
       <% if (trip.homeArrivalTime) { %>
-        <a href="" id="homeArrivalTime-edit" onclick="loadTimeEditForm('homeArrivalTime', 'Home Arrival', 'false'); return false;">
+        <% time = trip.homeArrivalTime.toString().split(' ')[4] %>
+        <a href="" id="homeArrivalTime-edit" onclick="loadTimeEditForm('homeArrivalTime', 'Home Arrival', 'false', '<%= time %>'); return false;">
           <div class="ui green fluid segment" id="homeArrivalTime">
             <%= trip.homeArrivalTime.toString().split('G')[0] %>
           </div>
@@ -96,6 +101,7 @@
   <b id="time-manager-text">- Time Manager -</b>
 </div>
 <div class="ui mobile only segment" style="margin-top: 0;" id="time-manager">
+  <% var time %>
   <div class="ui grid">
     <div class="eight wide column">
       <button class="ui fluid button" id="departHomeMobile" value="<%= trip._id %>">
@@ -111,7 +117,8 @@
   <div class="ui grid">
     <div class="eight wide column">
       <% if (trip.homeDepartTime) { %>
-        <a href="" id="homeDepartTime-mobile-edit" onclick="loadTimeEditForm('homeDepartTime', 'Home Depart', 'true'); return false;">
+        <% time = trip.homeDepartTime.toString().split(' ')[4] %>
+        <a href="" id="homeDepartTime-mobile-edit" onclick="loadTimeEditForm('homeDepartTime', 'Home Depart', 'true', '<%= time %>'); return false;">
           <div class="ui green fluid segment" id="homeDepartTimeMobile">
             <%= trip.homeDepartTime.toString().split('G')[0] %>
           </div>
@@ -124,7 +131,8 @@
     </div>
     <div class="eight wide column">
       <% if (trip.destinationArrivalTime) { %>
-        <a href="" id="destinationArrivalTime-mobile-edit" onclick="loadTimeEditForm('destinationArrivalTime', 'Destination Arrival', 'true'); return false;">
+        <% time = trip.destinationArrivalTime.toString().split(' ')[4] %>
+        <a href="" id="destinationArrivalTime-mobile-edit" onclick="loadTimeEditForm('destinationArrivalTime', 'Destination Arrival', 'true', '<%= time %>'); return false;">
           <div class="ui green fluid segment" id="destinationArrivalTimeMobile">
             <%= trip.destinationArrivalTime.toString().split('G')[0] %>
           </div>
@@ -152,7 +160,8 @@
   <div class="ui grid">
     <div class="eight wide column">
       <% if (trip.destinationDepartTime) { %>
-        <a href="" id="destinationDepartTime-mobile-edit" onclick="loadTimeEditForm('destinationDepartTime', 'Destination Depart', 'true'); return false;">
+        <% time = trip.destinationDepartTime.toString().split(' ')[4] %>
+        <a href="" id="destinationDepartTime-mobile-edit" onclick="loadTimeEditForm('destinationDepartTime', 'Destination Depart', 'true', '<%= time %>'); return false;">
           <div class="ui green fluid segment" id="destinationDepartTimeMobile">
             <%= trip.destinationDepartTime.toString().split('G')[0] %>
           </div>
@@ -165,7 +174,8 @@
     </div>
     <div class="eight wide column">
       <% if (trip.homeArrivalTime) { %>
-        <a href="" id="homeArrivalTime-mobile-edit" onclick="loadTimeEditForm('homeArrivalTime', 'Home Arrival', 'true'); return false;">
+        <% time = trip.homeArrivalTime.toString().split(' ')[4] %>
+        <a href="" id="homeArrivalTime-mobile-edit" onclick="loadTimeEditForm('homeArrivalTime', 'Home Arrival', 'true', '<%= time %>'); return false;">
           <div class="ui green fluid segment" id="homeArrivalTimeMobile">
             <%= trip.homeArrivalTime.toString().split('G')[0] %>
           </div>
@@ -236,7 +246,7 @@
             <label style="float: left;">Time</label>
             <div class="ui left icon input">
               <i class="calendar icon"></i>
-              <input id="time-form" type="time" name="{{type}}">
+              <input id="time-form" type="time" name="{{type}}" value="{{time}}">
             </div>
           </div>
           <div id="submit-button" class="ui fluid black large submit button" style="background-color: green;">Update</div>

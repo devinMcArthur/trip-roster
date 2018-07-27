@@ -195,9 +195,9 @@ function hideManager() {
   location.hash = '';
 }
 
-function loadTimeEditForm(type, text, mobile) {
+function loadTimeEditForm(type, text, mobile, time) {
   var template = $('#time-edit-form-template').html();
-  var html = Mustache.render(template, {type, text});
+  var html = Mustache.render(template, {type, text, time});
   if (mobile == 'true' && (type == 'homeDepartTime' || type == 'destinationArrivalTime')) {
     $('#mobile-time-edit-div-1').append(html);
   } else if (mobile == 'true' && (type == 'destinationDepartTime' || type == 'homeArrivalTime')) {
