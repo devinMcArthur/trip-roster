@@ -27,11 +27,11 @@
           <% if (locals.user.teams.length == 0) { %>
           
           <% } else if(locals.user.teams.length > 1) { %>
-            <a class="item" href="/teams">
+            <a class="item" href="/teams" id="teams-item">
               <i class="hockey puck icon"></i> Teams
             </a>
           <% } else { %>
-            <a class="item" href="/team/<%= locals.user.teams %>">
+            <a class="item" href="/team/<%= locals.user.teams %>" id="team-item">
               <i class="hockey puck icon"></i> Team
             </a>
           <% } %>

@@ -21,4 +21,7 @@ $(document).ready(function () {
   if(location.pathname == '/login') {
     $('#login-item').addClass('active');
   }
+  if(location.pathname.toString().includes('/team/')) {
+    $('#team-item').addClass('active');
+  }
 });

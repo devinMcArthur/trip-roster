@@ -96,8 +96,18 @@ app.get('/', async (req, res) => {
       var tripArray = await Trip.getAll();
       var array = [];
       if (req.user.admin == true) {
-        res.render('index', {teamArray});
+        for (var i in tripArray) {
+          if (!tripArray[i].stringifiedDate) {
+            await Trip.findByIdAndUpdate(tripArray[i]._id, {$set: {stringifiedDate: moment(tripArray[i].date).format('LLL')}}, {new: true})
+          }
+          if(Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) {
+            array[i] = tripArray[i];
+          }
+        }
+        tripArray = array;
+        res.render('index', {teamArray, tripArray});
       } else {
+        var currentTripArray = [];
         for (var i in teamArray) {
           if(teamArray[i].managers.toString().includes(req.user._id)) {
             array[i] = teamArray[i];
@@ -111,9 +121,12 @@ app.get('/', async (req, res) => {
           if(Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) {
             array[i] = tripArray[i];
           }
+          if(Math.abs(moment(tripArray[i].date).diff(moment(), 'days') == 0) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) {
+            currentTripArray[i] = tripArray[i];
+          }
         }
         tripArray = array;
-        res.render('index', {teamArray, tripArray});
+        res.render('index', {teamArray, tripArray, currentTripArray});
       }
     } else {
       res.render('index');

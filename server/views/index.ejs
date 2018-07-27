@@ -1,6 +1,9 @@
 <% include partial/head %>
 
   <% if (locals.user) { %>
+    
+    <script src="/js/lib/mustache.js"></script>
+    <script src="/js/index.js"></script>
 
     <div style="margin-top: 15vh;">
       <% if (typeof tripArray != 'undefined') { %>
@@ -22,8 +25,9 @@
         <div class="ui divider"></div>
         <% for (var i in teamArray) { %>
           <div class="ui clearing segment">
-            <div class="ui right floated mini button">Start Trip</div>
+            <div class="ui right floated mini button" id="trip-form-button-<%= i %>" onclick="loadTripForm('<%=i%>');">Start Trip</div>
             <a href="/team/<%= teamArray[i]._id %>"><b><%= teamArray[i].name %></b></a>
+            <div id="trip-form-div-<%=i%>"></div>
           </div>
         <% } %>
       <% } %>
@@ -72,3 +76,40 @@
   <% } %>
 
 <% include partial/foot %>
+
+<script id="trip-form-template" type="text/template">
+  <div id="trip-form-{{teamId}}">
+    <div class="ui divider"></div>
+    <div class="ui center aligned middle aligned grid segment" style="margin: 0;">
+      <div class="column">
+        <h2 class="ui header" style="color: green;" >
+          <div class="content">
+            Create a Trip
+          </div>
+        </h2>
+        <form class="ui large form" action="/trip" method="post" >
+          <div class="ui stacked segment">
+            <div class="two fields">
+              <div class="field">
+                <label style="float: left;"><b>Destination</b></label>
+                <div class="ui left icon input">
+                  <i class="map icon"></i>
+                  <input id="destination-form" type="text" name="destination" placeholder="Where is the trip?">
+                </div>
+              </div>
+              <div class="field">
+                <label style="float: left;">Date</label>
+                <div class="ui left icon input">
+                  <i class="calendar icon"></i>
+                  <input id="date-form" type="date" name="date">
+                </div>
+              </div>
+            </div>
+            <input type="hidden" name="team" value="{{teamId}}">
+            <div id="submit-button" class="ui fluid black large submit button" style="background-color: green;">Create</div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</script>
