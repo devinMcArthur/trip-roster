@@ -1,5 +1,6 @@
 <% include ../partial/head %>
 
+<script src="/js/lib/mustache.js"></script>
 <script src="/js/trip.js"></script>
 
 <h1 class="ui header"><%= trip.destination %> Attendance</h1>
@@ -33,9 +34,11 @@
   <div class="ui grid">
     <div class="four wide column">
       <% if (trip.homeDepartTime) { %>
-        <div class="ui green fluid segment" id="homeDepartTime">
-          <%= trip.homeDepartTime.toString().split('G')[0] %>
-        </div>
+        <a href="" id="homeDepartTime-edit" onclick="loadTimeEditForm('homeDepartTime', 'Home Depart', 'false'); return false;">
+          <div class="ui green fluid segment" id="homeDepartTime">
+            <%= trip.homeDepartTime.toString().split('G')[0] %>
+          </div>
+        </a>
       <% } else { %>
         <div class="ui red fluid segment">
           Not yet departed
@@ -44,20 +47,24 @@
     </div>
     <div class="four wide column">
       <% if (trip.destinationArrivalTime) { %>
-        <div class="ui green fluid segment" id="destinationArrivalTime">
-          <%= trip.destinationArrivalTime.toString().split('G')[0] %>
-        </div>
+        <a href="" id="destinationArrivalTime-edit" onclick="loadTimeEditForm('destinationArrivalTime', 'Destination Arrival', 'false'); return false;">
+          <div class="ui green fluid segment" id="destinationArrivalTime">
+            <%= trip.destinationArrivalTime.toString().split('G')[0] %>
+          </div>
+        </a>
       <% } else { %>
         <div class="ui red fluid segment">
-          Not yet departed
+          Not yet arrived
         </div>
       <% } %>
     </div>
     <div class="four wide column">
       <% if (trip.destinationDepartTime) { %>
-        <div class="ui green fluid segment" id="destinationDepartTime">
-          <%= trip.destinationDepartTime.toString().split('G')[0] %>
-        </div>
+        <a href="" id="destinationDepartTime-edit" onclick="loadTimeEditForm('destinationDepartTime', 'Destination Depart', 'false'); return false;">
+          <div class="ui green fluid segment" id="destinationDepartTime">
+            <%= trip.destinationDepartTime.toString().split('G')[0] %>
+          </div>
+        </a>
       <% } else { %>
         <div class="ui red fluid segment">
           Not yet departed
@@ -66,16 +73,19 @@
     </div>
     <div class="four wide column">
       <% if (trip.homeArrivalTime) { %>
-        <div class="ui green fluid segment" id="homeArrivalTime">
-          <%= trip.homeArrivalTime.toString().split('G')[0] %>
-        </div>
+        <a href="" id="homeArrivalTime-edit" onclick="loadTimeEditForm('homeArrivalTime', 'Home Arrival', 'false'); return false;">
+          <div class="ui green fluid segment" id="homeArrivalTime">
+            <%= trip.homeArrivalTime.toString().split('G')[0] %>
+          </div>
+        </a>
       <% } else { %>
         <div class="ui red fluid segment">
-          Not yet departed
+          Not yet arrived
         </div>
       <% } %>
     </div>
   </div>
+  <div id="time-edit-div"></div>
   <div class="ui divider"></div>
 </div>
 
@@ -101,9 +111,11 @@
   <div class="ui grid">
     <div class="eight wide column">
       <% if (trip.homeDepartTime) { %>
-        <div class="ui green fluid segment" id="homeDepartTimeMobile">
-          <%= trip.homeDepartTime.toString().split('G')[0] %>
-        </div>
+        <a href="" id="homeDepartTime-mobile-edit" onclick="loadTimeEditForm('homeDepartTime', 'Home Depart', 'true'); return false;">
+          <div class="ui green fluid segment" id="homeDepartTimeMobile">
+            <%= trip.homeDepartTime.toString().split('G')[0] %>
+          </div>
+        </a>
       <% } else { %>
         <div class="ui red fluid segment">
           Not yet departed
@@ -112,15 +124,18 @@
     </div>
     <div class="eight wide column">
       <% if (trip.destinationArrivalTime) { %>
-        <div class="ui green fluid segment" id="destinationArrivalTimeMobile">
-          <%= trip.destinationArrivalTime.toString().split('G')[0] %>
-        </div>
+        <a href="" id="destinationArrivalTime-mobile-edit" onclick="loadTimeEditForm('destinationArrivalTime', 'Destination Arrival', 'true'); return false;">
+          <div class="ui green fluid segment" id="destinationArrivalTimeMobile">
+            <%= trip.destinationArrivalTime.toString().split('G')[0] %>
+          </div>
+        </a>
       <% } else { %>
         <div class="ui red fluid segment">
-          Not yet departed
+          Not yet arrived
         </div>
       <% } %>
     </div>
+    <div id="mobile-time-edit-div-1"></div>
   </div>
   <div class="ui grid">
     <div class="eight wide column">
@@ -137,9 +152,11 @@
   <div class="ui grid">
     <div class="eight wide column">
       <% if (trip.destinationDepartTime) { %>
-        <div class="ui green fluid segment" id="destinationDepartTimeMobile">
-          <%= trip.destinationDepartTime.toString().split('G')[0] %>
-        </div>
+        <a href="" id="destinationDepartTime-mobile-edit" onclick="loadTimeEditForm('destinationDepartTime', 'Destination Depart', 'true'); return false;">
+          <div class="ui green fluid segment" id="destinationDepartTimeMobile">
+            <%= trip.destinationDepartTime.toString().split('G')[0] %>
+          </div>
+        </a>
       <% } else { %>
         <div class="ui red fluid segment">
           Not yet departed
@@ -148,16 +165,19 @@
     </div>
     <div class="eight wide column">
       <% if (trip.homeArrivalTime) { %>
-        <div class="ui green fluid segment" id="homeArrivalTimeMobile">
-          <%= trip.homeArrivalTime.toString().split('G')[0] %>
-        </div>
+        <a href="" id="homeArrivalTime-mobile-edit" onclick="loadTimeEditForm('homeArrivalTime', 'Home Arrival', 'true'); return false;">
+          <div class="ui green fluid segment" id="homeArrivalTimeMobile">
+            <%= trip.homeArrivalTime.toString().split('G')[0] %>
+          </div>
+        </a>
       <% } else { %>
         <div class="ui red fluid segment">
-          Not yet departed
+          Not yet arrived
         </div>
       <% } %>
     </div>
   </div>
+  <div id="mobile-time-edit-div-2"></div>
 </div>
 
 
@@ -201,3 +221,27 @@
 </div>
 
 <% include ../partial/foot %>
+
+<script id="time-edit-form-template" type="text/template">
+  <div class="ui center aligned middle aligned grid segment" id="time-edit-form" style="margin: 0;">
+    <div class="column">
+      <h2 class="ui header" style="color: green;" >
+        <div class="content">
+          Update {{text}} Time
+        </div>
+      </h2>
+      <form class="ui large form" action="/trip/<%= trip._id %>/update" method="post" >
+        <div class="ui stacked segment">
+          <div class="field">
+            <label style="float: left;">Time</label>
+            <div class="ui left icon input">
+              <i class="calendar icon"></i>
+              <input id="time-form" type="time" name="{{type}}">
+            </div>
+          </div>
+          <div id="submit-button" class="ui fluid black large submit button" style="background-color: green;">Update</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</script>

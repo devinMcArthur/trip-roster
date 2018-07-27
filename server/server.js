@@ -121,7 +121,8 @@ app.get('/', async (req, res) => {
           if(Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) {
             array[i] = tripArray[i];
           }
-          if(Math.abs(moment(tripArray[i].date).diff(moment(), 'days') == 0) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) {
+          if(!tripArray[i].homeArrivalTime && (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 1) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) && 
+             ((tripArray[i].members && tripArray[i].members.length > 0) || (tripArray[i].homeDepartTime || tripArray[i].destinationArrivalTime || tripArray[i].destinationDepartTime))) {
             currentTripArray[i] = tripArray[i];
           }
         }
@@ -632,6 +633,47 @@ app.post('/trip/:id/time', async (req, res) => {
       await Trip.findByIdAndUpdate(req.params.id, {$set: {homeArrivalTime: new Date()}}, {new: true});
     }
     res.end();
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// POST /trip/:id/update
+app.post('/trip/:id/update', async (req, res) => {
+  try {
+    var trip = await Trip.findById(req.params.id);
+    var today = new Date(trip.date);
+    if (req.body.homeDepartTime) {
+      today = today.setHours(req.body.homeDepartTime.split(':')[0]);
+      today = new Date(today);
+      today = today.setMinutes(req.body.homeDepartTime.split(':')[1]);
+      req.body.homeDepartTime = today;
+    }
+    if (req.body.destinationArrivalTime) {
+      today = today.setHours(req.body.destinationArrivalTime.split(':')[0]);
+      today = new Date(today);
+      today = today.setMinutes(req.body.destinationArrivalTime.split(':')[1]);
+      req.body.destinationArrivalTime = today;
+    }
+    if (req.body.destinationDepartTime) {
+      today = today.setHours(req.body.destinationDepartTime.split(':')[0]);
+      today = new Date(today);
+      today = today.setMinutes(req.body.destinationDepartTime.split(':')[1]);
+      req.body.destinationDepartTime = today;
+    }
+    if (req.body.homeArrivalTime) {
+      today = today.setHours(req.body.homeArrivalTime.split(':')[0]);
+      today = new Date(today);
+      today = today.setMinutes(req.body.homeArrivalTime.split(':')[1]);
+      req.body.homeArrivalTime = today;
+    }
+    Object.keys(req.body).forEach((item) => {
+      if (req.body[item] == '') {throw new Error('Must enter a time');}
+    })
+    await Trip.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true});
+    res.redirect('back');
   } catch (e) {
     console.log(e);
     req.flash('error', e.message);

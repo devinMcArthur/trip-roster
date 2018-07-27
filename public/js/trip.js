@@ -195,3 +195,30 @@ function hideManager() {
   location.hash = '';
 }
 
+function loadTimeEditForm(type, text, mobile) {
+  var template = $('#time-edit-form-template').html();
+  var html = Mustache.render(template, {type, text});
+  if (mobile == 'true' && (type == 'homeDepartTime' || type == 'destinationArrivalTime')) {
+    $('#mobile-time-edit-div-1').append(html);
+  } else if (mobile == 'true' && (type == 'destinationDepartTime' || type == 'homeArrivalTime')) {
+    $('#mobile-time-edit-div-2').append(html);
+  } else {
+    $('#time-edit-div').append(html);
+  }
+  if (mobile == 'false') {
+    $(`#${type}-edit`).attr('onclick', `hideTimeEditForm('${type}','${text}', '${mobile}'); return false;`);
+  } else {
+    $(`#${type}-mobile-edit`).attr('onclick', `hideTimeEditForm('${type}','${text}', '${mobile}'); return false;`);
+  }
+  $('form').form().submit(function(evt) {});
+}
+
+function hideTimeEditForm(type, text, mobile) {
+  $('#time-edit-form').remove();
+  if (mobile == 'false') {
+    $(`#${type}-edit`).attr('onclick', `loadTimeEditForm('${type}', '${text}', '${mobile}'); return false;`);
+  } else {
+    $(`#${type}-mobile-edit`).attr('onclick', `loadTimeEditForm('${type}', '${text}', '${mobile}'); return false;`);
+  }
+}
+

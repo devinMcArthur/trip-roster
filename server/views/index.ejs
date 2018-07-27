@@ -5,32 +5,49 @@
     <script src="/js/lib/mustache.js"></script>
     <script src="/js/index.js"></script>
 
-    <div style="margin-top: 15vh;">
-      <% if (typeof tripArray != 'undefined') { %>
-        <h3 class="ui header">Upcoming Trip(s)</h3>
-        <div class="ui divider"></div>
-        <% for (var i in tripArray) { %>
-          <div class="ui clearing segment">
-            <a href="/trip/<%= tripArray[i]._id %>"><b><%= tripArray[i].destination %></b></a>
-             - <%= tripArray[i].stringifiedDate %>
-            <% if (Object.keys(teamArray).length > 1) { %>
-              <p><%= teamArray[tripArray[i].team].name %> - <%= teamArray[tripArray[i].team].age %> <%= teamArray[tripArray[i].team].league %></p>
-            <% } %>
-          </div>
-        <% } %>
-      <% } %>
+    <h1 class="ui header center aligned">
+      Trip Roster
+    </h1>
 
-      <% if (typeof teamArray != 'undefined') { %>
-        <h3 class="ui header">Team(s)</h3>
-        <div class="ui divider"></div>
-        <% for (var i in teamArray) { %>
-          <div class="ui clearing segment">
-            <div class="ui right floated mini button" id="trip-form-button-<%= i %>" onclick="loadTripForm('<%=i%>');">Start Trip</div>
-            <a href="/team/<%= teamArray[i]._id %>"><b><%= teamArray[i].name %></b></a>
-            <div id="trip-form-div-<%=i%>"></div>
-          </div>
-        <% } %>
+    <% if (typeof currentTripArray != 'undefined' && Object.keys(currentTripArray).length > 0) { %>
+      <h3 class="ui header">Ongoing Trip(s)</h3>
+      <div class="ui divider"></div>
+      <% for (var i in currentTripArray) { %>
+        <div class="ui clearing segment">
+          <a href="/trip/<%= tripArray[i]._id %>"><b><%= currentTripArray[i].destination %></b></a>
+            - <%= currentTripArray[i].stringifiedDate %>
+          <% if (Object.keys(teamArray).length > 1) { %>
+            <p><%= teamArray[currentTripArray[i].team].name %> - <%= teamArray[currentTripArray[i].team].age %> <%= teamArray[currentTripArray[i].team].league %></p>
+          <% } %>
+        </div>
       <% } %>
+    <% } %>
+
+    <% if (typeof tripArray != 'undefined' && Object.keys(tripArray).length > 0) { %>
+      <h3 class="ui header">Upcoming Trip(s)</h3>
+      <div class="ui divider"></div>
+      <% for (var i in tripArray) { %>
+        <div class="ui clearing segment">
+          <a href="/trip/<%= tripArray[i]._id %>"><b><%= tripArray[i].destination %></b></a>
+            - <%= tripArray[i].stringifiedDate %>
+          <% if (Object.keys(teamArray).length > 1) { %>
+            <p><%= teamArray[tripArray[i].team].name %> - <%= teamArray[tripArray[i].team].age %> <%= teamArray[tripArray[i].team].league %></p>
+          <% } %>
+        </div>
+      <% } %>
+    <% } %>
+
+    <% if (typeof teamArray != 'undefined' && Object.keys(teamArray).length > 0) { %>
+      <h3 class="ui header">Team(s)</h3>
+      <div class="ui divider"></div>
+      <% for (var i in teamArray) { %>
+        <div class="ui clearing segment">
+          <div class="ui right floated mini button" id="trip-form-button-<%= i %>" onclick="loadTripForm('<%=i%>');">Start Trip</div>
+          <a href="/team/<%= teamArray[i]._id %>"><b><%= teamArray[i].name %></b></a>
+          <div id="trip-form-div-<%=i%>"></div>
+        </div>
+      <% } %>
+    <% } %>
 
     </div>
 
