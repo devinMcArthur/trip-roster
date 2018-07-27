@@ -119,9 +119,30 @@ app.get('/', async (req, res) => {
       res.render('index');
     }
   } catch (e) {
-    console.log(e);
-    req.flash('error', e.message);
-    res.redirect('/');
+    try {
+      req.flash('error', e.message);
+      if (req.user) {
+        var teamArray = await Team.getAll();
+        var array = [];
+        if (req.user.admin == true) {
+          res.render('index', {teamArray});
+        } else {
+          for (var i in teamArray) {
+            if(teamArray[i].managers.toString().includes(req.user._id)) {
+              array[i] = teamArray[i];
+            }
+          }
+          teamArray = array;
+          res.render('index', {teamArray});
+        }
+      } else {
+        res.render('index');
+      }
+    } catch (e) {
+      console.log(e);
+      req.flash('error', e.message);
+      res.redirect('/');
+    }
   }
 });
 
