@@ -31,6 +31,10 @@ var MemberSchema = new mongoose.Schema({
   teams: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Team'
+  }],
+  trips: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Trip'
   }]
 });
 

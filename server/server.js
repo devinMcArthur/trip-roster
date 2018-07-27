@@ -14,10 +14,12 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const async = require('async');
 const flash = require('express-flash');
+const moment = require('moment');
 
 const {User} = require('./models/user');
 const {Team} = require('./models/team');
 const {Member} = require('./models/member');
+const {Trip} = require('./models/trip');
 
 const port = process.env.PORT || 3000;
 var app = express();
@@ -91,7 +93,7 @@ app.get('/', async (req, res) => {
   try {
     if (req.user) {
       var teamArray = await Team.getAll();
-      var userArray = await User.getAll();
+      var tripArray = await Trip.getAll();
       var array = [];
       if (req.user.admin == true) {
         res.render('index', {teamArray});
@@ -101,7 +103,17 @@ app.get('/', async (req, res) => {
             array[i] = teamArray[i];
           }
         }
-        res.render('index', {teamArray: array});
+        teamArray = array; array = [];
+        for (var i in tripArray) {
+          if (!tripArray[i].stringifiedDate) {
+            await Trip.findByIdAndUpdate(tripArray[i]._id, {$set: {stringifiedDate: moment(tripArray[i].date).format('LLL')}}, {new: true})
+          }
+          if(Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) {
+            array[i] = tripArray[i];
+          }
+        }
+        tripArray = array;
+        res.render('index', {teamArray, tripArray});
       }
     } else {
       res.render('index');
@@ -369,13 +381,14 @@ app.get('/team/:id', async (req, res) => {
     var team = await Team.findById(id);
     var userArray = await User.getAll();
     var array = await Member.getAll();
+    var tripArray = await Trip.getAll();
     var memberArray = [];
     for (var i in array) {
       if (array[i].teams.indexOf(team._id) != -1) {
         memberArray[i] = array[i];
       }
     }
-    res.render('team/team', {team, userArray, memberArray});
+    res.render('team/team', {team, userArray, memberArray, tripArray});
   } catch (e) {
     console.log(e);
     try {
@@ -478,6 +491,113 @@ app.post('/member/:id/update', async (req, res) => {
     if (req.body.player == 'on') {req.body.player = true;}
     var member = await Member.findOneAndUpdate({_id: id}, {$set: req.body}, {new: true});
     res.redirect('back');
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// POST /trip
+app.post('/trip', async (req, res) => {
+  try {
+    req.body.stringifiedDate = moment(req.body.date).format('LLL');
+    var trip = await new Trip(req.body);
+    var team = await Team.findById(trip.team);
+    if (team.trips) {
+      team.trips.push(trip._id);
+    } else {
+      team.trips = new Array(trip._id);
+    }
+    await team.save();
+    await trip.save();
+    res.redirect('back');
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// GET /trip/:id
+app.get('/trip/:id', async (req, res) => {
+  try {
+    var trip = await Trip.findById(req.params.id);
+    var team = await Team.findById(trip.team);
+    var memberArray = await Member.getAll()
+    var array = [];
+    for (var i in memberArray) {
+      if (team.members.toString().includes(memberArray[i]._id)) {
+        array[i] = memberArray[i];
+      }
+    }
+    memberArray = array;
+    res.render('trip/trip', {trip, team, memberArray});
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// POST /trip/:tripId/member/:memberId
+app.post('/trip/:tripId/member/:memberId', async (req, res) => {
+  try {
+    var tripId = req.params.tripId;
+    var memberId = req.params.memberId;
+    if (!ObjectID.isValid(tripId) || !ObjectID.isValid(memberId)) {throw new Error('Trip or Member ID is not valid');}
+    var trip = await Trip.findById(tripId);
+    var member = await Member.findById(memberId);
+    if (!trip.members) {
+      trip.members = new Array(memberId);
+    } else {
+      trip.members.push(memberId);
+    }
+    if (!member.trips) {
+      member.trips = new Array(tripId);
+    } else {
+      member.trips.push(tripId);
+    }
+    await member.save();
+    await trip.save();
+    res.end();
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// DELETE /trip/:tripId/member/:memberId
+app.delete('/trip/:tripId/member/:memberId', async (req, res) => {
+  try {
+    var tripId = req.params.tripId;
+    var memberId = req.params.memberId;
+    if (!ObjectID.isValid(tripId) || !ObjectID.isValid(memberId)) {throw new Error('Trip or Member ID is not valid');}
+    await Trip.findByIdAndUpdate(tripId, {$pull: {members: memberId}}, {new: true});
+    await Member.findByIdAndUpdate(memberId, {$pull: {trips: tripId}}, {new: true});
+    res.end();
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// POST /trip/:id/time
+app.post('/trip/:id/time', async (req, res) => {
+  try {
+    if (!ObjectID.isValid(req.params.id)) {throw new Error('Trip ID is invalid!');}
+    if (req.body.type == 'homeDepartTime') {
+      await Trip.findByIdAndUpdate(req.params.id, {$set: {homeDepartTime: new Date()}}, {new: true});
+    } else if (req.body.type == 'destinationArrivalTime') {
+      await Trip.findByIdAndUpdate(req.params.id, {$set: {destinationArrivalTime: new Date()}}, {new: true});
+    } else if (req.body.type == 'destinationDepartTime') {
+      await Trip.findByIdAndUpdate(req.params.id, {$set: {destinationDepartTime: new Date()}}, {new: true});
+    } else if (req.body.type == 'homeArrivalTime') {
+      await Trip.findByIdAndUpdate(req.params.id, {$set: {homeArrivalTime: new Date()}}, {new: true});
+    }
+    res.end();
   } catch (e) {
     console.log(e);
     req.flash('error', e.message);

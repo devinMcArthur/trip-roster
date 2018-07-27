@@ -9,6 +9,9 @@ $(document).ready(function () {
     $("#alert-box").fadeOut("slowest", function () {
     });
   });
+  $('.ui.browse').popup({
+    on: 'click'
+  });
   if(location.pathname == '/teams') {
     $('#teams-item').addClass('active');
   }

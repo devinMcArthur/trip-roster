@@ -5,6 +5,10 @@ var TripSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
+  stringifiedDate: {
+    type: String,
+    trim: true
+  },
   team: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Team'
@@ -31,6 +35,25 @@ var TripSchema = new mongoose.Schema({
     type: Date
   }
 });
+
+TripSchema.statics.getAll = function () {
+  var Trip = this
+  var tripArray = [];
+  return Trip.find({}).sort({name: 'asc'}).then((trips) => {
+    if (!trips) {return Promise.reject();}
+    return new Promise(async (resolve, reject) => {
+      await trips.forEach((trip) => {
+        tripArray[trip._id] = trip;
+      });
+      if (Object.keys(tripArray).length > 0) {
+        resolve(tripArray);
+      } else {
+        reject('Error: Unable to create Trip array (check to ensure Trips have been created)');
+      }
+    });
+  });
+}
+
 
 var Trip = mongoose.model('Trip', TripSchema);
 

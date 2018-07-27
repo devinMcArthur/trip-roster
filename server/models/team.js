@@ -33,6 +33,10 @@ var TeamSchema = new mongoose.Schema({
       require: true,
       default: false
     }
+  }],
+  trips: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Trip'
   }]
 });
 

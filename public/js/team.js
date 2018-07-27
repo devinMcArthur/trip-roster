@@ -17,6 +17,19 @@ function closeManagerForm() {
   $('#manager-form').remove();
 }
 
+function loadTripForm() {
+  var template = $('#trip-form-template').html();
+  $('#trip-form-div').append(template);
+  $('#trip-form-button').remove();
+  $('form').form().submit(function(evt) {});
+}
+
+function closeTripForm() {
+  var template = $('#trip-form-button-template').html();
+  $('#trip-form-button-holder').append(template);
+  $('#trip-form').remove();
+}
+
 function loadMemberForm() {
   var template = $('#member-form-template').html();
   $('#member-form-div').append(template);

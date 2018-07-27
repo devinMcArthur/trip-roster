@@ -1,0 +1,203 @@
+<% include ../partial/head %>
+
+<script src="/js/trip.js"></script>
+
+<h1 class="ui header"><%= trip.destination %> Attendance</h1>
+<p><%= trip.stringifiedDate %></p>
+<a href="/team/<%= team._id %>"><%= team.name %></a>
+
+<div class="mobile hidden">
+  <div class="ui divider"></div>
+  <div class="ui grid">
+    <div class="four wide column">
+      <button class="ui fluid button" id="departHome" value="<%= trip._id %>">
+        Depart Home
+      </button>
+    </div>
+    <div class="four wide column">
+      <button class="ui fluid disabled button" id="arriveDestination" value="<%= trip._id %>">
+        Arrive Destination
+      </button>
+    </div>
+    <div class="four wide column">
+      <button class="ui fluid disabled button" id="departDestination" value="<%= trip._id %>">
+        Depart Destination
+      </button>
+    </div>
+    <div class="four wide column">
+      <button class="ui fluid disabled button" id="arriveHome" value="<%= trip._id %>">
+        Arrive Home
+      </button>
+    </div>
+  </div>
+  <div class="ui grid">
+    <div class="four wide column">
+      <% if (trip.homeDepartTime) { %>
+        <div class="ui green fluid segment" id="homeDepartTime">
+          <%= trip.homeDepartTime.toString().split('G')[0] %>
+        </div>
+      <% } else { %>
+        <div class="ui red fluid segment">
+          Not yet departed
+        </div>
+      <% } %>
+    </div>
+    <div class="four wide column">
+      <% if (trip.destinationArrivalTime) { %>
+        <div class="ui green fluid segment" id="destinationArrivalTime">
+          <%= trip.destinationArrivalTime.toString().split('G')[0] %>
+        </div>
+      <% } else { %>
+        <div class="ui red fluid segment">
+          Not yet departed
+        </div>
+      <% } %>
+    </div>
+    <div class="four wide column">
+      <% if (trip.destinationDepartTime) { %>
+        <div class="ui green fluid segment" id="destinationDepartTime">
+          <%= trip.destinationDepartTime.toString().split('G')[0] %>
+        </div>
+      <% } else { %>
+        <div class="ui red fluid segment">
+          Not yet departed
+        </div>
+      <% } %>
+    </div>
+    <div class="four wide column">
+      <% if (trip.homeArrivalTime) { %>
+        <div class="ui green fluid segment" id="homeArrivalTime">
+          <%= trip.homeArrivalTime.toString().split('G')[0] %>
+        </div>
+      <% } else { %>
+        <div class="ui red fluid segment">
+          Not yet departed
+        </div>
+      <% } %>
+    </div>
+  </div>
+  <div class="ui divider"></div>
+</div>
+
+<div class="ui mobile only top attached mini button" id="time-manager-toggle" onclick="showManager()" style="height: 5px; padding: 0; margin-top: 1em;">
+  expand
+</div>
+<div class="ui mobile only segment" id="time-manager-closed" style="margin-top:0; padding: 0; text-align:center;">
+  <b id="time-manager-text">- Time Manager -</b>
+</div>
+<div class="ui mobile only segment" style="margin-top: 0;" id="time-manager">
+  <div class="ui grid">
+    <div class="eight wide column">
+      <button class="ui fluid button" id="departHomeMobile" value="<%= trip._id %>">
+        Depart Home
+      </button>
+    </div>
+    <div class="eight wide column">
+      <button class="ui fluid disabled button" id="arriveDestinationMobile" value="<%= trip._id %>">
+        Arrive Destination
+      </button>
+    </div>
+  </div>
+  <div class="ui grid">
+    <div class="eight wide column">
+      <% if (trip.homeDepartTime) { %>
+        <div class="ui green fluid segment" id="homeDepartTimeMobile">
+          <%= trip.homeDepartTime.toString().split('G')[0] %>
+        </div>
+      <% } else { %>
+        <div class="ui red fluid segment">
+          Not yet departed
+        </div>
+      <% } %>
+    </div>
+    <div class="eight wide column">
+      <% if (trip.destinationArrivalTime) { %>
+        <div class="ui green fluid segment" id="destinationArrivalTimeMobile">
+          <%= trip.destinationArrivalTime.toString().split('G')[0] %>
+        </div>
+      <% } else { %>
+        <div class="ui red fluid segment">
+          Not yet departed
+        </div>
+      <% } %>
+    </div>
+  </div>
+  <div class="ui grid">
+    <div class="eight wide column">
+      <button class="ui fluid disabled button" id="departDestinationMobile" value="<%= trip._id %>">
+        Depart Destination
+      </button>
+    </div>
+    <div class="eight wide column">
+      <button class="ui fluid disabled button" id="arriveHomeMobile" value="<%= trip._id %>">
+        Arrive Home
+      </button>
+    </div>
+  </div>
+  <div class="ui grid">
+    <div class="eight wide column">
+      <% if (trip.destinationDepartTime) { %>
+        <div class="ui green fluid segment" id="destinationDepartTimeMobile">
+          <%= trip.destinationDepartTime.toString().split('G')[0] %>
+        </div>
+      <% } else { %>
+        <div class="ui red fluid segment">
+          Not yet departed
+        </div>
+      <% } %>
+    </div>
+    <div class="eight wide column">
+      <% if (trip.homeArrivalTime) { %>
+        <div class="ui green fluid segment" id="homeArrivalTimeMobile">
+          <%= trip.homeArrivalTime.toString().split('G')[0] %>
+        </div>
+      <% } else { %>
+        <div class="ui red fluid segment">
+          Not yet departed
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+
+<div class="ui list">
+  <% if (typeof memberArray != 'undefined') { %>
+    <% team.members.forEach((member) => { %>
+      <% if (memberArray[member].player == true) { %>
+        <div class="ui segment">
+          <div class="ui checkbox">
+            <input class="id" type="hidden" value="<%= trip._id %>" />
+            <input class="toggleMember checkbox" id="member-toggle" type="checkbox" name="members" value="<%= memberArray[member]._id %>" 
+              <% if (trip.members.toString().includes(memberArray[member]._id)) { %> checked="" <%}%> />
+          </div>
+          <%= memberArray[member].name %>
+          <div class="ui celled list">
+            <% memberArray[member].relationships.forEach((rel) => { %>
+              <div class="item" style="padding: 1em;">
+                <div class="ui checkbox">
+                  <input class="id" type="hidden" value="<%= trip._id %>" />
+                  <input class="checkbox toggleMember" id="member-toggle" type="checkbox" name="members" value="<%= memberArray[rel]._id %>"
+                    <% if (trip.members.toString().includes(memberArray[rel]._id)) { %> checked="" <%}%> />
+                </div>
+                <%= memberArray[rel].name %>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      <% } %>
+      <% if (memberArray[member].relationships == '' && memberArray[member].player == false) { %>
+        <div class="ui segment">
+          <div class="ui checkbox">
+            <input class="id" type="hidden" value="<%= trip._id %>" />
+            <input class="checkbox toggleMember" id="member-toggle" type="checkbox" name="members" value="<%= memberArray[member]._id %>" 
+              <% if (trip.members.toString().includes(memberArray[member]._id)) { %> checked="" <%}%> />
+          </div>
+          <%= memberArray[member].name %>
+        </div>
+      <% } %>
+    <% }); %>
+  <% } %>
+</div>
+
+<% include ../partial/foot %>

@@ -19,11 +19,34 @@
   </div>
   <div id="manager-form-div"></div>
   <div class="ui celled list">
-    <% team.managers.forEach((manager) => { %>
-      <div class="item" style="padding: 1em;">
-        <a href="/user/<%= userArray[manager]._id %>"><%= userArray[manager].name %></a>
-      </div>
-    <% }); %>
+    <% if (team.managers) { %>
+      <% team.managers.forEach((manager) => { %>
+        <div class="item" style="padding: 1em;">
+          <a href="/user/<%= userArray[manager]._id %>"><%= userArray[manager].name %></a>
+        </div>
+      <% }); %>
+    <% } %>
+  </div>
+</div>
+
+<div class="ui segment">
+  <div class="ui grid">
+    <div class="fourteen wide column">
+      <h5 class="header">Trips</h5>
+    </div>
+    <div class="two wide column">
+      <a href="" onclick="loadTripForm(); return false;" id="trip-form-button-holder" style="float: right;"><i id="trip-form-button" class="car icon black"></i></a>
+    </div>
+  </div>
+  <div id="trip-form-div"></div>
+  <div class="ui celled list">
+    <% if (team.trips) { %>
+      <% team.trips.forEach((trip) => { %>
+        <div class="item" style="padding: 1em;">
+          <a href="/trip/<%= tripArray[trip]._id %>"><b><%= tripArray[trip].destination %></b></a> - <%= tripArray[trip].date %>
+        </div>
+      <% }); %>
+    <% } %>
   </div>
 </div>
 
@@ -187,4 +210,39 @@
 
 <script id="member-edit-button" type="text/template">
   <i id="member-{{id}}-edit-button" class="edit black icon floated right"></i>
+</script>
+
+<script id="trip-form-template" type="text/template">
+  <div class="ui center aligned middle aligned grid segment" style="margin: 0;" id="member-form">
+    <div class="column">
+      <a class="black" href="" onclick="closeTripForm()"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+      <h2 class="ui header" style="color: green;" >
+        <div class="content">
+          Plan a Trip
+        </div>
+      </h2>
+      <form class="ui large form" action="/trip" method="post" >
+        <div class="ui stacked segment">
+          <div class="two fields">
+            <div class="field">
+              <label style="float: left;"><b>Destination</b></label>
+              <div class="ui left icon input">
+                <i class="map icon"></i>
+                <input id="destination-form" type="text" name="destination" placeholder="Where is the trip?">
+              </div>
+            </div>
+            <div class="field">
+              <label style="float: left;">Date</label>
+              <div class="ui left icon input">
+                <i class="calendar icon"></i>
+                <input id="date-form" type="date" name="date">
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="team" value="<%= team._id %>">
+          <div id="submit-button" class="ui fluid black large submit button" style="background-color: green;">Create</div>
+        </div>
+      </form>
+    </div>
+  </div>
 </script>

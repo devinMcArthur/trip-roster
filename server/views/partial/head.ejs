@@ -37,9 +37,17 @@
           <% } %>
         <% } %>
         <div class="right menu">
-          <a class="ui item" href="/logout">
-            Logout
+          <a class="ui item" href="/user/<%= locals.user._id %>">
+            <%= locals.user.name.split(' ')[0] %>
           </a>
+          <a class="ui browse item" style="padding-left: 0;">
+            <i class="dropdown icon"></i>
+          </a>
+          <div class="ui fluid popup bottom left transition hidden">
+            <a class="item" href="/logout">
+              Logout
+            </a>
+          </div>
         </div>
       <% } else { %>
         <a class="item" href="/" id="home-item">

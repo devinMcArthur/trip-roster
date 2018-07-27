@@ -1,13 +1,20 @@
 <% include partial/head %>
 
-
-
   <% if (locals.user) { %>
 
     <div style="margin-top: 15vh;">
       <% if (typeof tripArray != 'undefined') { %>
         <h3 class="ui header">Upcoming Trip(s)</h3>
         <div class="ui divider"></div>
+        <% for (var i in tripArray) { %>
+          <div class="ui clearing segment">
+            <a href="/trip/<%= tripArray[i]._id %>"><b><%= tripArray[i].destination %></b></a>
+             - <%= tripArray[i].stringifiedDate %>
+            <% if (Object.keys(teamArray).length > 1) { %>
+              <p><%= teamArray[tripArray[i].team].name %> - <%= teamArray[tripArray[i].team].age %> <%= teamArray[tripArray[i].team].league %></p>
+            <% } %>
+          </div>
+        <% } %>
       <% } %>
 
       <% if (typeof teamArray != 'undefined') { %>
@@ -44,7 +51,7 @@
       <div class="ui hidden divider"></div>
       <a href="/signup" class="ui huge inverted basic button">Signup Now</a>
       <p class="or">or</p>
-      <a href="/signup" class="ui huge inverted basic button">Login</a>
+      <a href="/login" class="ui huge inverted basic button">Login</a>
     </div>
   </div>
 
