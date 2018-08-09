@@ -1,0 +1,92 @@
+<% include ../partial/head %>
+
+  <script src="/js/userIndex.js"></script>
+  <script src="/js/lib/mustache.js"></script>
+
+  <h1 class="ui header">All Users</h1>
+
+  <% if (typeof userArray != 'undefined') { %>
+    <% for (var i in userArray) { %>
+      <div class="ui stacked segment">
+        <h3 class="header">
+          <a href="/user/<%= userArray[i]._id %>"><%= userArray[i].name %></a>
+        </h3>
+
+        <div class="ui toggle checkbox">
+          <input id="<%= i %>-admin-toggle" type="checkbox" name="admin" 
+            <% if (userArray[i].admin) { %> checked="" <%}%> />
+          <% if (userArray[i].admin) { %>
+            <label onclick="adminToggle('<%= i %>', 'false');">Admin</label>
+          <% } else { %>
+            <label onclick="adminToggle('<%= i %>', 'true');">Admin</label>
+          <% } %>
+        </div>
+
+        <div class="ui segment">
+          <div class="ui grid">
+            <div class="fourteen wide column">
+              <h5 class="header">Association</h5>
+            </div>
+            <div class="two wide column">
+              <% if (locals.user.admin == true) { %>
+                <a href="" onclick="loadAssociationForm('<%= userArray[i].association %>', '<%= userArray[i]._id %>'); return false;" id="edit-button-holder" style="float: right;"><i id="edit-button-<%= userArray[i]._id %>" class="edit icon black"></i></a>
+              <% } %>
+            </div>
+          </div>
+          <div id="association-form-div-<%= userArray[i]._id %>"></div>
+          <% if (userArray[i].association) { %>
+            <%= associationArray[userArray[i].association].name %>
+          <% } %>
+        </div>
+        
+        <h5 class="header">Team Management</h5>
+        <% userArray[i].teams.forEach((team) => { %>
+          <div class="ui segment">
+            <a href="/team/<%= teamArray[team]._id %>"><%= teamArray[team].name %></a>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+  <% } else { %>
+  <div class="ui segment fluid">
+    <p class="ui content">No teams were found</p>
+  </div>
+  <% } %>
+
+<% include ../partial/foot %>
+
+<script id="association-form-template" type="text/template">
+  <div class="ui center aligned middle aligned grid segment" id="association-form-{{user}}" style="margin:0;">
+    <div class="column">
+      <a class="black" href="" onclick="closeAssociationForm('{{user}}')"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+      <h2 class="ui header" data-tooltip="ha" style="color: green;">Select Association</h2>
+      <form class="ui large form" action="/user/{{user}}/update" method="post">
+        <div class="ui stacked segment">
+          <label style="float: left;"><b>Association(s)</b></label>
+          <div class="field">
+            <div class="ui fluid search selection dropdown">
+              <input type="hidden" name="association">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select Association</div>
+              <div class="menu">
+                <% if (typeof associationArray != 'undefined') { %>
+                  <div class="item" data-value=""> * Remove Association * </div>
+                  <% for (var i in associationArray) { %>
+                    <div class="item" data-value="<%= i %>"><%= associationArray[i].name %></div>
+                  <% } %>
+                <% } else { %>
+                  <div class="item" data-value="">We were unable to retreive any associations, please try again</div>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <div id="submit-button" class="ui fluid black submit button" style="background-color: green;">Update</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</script>
+
+<script id="association-edit-button-template" type="text/template">
+  <i id="edit-button-{{user}}" class="edit icon black"></i>
+</script>

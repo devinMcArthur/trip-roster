@@ -20,6 +20,7 @@ const {User} = require('./models/user');
 const {Team} = require('./models/team');
 const {Member} = require('./models/member');
 const {Trip} = require('./models/trip');
+const {Association} = require('./models/association');
 
 const port = process.env.PORT || 3000;
 var app = express();
@@ -340,6 +341,20 @@ app.post('/reset/:token', function(req, res) {
   });
 });
 
+// GET /users
+app.get('/users', async (req, res) => {
+  try {
+    var userArray = await User.getAll();
+    var teamArray = await Team.getAll();
+    var associationArray = await Association.getAll();
+    res.render('user/userIndex', {userArray, teamArray, associationArray});
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
 // GET /user/:id
 app.get('/user/:id', async (req, res) => {
   try {
@@ -347,7 +362,29 @@ app.get('/user/:id', async (req, res) => {
     if(!ObjectID.isValid(id)) {throw new Error('Not a valid User ID');}
     var user = await User.findById(id);
     var teamArray = await Team.getAll();
+    if (user.director) {
+      var director = await Association.findById(user.director);
+      res.render('user/user', {user, teamArray, director});
+      return;
+    }
     res.render('user/user', {user, teamArray});
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// POST /user/:id/update
+app.post('/user/:id/update', async (req, res) => {
+  try {
+    if (req.body.association == "") {
+      req.body.association = null;
+    }
+    var userId = req.params.id;
+    if (!ObjectID.isValid(userId)) {throw new Error('User ID is not valid');}
+    await User.findOneAndUpdate({_id: userId}, req.body, {new: true});
+    res.redirect('back');
   } catch (e) {
     console.log(e);
     req.flash('error', e.message);
@@ -403,7 +440,34 @@ app.post('/team', async (req, res) => {
     res.redirect('back');
   } catch (e) {
     console.log(e);
-    req.flash('error', e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// DELETE /team/:id
+app.delete('/team/:id', async (req, res) => {
+  try {
+    var team = await Team.findByIdAndRemove(req.params.id);
+    console.log(team);
+    team.members.forEach(async (member) => {
+      await Member.findByIdAndUpdate(member, {$pull: {teams: team._id}}, {new: true});
+    });
+    team.managers.forEach(async (manager) => {
+      await User.findByIdAndUpdate(manager, {$pull: {teams: team._id}}, {new: true});
+    });
+    if (team.association) {
+      await Association.findByIdAndUpdate(team.association, {$pull: {teams: team._id}}, {new: true});
+    }
+    if (team.trips.length > 0) {
+      team.trips.forEach(async (trip) => {
+        await Trip.findByIdAndRemove(trip);
+      });
+    } 
+    res.redirect('back');
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
     res.redirect('back');
   }
 });
@@ -452,7 +516,13 @@ app.post('/team/:id/update', async (req, res) => {
     team.managers.forEach(async (i) => {
       // Remove team from User model
       if (!req.body.managers.toString().includes(i)) {
-        var user = await User.findByIdAndUpdate(i, {$pull: {teams: team._id}}, {new: true});
+        await User.findByIdAndUpdate(i, {$pull: {teams: team._id}}, {new: true});
+      } 
+    });
+    req.body.managers.forEach(async (manager) => {
+      // Add team to User model
+      if (!team.managers.toString().includes(manager)) {
+        await User.findByIdAndUpdate(manager, {$push: {teams: team._id}}, {new: true});
       }
     });
     var teamId = req.params.id;
@@ -673,6 +743,101 @@ app.post('/trip/:id/update', async (req, res) => {
       if (req.body[item] == '') {throw new Error('Must enter a time');}
     })
     await Trip.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true});
+    res.redirect('back');
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// GET /associations
+app.get('/associations', async (req, res) => {
+  try {
+    if (req.user.admin == true) {
+      var userArray = await User.getAll();
+      var teamArray = await Team.getAll();
+      var associationArray = await Association.getAll();
+      res.render('association/associationIndex', {userArray, teamArray, associationArray});
+    } else {
+      req.flash('error', 'Must be an admin to access this page');
+      res.redirect('/');
+    }
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// GET /association/:id
+app.get('/association/:id', async (req, res) => {
+  try {
+    if (req.user.admin == true || req.user.director != undefined) {
+      var association = await Association.findById(req.params.id);
+      var userArray = await User.getAll();
+      res.render('association/association', {association, userArray});
+    } else {
+      req.flash('error', 'You are not authorized to access this page');
+      res.redirect('/');
+    }
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// POST /association
+app.post('/association', async (req, res) => {
+  try {
+    if (req.body.directors == "") {
+      req.body.directors = null;
+    }
+    var association = new Association(req.body);
+    await association.save();
+    res.redirect('back');
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+
+// POST /association/:id/update
+app.post('/association/:id/update', async (req, res) => {
+  try {
+    var associationId = req.params.id;
+    if (!ObjectID.isValid(associationId)) {throw new Error('Association ID is not valid');}
+    var association = await Association.findById(associationId);
+    if (req.body.directors != undefined && req.body.directors.length != 0) {
+      req.body.directors = (req.body.directors.split(','));
+    } else {
+      req.body.directors = [];
+    }
+    if (association.directors != undefined && association.directors.length > 0) {
+      association.directors.forEach(async (i) => {
+        // Remove association director from User model
+        if (!req.body.directors.toString().includes(i)) {
+          await User.findByIdAndUpdate(i, {$set: {director: null}}, {new: true});
+        }
+      });
+    }
+    await req.body.directors.forEach(async (director) => {
+      // Add association director to User model
+      if (!association.directors.toString().includes(director)) {
+        await User.findByIdAndUpdate(director, {$set: {director: association._id}}, {new: true});
+      }
+      // Remove user from director of other associations
+      var associationArray = await Association.getAll();
+      for (var i in associationArray) {
+        if (associationArray[i].directors.toString().includes(director) && i != associationId) {
+          association = await Association.findByIdAndUpdate(i, {$pull: {directors: director}}, {new: true});
+        }
+      }
+    });
+    await Association.findOneAndUpdate({_id: associationId}, req.body, {new: true});
     res.redirect('back');
   } catch (e) {
     console.log(e);

@@ -1,0 +1,26 @@
+<% include ../partial/head %>
+
+  <h1 class="ui header">
+    <%= association.name %> 
+    <% if (association.abbreviation) { %>(<%= association.abbreviation %>)<% } %>
+  </h1>
+
+  <% if (association.directors != undefined && association.directors.length > 0) { %>
+    <h5 class="header">Director(s)</h5>
+    <% association.directors.forEach((director) => { %>
+      <div class="ui segment">
+        <%= userArray[director].name %>
+      </div>
+    <% }); %>
+  <% } %>
+
+  <% if (association.managers.length > 0) { %>
+    <h5 class="header">Manager(s)</h5>
+    <% association.managers.forEach((manager) => { %>
+      <div class="ui segment">
+        <%= userArray[manager].name %>
+      </div>
+    <% }); %>
+  <% } %>
+
+<% include ../partial/foot %>

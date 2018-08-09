@@ -44,6 +44,14 @@
             <i class="dropdown icon"></i>
           </a>
           <div class="ui fluid popup bottom left transition hidden">
+            <% if (locals.user.admin) { %>
+              <a class="item" href="/associations">
+                Associations
+              </a>
+              <a class="item" href="/users">
+                Users
+              </a>
+            <% } %>
             <a class="item" href="/logout">
               Logout
             </a>

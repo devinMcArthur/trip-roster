@@ -3,17 +3,17 @@ const mongoose = require('mongoose');
 var TeamSchema = new mongoose.Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
     trim: true,
     unique: true
   },
   age: {
     type: String,
-    require: true
+    required: true
   },
   league: {
     type: String,
-    require: true
+    required: true
   },
   managers: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -23,6 +23,10 @@ var TeamSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Member'
   }],
+  association: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Association'
+  },
   managementRequests: [{
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -30,7 +34,7 @@ var TeamSchema = new mongoose.Schema({
     },
     status: {
       type: Boolean,
-      require: true,
+      required: true,
       default: false
     }
   }],

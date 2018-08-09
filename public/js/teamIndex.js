@@ -10,3 +10,10 @@ function closeTeamForm() {
   $('#team-form-button-div').append(template);
   $('#team-form').remove();
 }
+function deleteTeam(id) {
+  alert(id);
+  $.ajax({
+    type: 'DELETE',
+    url: `team/${id}/`
+  });
+}

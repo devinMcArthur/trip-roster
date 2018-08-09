@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 var UserSchema = new mongoose.Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
     minlength: 1,
     trim: true
   },
@@ -31,6 +31,14 @@ var UserSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
     default: false
+  },
+  association: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Association'
+  },
+  director: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Team'
   },
   teams: [{
     type: mongoose.Schema.Types.ObjectId,

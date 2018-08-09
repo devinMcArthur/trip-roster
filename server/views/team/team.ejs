@@ -43,7 +43,7 @@
     <% if (team.trips) { %>
       <% team.trips.forEach((trip) => { %>
         <div class="item" style="padding: 1em;">
-          <a href="/trip/<%= tripArray[trip]._id %>"><b><%= tripArray[trip].destination %></b></a> - <%= tripArray[trip].date %>
+          <a href="/trip/<%= tripArray[trip]._id %>"><b><%= tripArray[trip].destination %></b></a> - <%= tripArray[trip].stringifiedDate %>
         </div>
       <% }); %>
     <% } %>
@@ -149,7 +149,9 @@
               <input id="name-form" type="text" name="name" placeholder="Full Name">
             </div>
           </div>
-          <div class="ui header"><div class="sub header"> - Optional - </div></div>
+          <div class="ui horizontal divider">
+            optional
+          </div>
           <div class="ui divider"></div>
           <div class="field">
             <label style="float: left;">Phone Number</label>

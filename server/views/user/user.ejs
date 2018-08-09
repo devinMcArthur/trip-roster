@@ -1,6 +1,12 @@
 <% include ../partial/head %>
 
-<h1 class="header"><%= user.firstName %> <%= user.lastName %></h1>
+<h1 class="header"><%= user.name %></h1>
+
+<% if (user.director != undefined) { %>
+  <h5 class="header">Director</h5>
+  <%= director.name %>
+<% } %> 
+
 
 <h5 class="header">Team(s)</h5>
 <% user.teams.forEach((team) => { %>
