@@ -61,3 +61,18 @@ function closeMemberEditForm(id) {
   $(`#member-${id}-edit-button-holder`).append(html);
   $(`#member-${id}-edit-div`).hide();
 }
+
+function loadAssociationForm(association, team) {
+  var template = $('#association-form-template').html();
+  var html = Mustache.render(template, {team});
+  $(`#association-form-div-${team}`).append(html);
+  $(`#edit-button-${team}`).remove();
+  $('.ui.search.dropdown').dropdown('set selected', association);
+  $('form').form().submit(function(evt) {});
+}
+function closeAssociationForm(team) {
+  var template = $('#association-edit-button-template').html();
+  var html = Mustache.render(template, {team});
+  $('#edit-button-holder').append(html);
+  $(`#association-form-${team}`).remove();
+}

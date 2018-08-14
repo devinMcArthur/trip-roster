@@ -9,44 +9,60 @@
       Trip Roster
     </h1>
 
-    <% if (typeof currentTripArray != 'undefined' && Object.keys(currentTripArray).length > 0) { %>
-      <h3 class="ui header">Ongoing Trip(s)</h3>
-      <div class="ui divider"></div>
-      <% for (var i in currentTripArray) { %>
-        <div class="ui clearing segment">
-          <a href="/trip/<%= tripArray[i]._id %>"><b><%= currentTripArray[i].destination %></b></a>
-            - <%= currentTripArray[i].stringifiedDate %>
-          <% if (Object.keys(teamArray).length > 1) { %>
-            <p><%= teamArray[currentTripArray[i].team].name %> - <%= teamArray[currentTripArray[i].team].age %> <%= teamArray[currentTripArray[i].team].league %></p>
-          <% } %>
-        </div>
+    <% if ((typeof currentTripArray != 'undefined' && Object.keys(currentTripArray).length > 0) || (typeof tripArray != 'undefined' && Object.keys(tripArray).length > 0) || (typeof teamArray != 'undefined' && Object.keys(teamArray).length > 0)) { %>
+      <% if (typeof currentTripArray != 'undefined' && Object.keys(currentTripArray).length > 0) { %>
+        <h3 class="ui header">Ongoing Trip(s)</h3>
+        <div class="ui divider"></div>
+        <% for (var i in currentTripArray) { %>
+          <div class="ui clearing segment">
+            <a href="/trip/<%= tripArray[i]._id %>"><b><%= currentTripArray[i].destination %></b></a>
+              - <%= currentTripArray[i].stringifiedDate %>
+            <% if (Object.keys(teamArray).length > 1) { %>
+              <p><%= teamArray[currentTripArray[i].team].name %> - <%= teamArray[currentTripArray[i].team].age %> <%= teamArray[currentTripArray[i].team].league %></p>
+            <% } %>
+          </div>
+        <% } %>
       <% } %>
-    <% } %>
-
-    <% if (typeof tripArray != 'undefined' && Object.keys(tripArray).length > 0) { %>
-      <h3 class="ui header">Upcoming Trip(s)</h3>
-      <div class="ui divider"></div>
-      <% for (var i in tripArray) { %>
-        <div class="ui clearing segment">
-          <a href="/trip/<%= tripArray[i]._id %>"><b><%= tripArray[i].destination %></b></a>
-            - <%= tripArray[i].stringifiedDate %>
-          <% if (Object.keys(teamArray).length > 1) { %>
-            <p><%= teamArray[tripArray[i].team].name %> - <%= teamArray[tripArray[i].team].age %> <%= teamArray[tripArray[i].team].league %></p>
-          <% } %>
-        </div>
+  
+      <% if (typeof tripArray != 'undefined' && Object.keys(tripArray).length > 0) { %>
+        <h3 class="ui header">Upcoming Trip(s)</h3>
+        <div class="ui divider"></div>
+        <% for (var i in tripArray) { %>
+          <div class="ui clearing segment">
+            <a href="/trip/<%= tripArray[i]._id %>"><b><%= tripArray[i].destination %></b></a>
+              - <%= tripArray[i].stringifiedDate %>
+            <% if (Object.keys(teamArray).length > 1) { %>
+              <p><%= teamArray[tripArray[i].team].name %> - <%= teamArray[tripArray[i].team].age %> <%= teamArray[tripArray[i].team].league %></p>
+            <% } %>
+          </div>
+        <% } %>
       <% } %>
-    <% } %>
-
-    <% if (typeof teamArray != 'undefined' && Object.keys(teamArray).length > 0) { %>
-      <h3 class="ui header">Team(s)</h3>
-      <div class="ui divider"></div>
-      <% for (var i in teamArray) { %>
-        <div class="ui clearing segment">
-          <div class="ui right floated mini button" id="trip-form-button-<%= i %>" onclick="loadTripForm('<%=i%>');">Start Trip</div>
-          <a href="/team/<%= teamArray[i]._id %>"><b><%= teamArray[i].name %></b></a>
-          <div id="trip-form-div-<%=i%>"></div>
-        </div>
+  
+      <% if (typeof teamArray != 'undefined' && Object.keys(teamArray).length > 0) { %>
+        <h3 class="ui header">Team(s)</h3>
+        <div class="ui divider"></div>
+        <% for (var i in teamArray) { %>
+          <div class="ui clearing segment">
+            <div class="ui right floated mini button" id="trip-form-button-<%= i %>" onclick="loadTripForm('<%=i%>');">Start Trip</div>
+            <a href="/team/<%= teamArray[i]._id %>"><b><%= teamArray[i].name %></b></a>
+            <div id="trip-form-div-<%=i%>"></div>
+          </div>
+        <% } %>
       <% } %>
+    <% } else { %>
+      <div class="ui center aligned middle aligned grid green segment" style="margin-top: 15vh; padding: 2em;">
+        <div class="ui header">
+          You have successfully signed up and must now wait to be given permissions by your selected Association Director
+        </div>
+        <% if (user.association) { %>
+          <div class="ui green inverted stacked segment">
+              <div class="ui sub header">
+                <u>Your Association</u></br>
+                <%= associationArray[user.association].name %>
+              </div>
+          </div>
+        <% } %>
+      </div>
     <% } %>
 
     </div>
@@ -84,7 +100,7 @@
             <img class="ui image home" src="/assets/images/ooaa_logo.png">
           </div>
           <h1 class="ui header">Easily Record Bus Attendance</h1>
-          <p>Trip Roster is a website to manage who is on bus trips and provide that information to the association</p>
+          <p>Trip Roster is a website used record who is on bus trips and provide the collected information to the relevant association</p>
         </div>
       </div>
     </div>

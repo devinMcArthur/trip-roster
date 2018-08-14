@@ -39,10 +39,32 @@
             <input id="confirm-form" type="password" name="confirm" placeholder="Confirm Password">
           </div>
         </div>
+        <label style="float: left;"><b>Association</b></label>
+        <div class="field">
+          <div class="ui fluid search selection dropdown">
+            <input type="hidden" name="association">
+            <i class="dropdown icon"></i>
+            <div class="default text">Select Association</div>
+            <div class="menu">
+              <% if (typeof associationArray != 'undefined') { %>
+                <div class="item" data-value=""> * No Association * </div>
+                <% for (var i in associationArray) { %>
+                  <div class="item" data-value="<%= i %>"><%= associationArray[i].name %></div>
+                <% } %>
+              <% } else { %>
+                <div class="item" data-value="">We were unable to retreive any associations, please try again</div>
+              <% } %>
+            </div>
+          </div>
+        </div>
         <div id="submit-button" class="ui fluid black large submit button disabled" style="background-color: green;">Signup!</div>
       </div>
 
     </form>
+
+    <div class="ui message">
+      Already have an account? <a href="/login">Login</a>
+    </div>
   </div>
 </div>
 

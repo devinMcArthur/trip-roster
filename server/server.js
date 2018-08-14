@@ -115,20 +115,23 @@ app.get('/', async (req, res) => {
           }
         }
         teamArray = array; array = [];
-        for (var i in tripArray) {
-          if (!tripArray[i].stringifiedDate) {
-            await Trip.findByIdAndUpdate(tripArray[i]._id, {$set: {stringifiedDate: moment(tripArray[i].date).format('LLL')}}, {new: true})
+        if (teamArray.length > 0) {
+          for (var i in tripArray) {
+            if (!tripArray[i].stringifiedDate) {
+              await Trip.findByIdAndUpdate(tripArray[i]._id, {$set: {stringifiedDate: moment(tripArray[i].date).format('LLL')}}, {new: true})
+            }
+            if(Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) {
+              array[i] = tripArray[i];
+            }
+            if(!tripArray[i].homeArrivalTime && (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 1) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) && 
+               ((tripArray[i].members && tripArray[i].members.length > 0) || (tripArray[i].homeDepartTime || tripArray[i].destinationArrivalTime || tripArray[i].destinationDepartTime))) {
+              currentTripArray[i] = tripArray[i];
+            }
           }
-          if(Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) {
-            array[i] = tripArray[i];
-          }
-          if(!tripArray[i].homeArrivalTime && (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 1) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) && 
-             ((tripArray[i].members && tripArray[i].members.length > 0) || (tripArray[i].homeDepartTime || tripArray[i].destinationArrivalTime || tripArray[i].destinationDepartTime))) {
-            currentTripArray[i] = tripArray[i];
-          }
-        }
-        tripArray = array;
-        res.render('index', {teamArray, tripArray, currentTripArray});
+          tripArray = array;
+        } else {tripArray = [];}
+        var associationArray = await Association.getAll();
+        res.render('index', {teamArray, tripArray, currentTripArray, associationArray});
       }
     } else {
       res.render('index');
@@ -205,11 +208,18 @@ app.get('/logout', (req, res) => {
 });
 
 // GET /signup
-app.get('/signup', (req, res) => {
-  if (!req.user) {
-    res.render('user/signup');
-  } else {
-    req.flash('error', 'You cannot do this while logged in');
+app.get('/signup', async (req, res) => {
+  try {
+    if (!req.user) {
+      var associationArray = await Association.getAll();
+      res.render('user/signup', {associationArray});
+    } else {
+      req.flash('error', 'You cannot do this while logged in');
+      res.redirect('back');
+    }
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
     res.redirect('back');
   }
 });
@@ -260,8 +270,8 @@ app.post('/forgot', (req, res, next) => {
       var smtpTransport = nodemailer.createTransport({
         service: 'SendGrid',
         auth: {
-          user: 'app103061027@heroku.com',
-          pass: 'escr2egr4574'
+          user: process.env.SEND_GRID_USERNAME,
+          pass: process.env.SEND_GRID_PASSWORD
         }
       });
       var mailOptions = {
@@ -320,8 +330,8 @@ app.post('/reset/:token', function(req, res) {
       var smtpTransport = nodemailer.createTransport({
         service: 'SendGrid',
         auth: {
-          user: 'app103061027@heroku.com',
-          pass: 'escr2egr4574'
+          user: process.env.SEND_GRID_USERNAME,
+          pass: process.env.SEND_GRID_PASSWORD
         }
       });
       var mailOptions = {
@@ -397,23 +407,25 @@ app.get('/teams', async (req, res) => {
   try {
     var teamArray = await Team.getAll();
     var userArray = await User.getAll();
+    var associationArray = await Association.getAll();
     var array = [];
     if (req.user.admin == true) {
-      res.render('team/teamIndex', {teamArray, userArray});
+      res.render('team/teamIndex', {teamArray, userArray, associationArray});
     } else {
       for (var i in teamArray) {
         if(teamArray[i].managers.toString().includes(req.user._id)) {
           array[i] = teamArray[i];
         }
       }
-      res.render('team/teamIndex', {teamArray: array, userArray});
+      res.render('team/teamIndex', {teamArray: array, userArray, associationArray});
     }
   } catch (e) {
     try {
       var userArray = await User.getAll();
+      var associationArray = await Association.getAll();
       console.log(e);
       req.flash('error', e);
-      res.render('team/teamIndex', {userArray});
+      res.render('team/teamIndex', {userArray, associationArray});
     } catch (e) {
       console.log(e);
       req.flash('error', e);
@@ -481,13 +493,14 @@ app.get('/team/:id', async (req, res) => {
     var userArray = await User.getAll();
     var array = await Member.getAll();
     var tripArray = await Trip.getAll();
+    var associationArray = await Association.getAll();
     var memberArray = [];
     for (var i in array) {
       if (array[i].teams.indexOf(team._id) != -1) {
         memberArray[i] = array[i];
       }
     }
-    res.render('team/team', {team, userArray, memberArray, tripArray});
+    res.render('team/team', {team, userArray, memberArray, tripArray, associationArray});
   } catch (e) {
     console.log(e);
     try {
@@ -495,7 +508,8 @@ app.get('/team/:id', async (req, res) => {
       if (!ObjectID.isValid(id)) {throw new Error('Not a valid Team ID')}
       var team = await Team.findById(id);
       var userArray = await User.getAll();
-      res.render('team/team', {team, userArray});
+      var associationArray = await Association.getAll();
+      res.render('team/team', {team, userArray, associationArray});
     } catch (e) {
       console.log(e);
       req.flash('error', e.message);
@@ -508,6 +522,9 @@ app.get('/team/:id', async (req, res) => {
 app.post('/team/:id/update', async (req, res) => {
   try {
     var team = await Team.findById(req.params.id);
+    if (req.body.association == "") {
+      req.body.association = null;
+    }
     if (req.body.managers != undefined && req.body.managers.length != 0) {
       req.body.managers = (req.body.managers.split(','));
     } else {

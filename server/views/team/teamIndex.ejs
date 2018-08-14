@@ -7,7 +7,7 @@
   <div class="eight wide column">
     <h1 class="ui header">Teams</h1>
   </div>
-  <% if (locals.user.admin) { %>
+  <% if (locals.user.admin || locals.user.director) { %>
     <div class="eight wide column float right">
       <div id="team-form-button-div"></div>
       <div id="team-add-button" class="ui black button" style="background-color: green; float: right;" onclick="loadTeamForm()">
@@ -21,14 +21,14 @@
 
 <% if (typeof teamArray != 'undefined') { %>
   <% for (var i in teamArray) { %>
-    <div class="ui stacked segment">
+    <div class="ui stacked green segment">
       <h4 class="header">
         <a href="/team/<%= teamArray[i]._id %>"><%= teamArray[i].name %></a>
         <% if (locals.user.admin == true || locals.user.director != undefined) { %>
           <a href="" onclick="if(confirm('Are you sure?')){deleteTeam('<%= teamArray[i]._id %>')}" style="float: right;"><i class="trash alternate icon"></i></a>
         <% } %>
       </h4>
-      <p><%= teamArray[i].age %> <%= teamArray[i].league %></p>
+      <p><%= teamArray[i].age %> <%= teamArray[i].league %><% if (teamArray[i].association){%> - <%= associationArray[teamArray[i].association].name %><%}%></p>
     
       <h5 class="header">Manager(s)</h5>
       <% teamArray[i].managers.forEach((manager) => { %>

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  $('.ui.search.dropdown').dropdown();
   $('#password-form, #confirm-form, #first-name-form, #last-name-form, #email-form').on('keyup', function () {
     if (($('#first-name-form').val() != '' && $('#last-name-form').val() != '' && $('#email-form').val() != '' && $('#password-form').val() != '' && $('#confirm-form').val() != '') && ($('#password-form').val() == $('#confirm-form').val())) {
       $('#submit-button').removeClass('disabled');
