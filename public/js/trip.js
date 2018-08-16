@@ -111,12 +111,24 @@ $(document).ready(function () {
   $('.toggleMember').change(function () {
     if ($(this).prop('checked') == true) {
       $(this).closest('div').parent().removeClass('secondary basic').addClass('inverted green');
+      $(`#${$(this).attr('id')}.toggleMember`).each(function () {
+        if ($(this).prop('checked') == false) {
+          $(this).prop('checked', true);
+        }
+        $(this).closest('div').parent().removeClass('secondary basic').addClass('inverted green');
+      });
     } else {
       if ($(this).attr('id').includes('solo')) {
         $(this).closest('div').parent().removeClass('secondary inverted green').addClass('secondary');;
       } else {
         $(this).closest('div').parent().removeClass('inverted green').addClass('basic');
       }
+      $(`#${$(this).attr('id')}.toggleMember`).each(function () {
+        if ($(this).prop('checked') == true) {
+          $(this).prop('checked', false);
+        }
+        $(this).closest('div').parent().removeClass('inverted green').addClass('basic');
+      });
     }
   });
 });
