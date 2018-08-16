@@ -4,6 +4,9 @@
 <script src="/js/trip.js"></script>
 
 <h1 class="ui header"><%= trip.destination %> Attendance</h1>
+<% if (trip.busCompany) { %>
+  <%= trip.busCompany %>
+<% } %>
 <p><%= trip.stringifiedDate %></p>
 <a href="/team/<%= team._id %>"><%= team.name %></a>
 
@@ -190,44 +193,60 @@
   <div id="mobile-time-edit-div-2"></div>
 </div>
 
-
-<div class="ui list">
-  <% if (typeof memberArray != 'undefined') { %>
-    <% team.members.forEach((member) => { %>
-      <% if (memberArray[member].player == true) { %>
-        <div class="ui segment">
-          <div class="ui checkbox">
-            <input class="id" type="hidden" value="<%= trip._id %>" />
-            <input class="toggleMember checkbox" id="member-toggle" type="checkbox" name="members" value="<%= memberArray[member]._id %>" 
-              <% if (trip.members.toString().includes(memberArray[member]._id)) { %> checked="" <%}%> />
-          </div>
-          <%= memberArray[member].name %>
-          <div class="ui celled list">
-            <% memberArray[member].relationships.forEach((rel) => { %>
-              <div class="item" style="padding: 1em;">
-                <div class="ui checkbox">
-                  <input class="id" type="hidden" value="<%= trip._id %>" />
-                  <input class="checkbox toggleMember" id="member-toggle" type="checkbox" name="members" value="<%= memberArray[rel]._id %>"
-                    <% if (trip.members.toString().includes(memberArray[rel]._id)) { %> checked="" <%}%> />
-                </div>
-                <%= memberArray[rel].name %>
+<div class="ui green segment">
+  <h4 class="ui header">Members</h4>
+  <div class="ui list">
+    <% if (Object.keys(memberArray).length > 0) { %>
+      <% team.members.forEach((member) => { %>
+        <% if (memberArray[member].player == true) { %>
+          <div class="ui secondary segment">
+            <label for="member-toggle-<%=member%>">
+              <div class="ui basic segment">
+              <div class="ui toggle checkbox">
+                <input class="id" type="hidden" value="<%= trip._id %>" />
+                <input class="toggleMember checkbox" id="member-toggle-<%=member%>" type="checkbox" name="members" value="<%= memberArray[member]._id %>" 
+                  <% if (trip.members.toString().includes(memberArray[member]._id)) { %> checked="" <%}%> />
               </div>
-            <% }); %>
+              <b><%= memberArray[member].name %></b>
+            </div>
+            </label>
+            <div class="ui celled list" style="margin: 0;">
+              <% memberArray[member].relationships.forEach((rel) => { %>
+                <div class="item">
+                  <label for="member-toggle-<%=rel%>">
+                    <div class="ui basic segment" style="margin: 0;">
+                      <div class="ui toggle checkbox">
+                        <input class="id" type="hidden" value="<%= trip._id %>" />
+                        <input class="checkbox toggleMember" id="member-toggle-<%=rel%>" type="checkbox" name="members" value="<%= memberArray[rel]._id %>"
+                          <% if (trip.members.toString().includes(memberArray[rel]._id)) { %> checked="" <%}%> />
+                      </div>
+                      <b><%= memberArray[rel].name %></b>
+                    </div>
+                  </label>
+                </div>
+              <% }); %>
+            </div>
           </div>
-        </div>
-      <% } %>
-      <% if (memberArray[member].relationships == '' && memberArray[member].player == false) { %>
-        <div class="ui segment">
-          <div class="ui checkbox">
-            <input class="id" type="hidden" value="<%= trip._id %>" />
-            <input class="checkbox toggleMember" id="member-toggle" type="checkbox" name="members" value="<%= memberArray[member]._id %>" 
-              <% if (trip.members.toString().includes(memberArray[member]._id)) { %> checked="" <%}%> />
-          </div>
-          <%= memberArray[member].name %>
-        </div>
-      <% } %>
-    <% }); %>
-  <% } %>
+        <% } %>
+        <% if (memberArray[member].relationships == '' && memberArray[member].player == false) { %>
+          <label for="solo-member-toggle-<%=member%>">
+            <div class="ui secondary segment">
+              <div class="ui toggle checkbox">
+                <input class="id" type="hidden" value="<%= trip._id %>" />
+                <input class="checkbox toggleMember" id="solo-member-toggle-<%=member%>" type="checkbox" name="members" value="<%= memberArray[member]._id %>" 
+                  <% if (trip.members.toString().includes(memberArray[member]._id)) { %> checked="" <%}%> />
+              </div>
+              <b><%= memberArray[member].name %></b>
+            </div>
+          </label>
+        <% } %>
+      <% }); %>
+    <% } else { %>
+      <div class="ui segment">
+        <h3 class="header">Add Members to your team in order to manage your attendance for this trip</h3>
+      </div>
+    <% } %>
+  </div>
 </div>
 
 <% include ../partial/foot %>

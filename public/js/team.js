@@ -21,6 +21,7 @@ function loadTripForm() {
   var template = $('#trip-form-template').html();
   $('#trip-form-div').append(template);
   $('#trip-form-button').remove();
+  $('.ui.search.dropdown').dropdown();
   $('form').form().submit(function(evt) {});
 }
 
@@ -28,6 +29,30 @@ function closeTripForm() {
   var template = $('#trip-form-button-template').html();
   $('#trip-form-button-holder').append(template);
   $('#trip-form').remove();
+}
+
+function loadTripEditForm(id, destination, date) {
+  var template = $('#trip-edit-form-template').html();
+  var html = Mustache.render(template, {id, destination, date});
+  $(`#trip-${id}-edit-form-div`).append(html);
+  $(`#trip-${id}-edit-form-button`).remove();
+  $('form').form().submit(function(evt) {});
+}
+
+function closeTripEditForm() {
+  var template = $('#trip-form-button-template').html();
+  $('#trip-form-button-holder').append(template);
+  $('#trip-form').remove();
+}
+
+function tripDeleteForm (id) {
+  $.ajax({
+    type: 'DELETE',
+    url: `/trip/${id}`,
+    success: function () {
+      location.reload();
+    }
+  })
 }
 
 function loadMemberForm() {
@@ -75,4 +100,41 @@ function closeAssociationForm(team) {
   var html = Mustache.render(template, {team});
   $('#edit-button-holder').append(html);
   $(`#association-form-${team}`).remove();
+}
+
+function loadBusForm () {
+  var template = $('#bus-form-template').html();
+  $('#bus-form-div').append(template);
+  $('#bus-form-button').remove();
+  $('form').form().submit(function(evt) {});
+}
+
+function closeBusForm () {
+  var template = $('#bus-form-button-template').html();
+  $('#bus-form-button-holder').append(template);
+  $('$bus-form').remove();
+}
+
+function loadBusEditForm (company, companyId) {
+  var template = $('#bus-edit-form-template').html();
+  var html = Mustache.render(template, {company});
+  $(`#${companyId}-edit-div`).append(html);
+  $(`#${companyId}-edit-form-button`).remove();
+  $('form').form().submit(function(evt) {});
+}
+
+function closeBusEditForm(companyId) {
+  var template = $('#bus-edit-form-button-template').html();
+  $(`#bus-${companyId}-edit-form-button-holder`).append(template);
+  $(`$bus-${companyId}-edit-form`).remove();
+}
+
+function companyDeleteForm (id, company) {
+  $.ajax({
+    type: 'DELETE',
+    url: `/team/${id}/company/${encodeURI(company)}`,
+    success: function () {
+      location.reload();
+    }
+  })
 }

@@ -19,7 +19,7 @@
         <a class="item" href="/" id="home-item">
           <i class="home icon"></i> Home
         </a>
-        <% if (locals.user.admin) { %>
+        <% if (locals.user.admin || locals.user.director) { %>
           <a class="item" href="/teams" id="teams-item">
             <i class="hockey puck icon"></i> Teams
           </a>
@@ -50,6 +50,10 @@
               </a>
               <a class="item" href="/users">
                 Users
+              </a>
+            <% } else if (locals.user.director) { %>
+              <a class="item" href="/association/<%= locals.user.director %>">
+                Association
               </a>
             <% } %>
             <a class="item" href="/logout">

@@ -11,7 +11,6 @@ function closeTeamForm() {
   $('#team-form').remove();
 }
 function deleteTeam(id) {
-  alert(id);
   $.ajax({
     type: 'DELETE',
     url: `team/${id}/`

@@ -1,5 +1,8 @@
 <% include ../partial/head %>
 
+  <script src="/js/association.js"></script>
+  <script src="/js/lib/mustache.js"></script>
+
   <h1 class="ui header">
     <%= association.name %> 
     <% if (association.abbreviation) { %>(<%= association.abbreviation %>)<% } %>
@@ -23,4 +26,96 @@
     <% }); %>
   <% } %>
 
+  <div class="ui segment">
+    <div class="ui grid">
+      <div class="fourteen wide column">
+        <h5 class="header">Bus Companies</h5>
+      </div>
+      <div class="two wide column">
+        <a href="" onclick="loadBusForm(); return false;" id="bus-form-button-holder" style="float: right;"><i id="bus-form-button" class="plus icon black"></i></a>
+      </div>
+    </div>
+    <div id="bus-form-div"></div>
+    <% if (association.busCompanies) { %>
+      <div class="ui celled list">
+        <% association.busCompanies.forEach((busCompany) => { %>
+          <div class="item" style="padding: 1em;">
+            <div class="ui grid">
+              <div class="fourteen wide column">
+                <%= busCompany %>
+              </div>
+              <div class="two wide column">
+                <a href="" onclick="loadBusEditForm('<%= busCompany %>', '<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>'); return false;" id="bus-<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>-edit-form-button-holder" style="float: right;"><i id="bus-<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>-edit-form-button" class="edit icon black"></i></a>
+              </div>
+            </div>
+          </div>
+          <div id="<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>-edit-div"></div>
+        <% }); %>
+      </div>
+    <% } %>
+  </div>
+
 <% include ../partial/foot %>
+
+<script id="bus-form-template" type="text/template">
+  <div class="ui center aligned middle aligned grid segment" style="margin: 0;" id="bus-form">
+    <div class="column">
+      <a class="black" href="" onclick="closeBusForm()"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+      <h2 class="ui header" style="color: green;" >
+        <div class="content">
+          Add a Bus Company
+        </div>
+      </h2>
+      <form class="ui large form" action="/association/<%= association._id %>/update" method="post" >
+        <div class="ui stacked segment">
+          <div class="field">
+            <label style="float: left;"><b>Company Name</b></label>
+            <div class="ui left icon input">
+              <i class="building icon"></i>
+              <input id="company-form" type="text" name="busCompanies" placeholder="Company">
+            </div>
+          </div>
+          <div id="submit-button" class="ui fluid black large submit button" style="background-color: green;">Create</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</script>
+
+<script id="bus-form-button-template" type="text/template">
+  <i id="bus-form-button" class="plus icon black"></i>
+</script>
+
+<script id="bus-edit-form-template" type="text/template">
+  <div class="ui center aligned middle aligned grid segment" style="margin: 0;" id="bus-{{companyId}}-edit-form">
+    <div class="column">
+      <a class="black" href="" onclick="closeBusEditForm('{{companyId}}')"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+      <h2 class="ui header" style="color: green;" >
+        <div class="content">
+          Edit Company
+        </div>
+      </h2>
+      <div id="company-remove-button" class="ui black button" style="background-color: green; float: right;" onclick="if(confirm('Are you sure?')){companyDeleteForm('<%= association._id %>', '{{company}}')}">
+        <i class="trash icon"></i>
+        Delete
+      </div></br></br>
+      <form class="ui large form" action="/association/<%= association._id %>/update" method="post" >
+        <div class="ui stacked segment">
+          <div class="field">
+            <label style="float: left;"><b>Company Name</b></label>
+            <div class="ui left icon input">
+              <i class="building icon"></i>
+              <input id="company-form" type="text" name="busCompanies" placeholder="Company" value="{{company}}">
+            </div>
+          </div>
+          <input type="hidden" name="prevCompanyName" value="{{company}}" />
+          <div id="submit-button" class="ui fluid black large submit button" style="background-color: green;">Update</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</script>
+
+<script id="bus-edit-form-button-template" type="text/template">
+  <i id="bus-form-button" class="edit icon black"></i>
+</script>

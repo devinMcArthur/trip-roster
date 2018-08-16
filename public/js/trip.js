@@ -96,6 +96,29 @@ $(document).ready(function () {
       $('#arriveDestination').removeClass('disabled')
     }
   }
+  // Member segment coloring
+  $('.toggleMember').each(function () {
+    if ($(this).prop('checked') == true) {
+      $(this).closest('div').parent().removeClass('secondary basic').addClass('inverted green');
+    } else {
+      if ($(this).attr('id').includes('solo')) {
+        $(this).closest('div').parent().removeClass('secondary inverted green').addClass('secondary');
+      } else {
+        $(this).closest('div').parent().removeClass('inverted green').addClass('basic');
+      }
+    }
+  });
+  $('.toggleMember').change(function () {
+    if ($(this).prop('checked') == true) {
+      $(this).closest('div').parent().removeClass('secondary basic').addClass('inverted green');
+    } else {
+      if ($(this).attr('id').includes('solo')) {
+        $(this).closest('div').parent().removeClass('secondary inverted green').addClass('secondary');;
+      } else {
+        $(this).closest('div').parent().removeClass('inverted green').addClass('basic');
+      }
+    }
+  });
 });
 
 function showManager() {

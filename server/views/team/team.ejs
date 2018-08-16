@@ -7,41 +7,83 @@
 <p><%= team.age %> <%= team.league %></p>
 
 <div class="ui green segment">
-  <div class="ui grid">
-    <div class="fourteen wide column">
-      <h5 class="header">Association</h5>
+  <div class="ui segment">
+    <div class="ui grid">
+      <div class="fourteen wide column">
+        <h5 class="header">Association</h5>
+      </div>
+      <div class="two wide column">
+        <% if (locals.user.admin == true || locals.user.association == team.association) { %>
+          <a href="" onclick="loadAssociationForm('<%= team.association %>', '<%= team._id %>'); return false;" id="edit-button-holder" style="float: right;"><i id="edit-button-<%= team._id %>" class="edit icon black"></i></a>
+        <% } %>
+      </div>
     </div>
-    <div class="two wide column">
-      <% if (locals.user.admin == true || locals.user.association == team.association) { %>
-        <a href="" onclick="loadAssociationForm('<%= team.association %>', '<%= team._id %>'); return false;" id="edit-button-holder" style="float: right;"><i id="edit-button-<%= team._id %>" class="edit icon black"></i></a>
+    <div id="association-form-div-<%= team._id %>"></div>
+    <% if (team.association) { %>
+      <%= associationArray[team.association].name %>
+    <% } %>
+  </div>
+  
+  <div class="ui segment">
+    <div class="ui grid">
+      <div class="fourteen wide column">
+        <h5 class="header">Manager(s)</h5>
+      </div>
+      <div class="two wide column">
+        <% if (locals.user.admin == true || locals.user.director == team.association) { %>
+          <a href="" onclick="loadManagerForm('<%= team.managers %>'); return false;" id="edit-button-holder" style="float: right;"><i id="edit-button" class="edit icon black"></i></a>
+        <% } %>
+      </div>
+    </div>
+    <div id="manager-form-div"></div>
+    <div class="ui celled list">
+      <% if (team.managers) { %>
+        <% team.managers.forEach((manager) => { %>
+          <div class="item" style="padding: 1em;">
+            <a href="/user/<%= userArray[manager]._id %>"><%= userArray[manager].name %></a>
+          </div>
+        <% }); %>
       <% } %>
     </div>
   </div>
-  <div id="association-form-div-<%= team._id %>"></div>
-  <% if (team.association) { %>
-    <%= associationArray[team.association].name %>
-  <% } %>
-</div>
 
-<div class="ui green segment">
-  <div class="ui grid">
-    <div class="fourteen wide column">
-      <h5 class="header">Manager(s)</h5>
+  <div class="ui segment">
+    <div class="ui grid">
+      <div class="fourteen wide column">
+        <h5 class="header">Bus Companies</h5>
+      </div>
+      <div class="two wide column">
+        <a href="" onclick="loadBusForm(); return false;" id="bus-form-button-holder" style="float: right;"><i id="bus-form-button" class="plus icon black"></i></a>
+      </div>
     </div>
-    <div class="two wide column">
-      <% if (locals.user.admin == true || locals.user.director == team.association) { %>
-        <a href="" onclick="loadManagerForm('<%= team.managers %>'); return false;" id="edit-button-holder" style="float: right;"><i id="edit-button" class="edit icon black"></i></a>
-      <% } %>
-    </div>
-  </div>
-  <div id="manager-form-div"></div>
-  <div class="ui celled list">
-    <% if (team.managers) { %>
-      <% team.managers.forEach((manager) => { %>
-        <div class="item" style="padding: 1em;">
-          <a href="/user/<%= userArray[manager]._id %>"><%= userArray[manager].name %></a>
-        </div>
-      <% }); %>
+    <div id="bus-form-div"></div>
+    <% if (team.association) { %>
+      <% var busArray = team.busCompanies.concat(associationArray[team.association].busCompanies) %>
+    <% } %>
+    <% if (busArray.length > 0) { %>
+      <div class="ui celled list">
+        <% busArray.forEach((busCompany) => { %>
+          <div class="item" style="padding: 1em;">
+            <div class="ui grid">
+              <div class="fourteen wide column">
+                <%= busCompany %>
+              </div>
+              <% if (team.busCompanies.indexOf(busCompany) != -1) { %>
+                <div class="two wide column">
+                  <a href="" onclick="loadBusEditForm('<%= busCompany %>', '<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>'); return false;" id="bus-<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>-edit-form-button-holder" style="float: right;"><i id="bus-<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>-edit-form-button" class="edit icon black"></i></a>
+                </div>
+              <% } else { %>
+                <div class="two wide column">
+                  <% if (associationArray[team.association].abbreviation) { %>
+                    <%= associationArray[team.association].abbreviation %>
+                  <% } %>
+                </div>
+              <% } %>
+            </div>
+          </div>
+          <div id="<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>-edit-div"></div>
+        <% }); %>
+      </div>
     <% } %>
   </div>
 </div>
@@ -49,10 +91,10 @@
 <div class="ui green segment">
   <div class="ui grid">
     <div class="fourteen wide column">
-      <h5 class="header">Trips</h5>
+      <h5 class="header"><i class="car icon black"></i>Trips</h5>
     </div>
     <div class="two wide column">
-      <a href="" onclick="loadTripForm(); return false;" id="trip-form-button-holder" style="float: right;"><i id="trip-form-button" class="car icon black"></i></a>
+      <a href="" onclick="loadTripForm(); return false;" id="trip-form-button-holder" style="float: right;"><i id="trip-form-button" class="add icon black"></i></a>
     </div>
   </div>
   <div id="trip-form-div"></div>
@@ -60,7 +102,19 @@
     <% if (team.trips) { %>
       <% team.trips.forEach((trip) => { %>
         <div class="item" style="padding: 1em;">
-          <a href="/trip/<%= tripArray[trip]._id %>"><b><%= tripArray[trip].destination %></b></a> - <%= tripArray[trip].stringifiedDate %>
+          <div class="ui grid">
+            <div class="fourteen wide column">
+              <a href="/trip/<%= tripArray[trip]._id %>"><b><%= tripArray[trip].destination %></b></a>
+              <p><%= tripArray[trip].stringifiedDate %></p>
+              <% if (tripArray[trip].busCompany) { %>
+                <%= tripArray[trip].busCompany %>
+              <% } %>
+            </div>
+            <div class="two wide column">
+              <a href="" onclick="loadTripEditForm('<%= tripArray[trip]._id %>', '<%= tripArray[trip].destination %>', '<%= inputDateArray[trip] %>'); return false;" id="trip-edit-form-button-holder" style="float: right;"><i id="trip-<%= tripArray[trip]._id %>-edit-form-button" class="edit icon black"></i></a>
+            </div>
+          </div>
+          <div id="trip-<%= tripArray[trip]._id %>-edit-form-div"></div>
         </div>
       <% }); %>
     <% } %>
@@ -70,10 +124,10 @@
 <div class="ui green segment">
   <div class="ui grid">
     <div class="fourteen wide column">
-      <h5 class="header">Team Members</h5>
+      <h5 class="header"><i class="id card outline icon black"></i>Team Members</h5>
     </div>
     <div class="two wide column">
-      <a href="" onclick="loadMemberForm(); return false;" id="member-button-holder" style="float: right;"><i id="member-button" class="id card outline icon black"></i></a>
+      <a href="" onclick="loadMemberForm(); return false;" id="member-button-holder" style="float: right;"><i id="member-button" class="id add icon black"></i></a>
     </div>
   </div>
   <div id="member-form-div"></div>
@@ -258,6 +312,61 @@
               </div>
             </div>
           </div>
+          <label style="float: left;"><b>Bus Company</b></label>
+            <div class="field" id="bus-form">
+              <div class="ui fluid search selection dropdown">
+                <input type="hidden" name="busCompany">
+                <i class="dropdown icon"></i>
+                <div class="default text">Choose company</div>
+                <div class="menu">
+                  <div class="item" data-value=""> * No Company * </div>
+                  <% if (typeof busArray != 'undefined') { %>
+                    <% for (var i in busArray) { %>
+                      <div class="item" data-value="<%= busArray[i] %>"><%= busArray[i] %></div>
+                    <% } %>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          <input type="hidden" name="team" value="<%= team._id %>">
+          <div id="submit-button" class="ui fluid black large submit button" style="background-color: green;">Create</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</script>
+
+<script id="trip-edit-form-template" type="text/template">
+  <div class="ui center aligned middle aligned grid segment" style="margin: 0;" id="member-form">
+    <div class="column">
+      <a class="black" href="" onclick="closeTripEditForm()"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+      <h2 class="ui header" style="color: green;" >
+        <div class="content">
+          Edit this Trip
+        </div>
+      </h2>
+      <div id="trip-remove-button" class="ui black button" style="background-color: green; float: right;" onclick="if(confirm('Are you sure?')){tripDeleteForm('{{id}}')}">
+        <i class="trash icon"></i>
+        Delete
+      </div></br></br>
+      <form class="ui large form" action="/trip/{{id}}/update" method="post" >
+        <div class="ui stacked segment">
+          <div class="two fields">
+            <div class="field">
+              <label style="float: left;"><b>Destination</b></label>
+              <div class="ui left icon input">
+                <i class="map icon"></i>
+                <input id="destination-form" type="text" name="destination" placeholder="Where is the trip?" value="{{destination}}">
+              </div>
+            </div>
+            <div class="field">
+              <label style="float: left;">Date</label>
+              <div class="ui left icon input">
+                <i class="calendar icon"></i>
+                <input id="date-form" type="date" name="date" value="{{date}}">
+              </div>
+            </div>
+          </div>
           <input type="hidden" name="team" value="<%= team._id %>">
           <div id="submit-button" class="ui fluid black large submit button" style="background-color: green;">Create</div>
         </div>
@@ -300,4 +409,67 @@
 
 <script id="association-edit-button-template" type="text/template">
   <i id="edit-button-{{team}}" class="edit icon black"></i>
+</script>
+
+<script id="bus-form-template" type="text/template">
+  <div class="ui center aligned middle aligned grid segment" style="margin: 0;" id="bus-form">
+    <div class="column">
+      <a class="black" href="" onclick="closeBusForm()"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+      <h2 class="ui header" style="color: green;" >
+        <div class="content">
+          Add a Bus Company
+        </div>
+      </h2>
+      <form class="ui large form" action="/team/<%= team._id %>/update" method="post" >
+        <div class="ui stacked segment">
+          <div class="field">
+            <label style="float: left;"><b>Company Name</b></label>
+            <div class="ui left icon input">
+              <i class="building icon"></i>
+              <input id="company-form" type="text" name="busCompanies" placeholder="Company">
+            </div>
+          </div>
+          <div id="submit-button" class="ui fluid black large submit button" style="background-color: green;">Create</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</script>
+
+<script id="bus-form-button-template" type="text/template">
+  <i id="bus-form-button" class="plus icon black"></i>
+</script>
+
+<script id="bus-edit-form-template" type="text/template">
+  <div class="ui center aligned middle aligned grid segment" style="margin: 0;" id="bus-{{companyId}}-edit-form">
+    <div class="column">
+      <a class="black" href="" onclick="closeBusEditForm('{{companyId}}')"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+      <h2 class="ui header" style="color: green;" >
+        <div class="content">
+          Edit Company
+        </div>
+      </h2>
+      <div id="company-remove-button" class="ui black button" style="background-color: green; float: right;" onclick="if(confirm('Are you sure?')){companyDeleteForm('<%= team._id %>', '{{company}}')}">
+        <i class="trash icon"></i>
+        Delete
+      </div></br></br>
+      <form class="ui large form" action="/team/<%= team._id %>/update" method="post" >
+        <div class="ui stacked segment">
+          <div class="field">
+            <label style="float: left;"><b>Company Name</b></label>
+            <div class="ui left icon input">
+              <i class="building icon"></i>
+              <input id="company-form" type="text" name="busCompanies" placeholder="Company" value="{{company}}">
+            </div>
+          </div>
+          <input type="hidden" name="prevCompanyName" value="{{company}}" />
+          <div id="submit-button" class="ui fluid black large submit button" style="background-color: green;">Update</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</script>
+
+<script id="bus-edit-form-button-template" type="text/template">
+  <i id="bus-form-button" class="edit icon black"></i>
 </script>

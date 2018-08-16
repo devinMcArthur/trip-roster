@@ -41,6 +41,10 @@ var TeamSchema = new mongoose.Schema({
   trips: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Trip'
+  }],
+  busCompanies: [{
+    type: String,
+    trim: true
   }]
 });
 

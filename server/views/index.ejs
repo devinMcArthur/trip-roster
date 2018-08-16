@@ -50,19 +50,37 @@
         <% } %>
       <% } %>
     <% } else { %>
-      <div class="ui center aligned middle aligned grid green segment" style="margin-top: 15vh; padding: 2em;">
-        <div class="ui header">
-          You have successfully signed up and must now wait to be given permissions by your selected Association Director
-        </div>
-        <% if (user.association) { %>
-          <div class="ui green inverted stacked segment">
-              <div class="ui sub header">
-                <u>Your Association</u></br>
-                <%= associationArray[user.association].name %>
-              </div>
+      <% if (!user.director) { %>
+        <div class="ui center aligned middle aligned grid green segment" style="margin-top: 15vh; padding: 2em;">
+          <div class="ui header">
+            You have successfully signed up and must now wait to be given permissions by your selected Association Director
           </div>
-        <% } %>
-      </div>
+          <% if (user.association) { %>
+            <div class="ui green inverted segment">
+                <div class="ui sub header">
+                  <u>Your Association</u></br>
+                  <%= associationArray[user.association].name %>
+                </div>
+            </div>
+          <% } %>
+        </div>
+      <% } else { %>
+        <div class="ui center aligned middle aligned grid green segment" style="margin-top: 15vh; padding: 2em;">
+          <div class="ui header">
+            You have been assigned as an association director, click the link below to manage your association
+          </div>
+          <% if (user.director) { %>
+            <a href="/association/<%= user.director %>">
+              <div class="ui green inverted stacked segment">
+                <div class="ui sub header">
+                  <u>Your Association</u></br>
+                  <%= associationArray[user.director].name %>
+                </div>
+              </div>
+            </a>
+          <% } %>
+        </div>
+      <% } %>
     <% } %>
 
     </div>

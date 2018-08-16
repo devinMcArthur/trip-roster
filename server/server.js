@@ -93,7 +93,8 @@ app.use( function (req, res, next) {
 app.get('/', async (req, res) => {
   try {
     if (req.user) {
-      var teamArray = await Team.getAll();
+      var teamArray = [];
+      var fullTeamArray = await Team.getAll();
       var tripArray = await Trip.getAll();
       var array = [];
       if (req.user.admin == true) {
@@ -106,7 +107,32 @@ app.get('/', async (req, res) => {
           }
         }
         tripArray = array;
-        res.render('index', {teamArray, tripArray});
+        res.render('index', {teamArray: fullTeamArray, tripArray});
+      } else if (req.user.director) {
+        var currentTripArray = [];
+        for (var i in fullTeamArray) {
+          if(fullTeamArray[i].association && fullTeamArray[i].association.equals(req.user.director)) {
+            array[i] = fullTeamArray[i];
+          }
+        }
+        teamArray = array; array = [];
+        if (Object.keys(teamArray).length > 0) {
+          for (var i in tripArray) {
+            if (!tripArray[i].stringifiedDate) {
+              await Trip.findByIdAndUpdate(tripArray[i]._id, {$set: {stringifiedDate: moment(tripArray[i].date).format('LLL')}}, {new: true})
+            }
+            if(fullTeamArray[tripArray[i].team].association && fullTeamArray[tripArray[i].team].association == `${req.user.director}` && Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) {
+              array[i] = tripArray[i];
+            }
+            if(!tripArray[i].homeArrivalTime && (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 1) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) && 
+               ((tripArray[i].members && tripArray[i].members.length > 0) || (tripArray[i].homeDepartTime || tripArray[i].destinationArrivalTime || tripArray[i].destinationDepartTime))) {
+              currentTripArray[i] = tripArray[i];
+            }
+          }
+          tripArray = array;
+        } else {tripArray = [];}
+        var associationArray = await Association.getAll();
+        res.render('index', {teamArray, tripArray, currentTripArray, associationArray});
       } else {
         var currentTripArray = [];
         for (var i in teamArray) {
@@ -115,7 +141,7 @@ app.get('/', async (req, res) => {
           }
         }
         teamArray = array; array = [];
-        if (teamArray.length > 0) {
+        if (Object.keys(teamArray).length > 0) {
           for (var i in tripArray) {
             if (!tripArray[i].stringifiedDate) {
               await Trip.findByIdAndUpdate(tripArray[i]._id, {$set: {stringifiedDate: moment(tripArray[i].date).format('LLL')}}, {new: true})
@@ -137,30 +163,9 @@ app.get('/', async (req, res) => {
       res.render('index');
     }
   } catch (e) {
-    try {
-      req.flash('error', e.message);
-      if (req.user) {
-        var teamArray = await Team.getAll();
-        var array = [];
-        if (req.user.admin == true) {
-          res.render('index', {teamArray});
-        } else {
-          for (var i in teamArray) {
-            if(teamArray[i].managers.toString().includes(req.user._id)) {
-              array[i] = teamArray[i];
-            }
-          }
-          teamArray = array;
-          res.render('index', {teamArray});
-        }
-      } else {
-        res.render('index');
-      }
-    } catch (e) {
-      console.log(e);
-      req.flash('error', e.message);
-      res.redirect('/');
-    }
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('/');
   }
 });
 
@@ -411,6 +416,13 @@ app.get('/teams', async (req, res) => {
     var array = [];
     if (req.user.admin == true) {
       res.render('team/teamIndex', {teamArray, userArray, associationArray});
+    } else if (req.user.director) {
+      for (var i in teamArray) {
+        if(teamArray[i].association && teamArray[i].association.equals(req.user.director)) {
+          array[i] = teamArray[i];
+        }
+      }
+      res.render('team/teamIndex', {teamArray: array, userArray, associationArray});
     } else {
       for (var i in teamArray) {
         if(teamArray[i].managers.toString().includes(req.user._id)) {
@@ -441,6 +453,8 @@ app.post('/team', async (req, res) => {
       name: req.body.name,
       age: req.body.age,
       league: req.body.league,
+      association: req.body.association,
+      busCompany: req.body.busCompany,
       managers: req.body.managers.split(',')
     });
     await team.save();
@@ -500,7 +514,11 @@ app.get('/team/:id', async (req, res) => {
         memberArray[i] = array[i];
       }
     }
-    res.render('team/team', {team, userArray, memberArray, tripArray, associationArray});
+    var inputDateArray = [];
+    team.trips.forEach((trip) => {
+      inputDateArray[trip] = moment(tripArray[trip].date).format("YYYY-MM-DD");
+    })
+    res.render('team/team', {team, userArray, memberArray, tripArray, associationArray, inputDateArray});
   } catch (e) {
     console.log(e);
     try {
@@ -525,23 +543,34 @@ app.post('/team/:id/update', async (req, res) => {
     if (req.body.association == "") {
       req.body.association = null;
     }
-    if (req.body.managers != undefined && req.body.managers.length != 0) {
-      req.body.managers = (req.body.managers.split(','));
-    } else {
-      req.body.managers = [];
+    if (req.body.busCompanies && !req.body.prevCompanyName) {
+      team.busCompanies.push(req.body.busCompanies);
+      req.body.busCompanies = team.busCompanies;
     }
-    team.managers.forEach(async (i) => {
-      // Remove team from User model
-      if (!req.body.managers.toString().includes(i)) {
-        await User.findByIdAndUpdate(i, {$pull: {teams: team._id}}, {new: true});
-      } 
-    });
-    req.body.managers.forEach(async (manager) => {
-      // Add team to User model
-      if (!team.managers.toString().includes(manager)) {
-        await User.findByIdAndUpdate(manager, {$push: {teams: team._id}}, {new: true});
+    if (req.body.busCompanies && req.body.prevCompanyName) {
+      team = await Team.findByIdAndUpdate(team._id, {$pull: {busCompanies: req.body.prevCompanyName}}, {new: true});
+      team.busCompanies.push(req.body.busCompanies);
+      req.body.busCompanies = team.busCompanies;
+    }
+    if (typeof req.body.managers != 'undefined') {
+      if (req.body.managers != undefined && req.body.managers.length != 0) {
+        req.body.managers = (req.body.managers.split(','));
+      } else {
+        req.body.managers = [];
       }
-    });
+      team.managers.forEach(async (i) => {
+        // Remove team from User model
+        if (!req.body.managers.toString().includes(i)) {
+          await User.findByIdAndUpdate(i, {$pull: {teams: team._id}}, {new: true});
+        } 
+      });
+      req.body.managers.forEach(async (manager) => {
+        // Add team to User model
+        if (!team.managers.toString().includes(manager)) {
+          await User.findByIdAndUpdate(manager, {$push: {teams: team._id}}, {new: true});
+        }
+      });
+    }
     var teamId = req.params.id;
     if (!ObjectID.isValid(teamId)) {throw new Error('Team ID is not valid');}
     await Team.findOneAndUpdate({_id: teamId}, req.body, {new: true});
@@ -551,6 +580,19 @@ app.post('/team/:id/update', async (req, res) => {
     req.flash('error', e.message);
     res.redirect('back');
   } 
+});
+
+// DELETE /team/:id/company/:companyName
+app.delete('/team/:id/company/:companyName', async (req, res) => {
+  try {
+    var name = decodeURI(req.params.companyName);
+    await Team.findByIdAndUpdate(req.params.id, {$pull: {busCompanies: name}}, {new: true})
+    res.end();
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
 });
 
 // POST /member
@@ -626,6 +668,9 @@ app.post('/trip', async (req, res) => {
     req.body.stringifiedDate = moment(req.body.date).format('LLL');
     var trip = await new Trip(req.body);
     var team = await Team.findById(trip.team);
+    if (req.body.busCompany == '') {
+      req.body.busCompany = null;
+    }
     if (team.trips) {
       team.trips.push(trip._id);
     } else {
@@ -634,6 +679,23 @@ app.post('/trip', async (req, res) => {
     await team.save();
     await trip.save();
     res.redirect('back');
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// DELETE /trip/:id
+app.delete('/trip/:id', async (req, res) => {
+  try {
+    var trip = await Trip.findById(req.params.id);
+    await Team.findByIdAndUpdate(trip.team, {$pull: {trips: trip._id}}, {new: true});
+    trip.members.forEach(async (member) => {
+      await Member.findByIdAndUpdate(member, {$pull: {trips: trip._id}}, {new: true});
+    });
+    await Trip.findByIdAndRemove(trip._id);
+    res.end();
   } catch (e) {
     console.log(e);
     req.flash('error', e.message);
@@ -828,34 +890,58 @@ app.post('/association/:id/update', async (req, res) => {
     var associationId = req.params.id;
     if (!ObjectID.isValid(associationId)) {throw new Error('Association ID is not valid');}
     var association = await Association.findById(associationId);
-    if (req.body.directors != undefined && req.body.directors.length != 0) {
-      req.body.directors = (req.body.directors.split(','));
-    } else {
-      req.body.directors = [];
+    if (req.body.busCompanies && !req.body.prevCompanyName) {
+      association.busCompanies.push(req.body.busCompanies);
+      req.body.busCompanies = association.busCompanies;
     }
-    if (association.directors != undefined && association.directors.length > 0) {
-      association.directors.forEach(async (i) => {
-        // Remove association director from User model
-        if (!req.body.directors.toString().includes(i)) {
-          await User.findByIdAndUpdate(i, {$set: {director: null}}, {new: true});
+    if (req.body.busCompanies && req.body.prevCompanyName) {
+      association = await Association.findByIdAndUpdate(association._id, {$pull: {busCompanies: req.body.prevCompanyName}}, {new: true});
+      association.busCompanies.push(req.body.busCompanies);
+      req.body.busCompanies = association.busCompanies;
+    }
+    if (typeof req.body.directors != 'undefined') {
+      if (req.body.directors != undefined && req.body.directors.length != 0) {
+        req.body.directors = (req.body.directors.split(','));
+      } else {
+        req.body.directors = [];
+      }
+      if (association.directors != undefined && association.directors.length > 0) {
+        association.directors.forEach(async (i) => {
+          // Remove association director from User model
+          if (!req.body.directors.toString().includes(i)) {
+            await User.findByIdAndUpdate(i, {$set: {director: null}}, {new: true});
+          }
+        });
+      } 
+      await req.body.directors.forEach(async (director) => {
+        // Add association director to User model
+        if (!association.directors.toString().includes(director)) {
+          await User.findByIdAndUpdate(director, {$set: {director: association._id}}, {new: true});
+        }
+        // Remove user from director of other associations
+        var associationArray = await Association.getAll();
+        for (var i in associationArray) {
+          if (associationArray[i].directors.toString().includes(director) && i != associationId) {
+            association = await Association.findByIdAndUpdate(i, {$pull: {directors: director}}, {new: true});
+          }
         }
       });
     }
-    await req.body.directors.forEach(async (director) => {
-      // Add association director to User model
-      if (!association.directors.toString().includes(director)) {
-        await User.findByIdAndUpdate(director, {$set: {director: association._id}}, {new: true});
-      }
-      // Remove user from director of other associations
-      var associationArray = await Association.getAll();
-      for (var i in associationArray) {
-        if (associationArray[i].directors.toString().includes(director) && i != associationId) {
-          association = await Association.findByIdAndUpdate(i, {$pull: {directors: director}}, {new: true});
-        }
-      }
-    });
     await Association.findOneAndUpdate({_id: associationId}, req.body, {new: true});
     res.redirect('back');
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// DELETE /association/:id/company/:companyName
+app.delete('/association/:id/company/:companyName', async (req, res) => {
+  try {
+    var name = decodeURI(req.params.companyName);
+    await Association.findByIdAndUpdate(req.params.id, {$pull: {busCompanies: name}}, {new: true})
+    res.end();
   } catch (e) {
     console.log(e);
     req.flash('error', e.message);

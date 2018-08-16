@@ -24,9 +24,9 @@
     <div class="ui stacked segment">
       <h4 class="header">
         <a href="/association/<%= associationArray[i]._id %>"><%= associationArray[i].name %><% if (associationArray[i].abbreviation) { %> (<%= associationArray[i].abbreviation %>) <%}%></a>
-        <% if (locals.user.admin == true) { %>
+        <!-- <% if (locals.user.admin == true) { %>
           <a href="" onclick="if(confirm('Are you sure?')){deleteAssociation('<%= associationArray[i]._id %>')}" style="float: right;"><i class="trash alternate icon"></i></a>
-        <% } %>
+        <% } %> -->
       </h4>
       
       <div class="ui segment">

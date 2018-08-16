@@ -22,6 +22,10 @@ var AssociationSchema = new mongoose.Schema({
   directors: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
+  }],
+  busCompanies: [{
+    type: String, 
+    trim: true
   }]
 });
 

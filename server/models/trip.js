@@ -33,6 +33,10 @@ var TripSchema = new mongoose.Schema({
   },
   homeArrivalTime: {
     type: Date
+  },
+  busCompany: {
+    type: String,
+    trim: true
   }
 });
 

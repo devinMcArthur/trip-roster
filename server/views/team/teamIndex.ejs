@@ -49,7 +49,7 @@
 <% include ../partial/foot %>
 
 <script type="text/template" id="team-form-button-template">
-  <div id="team-add-button" class="ui black button" style="background-color: green; float: right;" onclick="loadTeamForm()">
+  <div id="team-add-button" class="ui black button" style="background-color: green; float: right;" onclick="loadTeamForm('<%= user.director %>')">
     <i class="add icon"></i>
     Add
   </div>
@@ -77,6 +77,9 @@
                   <i class="dropdown icon"></i>
                   <div class="default text">Select Age Group</div>
                   <div class="menu">
+                    <div class="item" data-value="Initiation">Initiation</div>
+                    <div class="item" data-value="Novice">Novice</div>
+                    <div class="item" data-value="Atom">Atom</div>
                     <div class="item" data-value="Peewee">Peewee</div>
                     <div class="item" data-value="Bantam">Bantam</div>
                     <div class="item" data-value="Midget">Midget</div>
@@ -89,8 +92,12 @@
                   <i class="dropdown icon"></i>
                   <div class="default text">Select League</div>
                   <div class="menu">
-                    <div class="item" data-value="AA">AA</div>
                     <div class="item" data-value="AAA">AAA</div>
+                    <div class="item" data-value="AA">AA</div>
+                    <div class="item" data-value="A">A</div>
+                    <div class="item" data-value="B">B</div>
+                    <div class="item" data-value="C">C</div>
+                    <div class="item" data-value="D">D</div>
                   </div>
                 </div>
               </div>
@@ -113,6 +120,27 @@
               </div>
             </div>
           </div>
+          <% if (locals.user.admin) { %>
+            <label style="float: left;"><b>Association</b></label>
+            <div class="field">
+              <div class="ui fluid multiple search selection dropdown">
+                <input type="hidden" name="association">
+                <i class="dropdown icon"></i>
+                <div class="default text">Select Association</div>
+                <div class="menu">
+                  <% if (typeof associationArray != 'undefined') { %>
+                    <% for (var i in associationArray) { %>
+                      <div class="item" data-value="<%= i %>"><%= associationArray[i].name %></div>
+                    <% } %>
+                  <% } else { %>
+                    <div class="item" data-value="">We were unable to retreive any associations, please try again</div>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          <% } else { %>
+            <input type="hidden" name="association" value="<%= locals.user.director %>" />
+          <% } %>
           <div id="submit-button" class="ui fluid black submit button" style="background-color: green;">Create</div>
         </div>
       </form>
