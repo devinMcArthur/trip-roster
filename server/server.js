@@ -845,7 +845,7 @@ app.get('/associations', async (req, res) => {
   } catch (e) {
     try {
       var userArray = await User.getAll();
-      res.render('accociation/associationIndex');
+      res.render('accociation/associationIndex', {userArray});
     } catch (e) {
       console.log(e);
       req.flash('error', e.message);
