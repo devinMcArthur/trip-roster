@@ -843,6 +843,14 @@ app.get('/associations', async (req, res) => {
       res.redirect('/');
     }
   } catch (e) {
+    try {
+      var userArray = await User.getAll();
+      res.render('accociation/associationIndex');
+    } catch (e) {
+      console.log(e);
+      req.flash('error', e.message);
+      res.redirect('back');
+    }
     console.log(e);
     req.flash('error', e.message);
     res.redirect('back');
