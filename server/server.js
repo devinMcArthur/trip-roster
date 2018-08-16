@@ -880,6 +880,8 @@ app.post('/association', async (req, res) => {
   try {
     if (req.body.directors == "") {
       req.body.directors = null;
+    } else {
+      req.body.directors = req.body.directors.split(',');
     }
     var association = new Association(req.body);
     await association.save();
