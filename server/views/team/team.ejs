@@ -60,7 +60,7 @@
     <% if (team.association) { %>
       <% var busArray = team.busCompanies.concat(associationArray[team.association].busCompanies) %>
     <% } %>
-    <% if (busArray.length > 0) { %>
+    <% if (busArray && busArray.length > 0) { %>
       <div class="ui celled list">
         <% busArray.forEach((busCompany) => { %>
           <div class="item" style="padding: 1em;">
