@@ -135,9 +135,9 @@ app.get('/', async (req, res) => {
         res.render('index', {teamArray, tripArray, currentTripArray, associationArray});
       } else {
         var currentTripArray = [];
-        for (var i in teamArray) {
-          if(teamArray[i].managers.toString().includes(req.user._id)) {
-            array[i] = teamArray[i];
+        for (var i in fullTeamArray) {
+          if(fullTeamArray[i].managers.toString().includes(req.user._id)) {
+            array[i] = fullTeamArray[i];
           }
         }
         teamArray = array; array = [];
@@ -232,11 +232,19 @@ app.get('/signup', async (req, res) => {
 // POST /signup
 app.post('/signup', async (req, res) => {
   try {
+    if (req.body.association == "") {
+      req.body.association = null;
+    }
     const user = new User(req.body);
     await user.save();
-    req.logIn(user, (err) => {
-      res.redirect('/');
-    }); 
+    if (!req.user) {
+      req.logIn(user, (err) => {
+        res.redirect('/');
+      }); 
+    } else {
+      // Allows team account creation
+      res.redirect('back');
+    }
   } catch (e) {
     console.log(e);
     req.flash('error', e.message);
@@ -393,12 +401,45 @@ app.get('/user/:id', async (req, res) => {
 // POST /user/:id/update
 app.post('/user/:id/update', async (req, res) => {
   try {
+    var userId = req.params.id;
+    if (!ObjectID.isValid(userId)) {throw new Error('User ID is not valid');}
     if (req.body.association == "") {
       req.body.association = null;
     }
-    var userId = req.params.id;
-    if (!ObjectID.isValid(userId)) {throw new Error('User ID is not valid');}
+    if (req.body.password || req.body.email) {
+      User.findById(userId, (err, user) => {
+        if (!user) {
+          req.flash('error', 'There was an error in updating this account.');
+          return res.redirect('back');
+        }
+        if (req.body.password) {
+          user.password = req.body.password;
+        }
+        if (req.body.email && req.body.email != user.email) {
+          user.email = req.body.email;
+        }
+        user.save();
+      });
+      return res.redirect('back');
+    }
     await User.findOneAndUpdate({_id: userId}, req.body, {new: true});
+    res.redirect('back');
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+});
+
+// POST /user
+app.post('/user', async (req, res) => {
+  try {
+    console.log(req.body);
+    const user = new User(req.body);
+    await user.save();
+    if (typeof req.body.teams != 'object') {
+      await Team.findByIdAndUpdate(req.body.teams, {$push: {managers: user._id}}, {new: true});
+    }
     res.redirect('back');
   } catch (e) {
     console.log(e);
@@ -509,6 +550,8 @@ app.get('/team/:id', async (req, res) => {
     var tripArray = await Trip.getAll();
     var associationArray = await Association.getAll();
     var memberArray = [];
+    // Find Team Account
+    var teamAccount = await User.findOne({name: `${team.name} Account`});
     for (var i in array) {
       if (array[i].teams.indexOf(team._id) != -1) {
         memberArray[i] = array[i];
@@ -518,7 +561,7 @@ app.get('/team/:id', async (req, res) => {
     team.trips.forEach((trip) => {
       inputDateArray[trip] = moment(tripArray[trip].date).format("YYYY-MM-DD");
     })
-    res.render('team/team', {team, userArray, memberArray, tripArray, associationArray, inputDateArray});
+    res.render('team/team', {team, userArray, memberArray, tripArray, associationArray, inputDateArray, teamAccount});
   } catch (e) {
     console.log(e);
     try {

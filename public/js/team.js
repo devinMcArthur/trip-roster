@@ -112,7 +112,7 @@ function loadBusForm () {
 function closeBusForm () {
   var template = $('#bus-form-button-template').html();
   $('#bus-form-button-holder').append(template);
-  $('$bus-form').remove();
+  $('#bus-form').remove();
 }
 
 function loadBusEditForm (company, companyId) {
@@ -126,7 +126,7 @@ function loadBusEditForm (company, companyId) {
 function closeBusEditForm(companyId) {
   var template = $('#bus-edit-form-button-template').html();
   $(`#bus-${companyId}-edit-form-button-holder`).append(template);
-  $(`$bus-${companyId}-edit-form`).remove();
+  $(`#bus-${companyId}-edit-form`).remove();
 }
 
 function companyDeleteForm (id, company) {
@@ -137,4 +137,48 @@ function companyDeleteForm (id, company) {
       location.reload();
     }
   })
+}
+
+function loadAccountForm () {
+  var template = $('#account-form-template').html();
+  $('#account-form-div').append(template);
+  $('#account-form-button').remove();
+  $('form').form().submit(function(evt) {});
+  $('#password-form, #confirm-form, #email-form').on('keyup', function () {
+    if (($('#email-form').val() != '' && $('#password-form').val() != '' && $('#confirm-form').val() != '') && ($('#password-form').val() == $('#confirm-form').val())) {
+      $('#submit-button').removeClass('disabled');
+      $('#confirm-icon').removeClass('open');
+    } else {
+      $('#submit-button').addClass('disabled');
+      $('#confirm-icon').addClass('open');
+    }
+  });
+}
+
+function closeAccountForm () {
+  var template = $('#account-form-button-template').html();
+  $('#account-form-button-holder').append(template);
+  $('#account-form').remove();
+}
+
+function loadAccountEditForm () {
+  var template = $('#account-edit-form-template').html();
+  $('#account-edit-form-div').append(template);
+  $('#account-edit-form-button').remove();
+  $('form').form().submit(function(evt) {});
+  $('#password-form, #confirm-form, #email-form').on('keyup', function () {
+    if (($('#email-form').val() != '') && ($('#password-form').val() == $('#confirm-form').val())) {
+      $('#submit-button').removeClass('disabled');
+      $('#confirm-icon').removeClass('open');
+    } else {
+      $('#submit-button').addClass('disabled');
+      $('#confirm-icon').addClass('open');
+    }
+  });
+}
+
+function closeAccountEditForm () {
+  var template = $('#account-edit-form-button-template').html();
+  $('#account-form-button-holder').append(template);
+  $('#account-edit-form').remove();
 }

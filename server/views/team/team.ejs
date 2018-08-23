@@ -8,6 +8,7 @@
 
 <div class="ui green segment">
   <div class="ui segment">
+
     <div class="ui grid">
       <div class="fourteen wide column">
         <h5 class="header">Association</h5>
@@ -86,6 +87,31 @@
       </div>
     <% } %>
   </div>
+
+  <% if (locals.user.director && team.association.toString() == locals.user.director.toString() && locals.user.admin == true) { %>
+    <div class="ui segment">
+      <div class="ui grid">
+          <div class="twelve wide column">
+            <h5 class="header">Team Login Account</h5>
+          </div>
+          <div class="four wide column" id="account-form-button-holder">
+            <% if (!teamAccount) { %>
+              <div class="ui right floated mini button" id="account-form-button" onclick="loadAccountForm(); return false;">Create Account</div>            
+            <% } else { %>
+              <div class="ui right floated mini button" id="account-edit-form-button" onclick="loadAccountEditForm(); return false;">Edit Account</div>            
+            <% } %>
+          </div>
+        </div>
+        <% if (teamAccount) { %>
+          <div class="ui divider"></div>
+          <b>Name: </b><%= teamAccount.name %>
+          <p><b>Email: </b><%= teamAccount.email %></p>
+        <% } %>
+        <div id="account-form-div"></div>
+        <div id="account-edit-form-div"></div>
+    </div>
+  <% } %>
+
 </div>
 
 <div class="ui green segment">
@@ -472,4 +498,93 @@
 
 <script id="bus-edit-form-button-template" type="text/template">
   <i id="bus-form-button" class="edit icon black"></i>
+</script>
+
+<script id="account-form-template" type="text/template">
+  <div class="ui center aligned middle aligned grid segment" style="margin: 0;" id="account-form">
+    <div class="column">
+      <a class="black" href="" onclick="closeAccountForm()"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+      <h2 class="ui header" style="color: green;" >
+        <div class="content">
+          Create a Team Login Account
+        </div>
+      </h2>
+      <form class="ui large form" action="/user" method="post" >
+        <div class="ui stacked segment">
+          <div class="field">
+            <label style="float: left;"><b>Account Email</b></label>
+            <div class="ui left icon input">
+              <i class="at icon"></i>
+              <input id="email-form" type="email" name="email" placeholder="Email" value="<%= teamAccount.email %>">
+            </div>
+          </div>
+          <div class="field">
+            <label style="float: left;"><b>Account Password</b></label>
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input id="password-form" type="password" name="password" placeholder="Password">
+            </div>
+          </div>
+          <div class="field">
+            <label style="float: left;"><b>Confirm Password</b></label>
+            <div class="ui left icon input">
+              <i id="confirm-icon" class="lock open icon"></i>
+              <input id="confirm-form" type="password" name="confirm" placeholder="Confirm Password">
+            </div>
+          </div>
+          <input type="hidden" name="name" value="<%= team.name %> Account" />
+          <input type="hidden" name="association" value="<%= team.association %>" />
+          <input type="hidden" name="teams" value="<%= new Array(team._id) %>" />
+          <div id="submit-button" class="ui fluid disabled black large submit button" style="background-color: green;">Create</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</script>
+
+<script id="account-form-button-template" type="text/template">
+  <div class="ui right floated mini button" id="trip-form-button-holder" onclick="loadAccountForm(); return false;">Create Account</div>
+</script>
+
+<script id="account-edit-form-template" type="text/template">
+  <div class="ui center aligned middle aligned grid segment" style="margin: 0;" id="account-edit-form">
+    <div class="column">
+      <a class="black" href="" onclick="closeAccountEditForm()"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+      <h2 class="ui header" style="color: green;" >
+        <div class="content">
+          Edit Team Login Account
+        </div>
+      </h2>
+      <form class="ui large form" action="/user/<%=teamAccount._id%>/update" method="post" >
+        <div class="ui stacked segment">
+          <div class="field">
+            <label style="float: left;"><b>Account Email</b></label>
+            <div class="ui left icon input">
+              <i class="at icon"></i>
+              <input id="email-form" type="email" name="email" placeholder="Email" value="<%= teamAccount.email %>">
+            </div>
+          </div>
+          <div class="field">
+            <label style="float: left;"><b>Account Password</b></label>
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input id="password-form" type="password" name="password" placeholder="Password">
+            </div>
+          </div>
+          <div class="field">
+            <label style="float: left;"><b>Confirm Password</b></label>
+            <div class="ui left icon input">
+              <i id="confirm-icon" class="lock open icon"></i>
+              <input id="confirm-form" type="password" name="confirm" placeholder="Confirm Password">
+            </div>
+          </div>
+          <div id="submit-button" class="ui fluid disabled black large submit button" style="background-color: green;">Create</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</script>
+
+<script id="account-edit-form-button-template" type="text/template">
+  <div class="ui right floated mini button" id="trip-form-button-holder" onclick="loadAccountEditForm(); return false;">Create Account</div>
 </script>

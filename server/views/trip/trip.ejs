@@ -97,6 +97,7 @@
   <div class="ui divider"></div>
 </div>
 
+<!-- Mobile Time Manager -->
 <div class="ui mobile only top attached mini button" id="time-manager-toggle" onclick="showManager()" style="height: 5px; padding: 0; margin-top: 1em;">
   expand
 </div>
@@ -194,7 +195,7 @@
 </div>
 
 <div class="ui green segment">
-  <h4 class="ui header">Members</h4>
+  <h4 class="ui header">Attendance</h4>
   <div class="ui list">
     <% if (Object.keys(memberArray).length > 0) { %>
       <% team.members.forEach((member) => { %>
@@ -202,7 +203,7 @@
           <div class="ui secondary segment">
             <label for="member-toggle-<%=member%>">
               <div class="ui basic segment">
-              <div class="ui toggle checkbox">
+              <div class="ui toggle checkbox member-checkbox">
                 <input class="id" type="hidden" value="<%= trip._id %>" />
                 <input class="toggleMember checkbox" id="member-toggle-<%=member%>" type="checkbox" name="members" value="<%= memberArray[member]._id %>" 
                   <% if (trip.members.toString().includes(memberArray[member]._id)) { %> checked="" <%}%> />
@@ -215,7 +216,7 @@
                 <div class="item">
                   <label for="member-toggle-<%=rel%>">
                     <div class="ui basic segment" style="margin: 0;">
-                      <div class="ui toggle checkbox">
+                      <div class="ui toggle checkbox member-checkbox">
                         <input class="id" type="hidden" value="<%= trip._id %>" />
                         <input class="checkbox toggleMember" id="member-toggle-<%=rel%>" type="checkbox" name="members" value="<%= memberArray[rel]._id %>"
                           <% if (trip.members.toString().includes(memberArray[rel]._id)) { %> checked="" <%}%> />
@@ -231,7 +232,7 @@
         <% if (memberArray[member].relationships == '' && memberArray[member].player == false) { %>
           <label for="solo-member-toggle-<%=member%>">
             <div class="ui secondary segment">
-              <div class="ui toggle checkbox">
+              <div class="ui toggle checkbox member-checkbox">
                 <input class="id" type="hidden" value="<%= trip._id %>" />
                 <input class="checkbox toggleMember" id="solo-member-toggle-<%=member%>" type="checkbox" name="members" value="<%= memberArray[member]._id %>" 
                   <% if (trip.members.toString().includes(memberArray[member]._id)) { %> checked="" <%}%> />
@@ -248,6 +249,10 @@
     <% } %>
   </div>
 </div>
+
+<% if (team.association.toString() == locals.user.director.toString() && locals.user.admin == false) { %>
+  <script>disableCheckboxes();</script>
+<% } %>
 
 <% include ../partial/foot %>
 

@@ -51,6 +51,7 @@ $(document).ready(function () {
   });
   $('#departDestination').on('click', function (e) {
     $(this).addClass('disabled');
+    alert('Make sure to update the attendance for the ride home!');
     $('#arriveHome').removeClass("disabled");
     var tripId = $(this).val();
     $.ajax({
@@ -172,6 +173,7 @@ function showManager() {
   });
   $('#departDestinationMobile').on('click', function (e) {
     $(this).addClass('disabled');
+    alert('Make sure to update the attendance for the ride home!');
     $('#arriveHome').removeClass("disabled");
     var tripId = $(this).val();
     $.ajax({
@@ -255,5 +257,13 @@ function hideTimeEditForm(type, text, mobile) {
   } else {
     $(`#${type}-mobile-edit`).attr('onclick', `loadTimeEditForm('${type}', '${text}', '${mobile}'); return false;`);
   }
+}
+
+function disableCheckboxes() {
+  $('.member-checkbox').each(function () {
+    $(this).attr('class', 'ui read-only toggle checkbox member-checkbox');
+    $(this).children('.toggleMember').attr('type', 'hidden');
+    $(this).parent().parent().attr('for', '');
+  });
 }
 

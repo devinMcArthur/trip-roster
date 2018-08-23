@@ -55,7 +55,7 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
 
 UserSchema.pre('save', function (next) {
   var user = this;
-  if (user.isModified('password')) {
+  if (user.password.length != 60) {
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(user.password, salt, (err, hash) => {
         user.password = hash;
