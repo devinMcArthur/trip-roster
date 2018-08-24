@@ -585,6 +585,8 @@ app.post('/team/:id/update', async (req, res) => {
     var team = await Team.findById(req.params.id);
     if (req.body.association == "") {
       req.body.association = null;
+    } else {
+      await Association.findByIdAndUpdate(req.body.association, {$push: {teams: team._id}}, {new: true});
     }
     if (req.body.busCompanies && !req.body.prevCompanyName) {
       team.busCompanies.push(req.body.busCompanies);
@@ -906,7 +908,8 @@ app.get('/association/:id', async (req, res) => {
     if (req.user.admin == true || req.user.director != undefined) {
       var association = await Association.findById(req.params.id);
       var userArray = await User.getAll();
-      res.render('association/association', {association, userArray});
+      var teamArray = await Team.getAll();
+      res.render('association/association', {association, userArray, teamArray});
     } else {
       req.flash('error', 'You are not authorized to access this page');
       res.redirect('/');

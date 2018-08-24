@@ -88,7 +88,7 @@
     <% } %>
   </div>
 
-  <% if (locals.user.director && team.association.toString() == locals.user.director.toString() && locals.user.admin == true) { %>
+  <% if (locals.user.director && team.association.toString() == locals.user.director.toString() || locals.user.teams.toString().includes(team._id) || locals.user.admin == true) { %>
     <div class="ui segment">
       <div class="ui grid">
           <div class="twelve wide column">
@@ -515,7 +515,7 @@
             <label style="float: left;"><b>Account Email</b></label>
             <div class="ui left icon input">
               <i class="at icon"></i>
-              <input id="email-form" type="email" name="email" placeholder="Email" value="<%= teamAccount.email %>">
+              <input id="email-form" type="email" name="email" placeholder="Email" <% if (teamAccount){%>value="<%= teamAccount.email %>"<%}%>>
             </div>
           </div>
           <div class="field">
@@ -547,42 +547,44 @@
 </script>
 
 <script id="account-edit-form-template" type="text/template">
-  <div class="ui center aligned middle aligned grid segment" style="margin: 0;" id="account-edit-form">
-    <div class="column">
-      <a class="black" href="" onclick="closeAccountEditForm()"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
-      <h2 class="ui header" style="color: green;" >
-        <div class="content">
-          Edit Team Login Account
-        </div>
-      </h2>
-      <form class="ui large form" action="/user/<%=teamAccount._id%>/update" method="post" >
-        <div class="ui stacked segment">
-          <div class="field">
-            <label style="float: left;"><b>Account Email</b></label>
-            <div class="ui left icon input">
-              <i class="at icon"></i>
-              <input id="email-form" type="email" name="email" placeholder="Email" value="<%= teamAccount.email %>">
-            </div>
+  <% if (teamAccount) { %>
+    <div class="ui center aligned middle aligned grid segment" style="margin: 0;" id="account-edit-form">
+      <div class="column">
+        <a class="black" href="" onclick="closeAccountEditForm()"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+        <h2 class="ui header" style="color: green;" >
+          <div class="content">
+            Edit Team Login Account
           </div>
-          <div class="field">
-            <label style="float: left;"><b>Account Password</b></label>
-            <div class="ui left icon input">
-              <i class="lock icon"></i>
-              <input id="password-form" type="password" name="password" placeholder="Password">
+        </h2>
+        <form class="ui large form" action="/user/<%=teamAccount._id%>/update" method="post" >
+          <div class="ui stacked segment">
+            <div class="field">
+              <label style="float: left;"><b>Account Email</b></label>
+              <div class="ui left icon input">
+                <i class="at icon"></i>
+                <input id="email-form" type="email" name="email" placeholder="Email" value="<%= teamAccount.email %>">
+              </div>
             </div>
-          </div>
-          <div class="field">
-            <label style="float: left;"><b>Confirm Password</b></label>
-            <div class="ui left icon input">
-              <i id="confirm-icon" class="lock open icon"></i>
-              <input id="confirm-form" type="password" name="confirm" placeholder="Confirm Password">
+            <div class="field">
+              <label style="float: left;"><b>Account Password</b></label>
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input id="password-form" type="password" name="password" placeholder="Password">
+              </div>
             </div>
+            <div class="field">
+              <label style="float: left;"><b>Confirm Password</b></label>
+              <div class="ui left icon input">
+                <i id="confirm-icon" class="lock open icon"></i>
+                <input id="confirm-form" type="password" name="confirm" placeholder="Confirm Password">
+              </div>
+            </div>
+            <div id="submit-button" class="ui fluid disabled black large submit button" style="background-color: green;">Create</div>
           </div>
-          <div id="submit-button" class="ui fluid disabled black large submit button" style="background-color: green;">Create</div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
+  <% } %>
 </script>
 
 <script id="account-edit-form-button-template" type="text/template">

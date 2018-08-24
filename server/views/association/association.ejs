@@ -8,14 +8,18 @@
     <% if (association.abbreviation) { %>(<%= association.abbreviation %>)<% } %>
   </h1>
 
-  <% if (association.directors != undefined && association.directors.length > 0) { %>
+  <div class="ui segment">
     <h5 class="header">Director(s)</h5>
-    <% association.directors.forEach((director) => { %>
-      <div class="ui segment">
-        <%= userArray[director].name %>
+    <% if (association.directors != undefined && association.directors.length > 0) { %>
+      <div class="ui celled list">
+        <% association.directors.forEach((director) => { %>
+          <div class="item" style="padding:1em;">
+            <%= userArray[director].name %>
+          </div>
+        <% }); %>
       </div>
-    <% }); %>
-  <% } %>
+    <% } %>
+  </div>
 
   <% if (association.managers.length > 0) { %>
     <h5 class="header">Manager(s)</h5>
@@ -54,6 +58,23 @@
       </div>
     <% } %>
   </div>
+
+  <% if (association.teams) { %>
+    <% association.teams.forEach((team) => { %>
+      <div class="ui stacked green segment">
+        <h4 class="header">
+          <a href="/team/<%= team %>"><%= teamArray[team].name %></a>
+        </h4>
+        <p><%= teamArray[team].age %> <%= teamArray[team].league %></p>
+        <h5 class="header">Manager(s)</h5>
+        <% teamArray[team].managers.forEach((manager) => { %>
+          <div class="ui segment">
+            <%= userArray[manager].name %>
+          </div>
+        <% }); %>
+      </div>
+    <% }); %>
+  <% } %>
 
 <% include ../partial/foot %>
 
