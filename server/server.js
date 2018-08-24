@@ -89,12 +89,6 @@ app.use( function (req, res, next) {
   next();
 });
 
-app.use(function(request, response){
-  if(!request.secure){
-    response.redirect("https://" + request.headers.host + request.url);
-  }
-});
-
 // GET root
 app.get('/', async (req, res) => {
   try {
@@ -1010,6 +1004,10 @@ app.delete('/association/:id/company/:companyName', async (req, res) => {
     req.flash('error', e.message);
     res.redirect('back');
   }
+});
+
+app.get("*", function(request, response){
+  response.redirect("https://" + request.headers.host + request.url);
 });
 
 app.listen(port, () => {
