@@ -89,8 +89,8 @@ app.use( function (req, res, next) {
   next();
 });
 
-app.get('/.well-known/pki-validation/8386A6DBEBC98B7B8F64695297410C7E.txt', (req, res) => {
-  res.send('A13C76A38003D91FAAF6F66204177AAF433BC922DB5C4053B1744AD4B9D7BFDE comodoca.com 5b806b63df941');
+app.get("*", function(request, response){
+  response.redirect("https://" + request.headers.host + request.url);
 });
 
 // GET root

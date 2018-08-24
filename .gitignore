@@ -2,3 +2,6 @@
 /server.csr
 /server.key
 /server.pass.key
+/triproster_com.ca-bundle
+/triproster_com.crt
+triproster_com.p7b
