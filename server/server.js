@@ -146,7 +146,7 @@ app.get('/', async (req, res) => {
             if (!tripArray[i].stringifiedDate) {
               await Trip.findByIdAndUpdate(tripArray[i]._id, {$set: {stringifiedDate: moment(tripArray[i].date).format('LLL')}}, {new: true})
             }
-            if(Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) {
+            if(Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1) && teamArray.toString().includes(tripArray[i].team)) {
               array[i] = tripArray[i];
             }
             if(!tripArray[i].homeArrivalTime && (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 1) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) && 
@@ -498,7 +498,10 @@ app.post('/team', async (req, res) => {
       busCompany: req.body.busCompany,
       managers: req.body.managers.split(',')
     });
-    await team.save();
+    tema = await team.save();
+    if (team.association) {
+      await Association.findByIdAndUpdate(team.association, {$push: {teams: team._id}}, {new: true});
+    }
     for (var i in req.body.managers.split(',')) {
       var user = await User.findById(req.body.managers.split(',')[i]);
       await user.teams.push(team._id);
