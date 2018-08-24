@@ -146,7 +146,7 @@ app.get('/', async (req, res) => {
             if (!tripArray[i].stringifiedDate) {
               await Trip.findByIdAndUpdate(tripArray[i]._id, {$set: {stringifiedDate: moment(tripArray[i].date).format('LLL')}}, {new: true})
             }
-            if(Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1) && teamArray.toString().includes(tripArray[i].team)) {
+            if(Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1) && teamArray.indexOf(tripArray[i].team) != -1) {
               array[i] = tripArray[i];
             }
             if(!tripArray[i].homeArrivalTime && (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 1) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) && 
