@@ -87,6 +87,16 @@ function closeMemberEditForm(id) {
   $(`#member-${id}-edit-div`).hide();
 }
 
+function memberDeleteForm(teamId, memberId) {
+  $.ajax({
+    type: 'DELETE',
+    url: `/team/${teamId}/member/${memberId}`,
+    success: function () {
+      location.reload();
+    }
+  });
+}
+
 function loadAssociationForm(association, team) {
   var template = $('#association-form-template').html();
   var html = Mustache.render(template, {team});

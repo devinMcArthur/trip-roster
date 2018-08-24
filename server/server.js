@@ -647,6 +647,22 @@ app.delete('/team/:id/company/:companyName', async (req, res) => {
   }
 });
 
+// DELETE /team/:teamId/member/:memberId
+app.delete('/team/:teamId/member/:memberId', async (req, res) => {
+  try {
+    var teamId = req.params.teamId, memberId = req.params.memberId;
+    if (!ObjectID.isValid(teamId)) {throw new Error('Team ID is not valid');}
+    if (!ObjectID.isValid(memberId)) {throw new Error('Member ID is not valid');}
+    var team = await Team.findByIdAndUpdate(teamId, {$pull: {members: memberId}}, {new: true});
+    var member = await Member.findByIdAndUpdate(memberId, {$pull: {teams: teamId}}, {new :true});
+    res.end();
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('back');
+  }
+})
+
 // POST /member
 app.post('/member', async (req, res) => {
   try {
