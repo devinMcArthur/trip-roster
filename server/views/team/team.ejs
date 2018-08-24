@@ -88,7 +88,7 @@
     <% } %>
   </div>
 
-  <% if (locals.user.director && team.association.toString() == locals.user.director.toString() || locals.user.teams.toString().includes(team._id) || locals.user.admin == true) { %>
+  <% if (team.association && locals.user.director && (team.association.toString() == locals.user.director.toString() || locals.user.teams.toString().includes(team._id) || locals.user.admin == true)) { %>
     <div class="ui segment">
       <div class="ui grid">
           <div class="twelve wide column">
@@ -515,7 +515,7 @@
             <label style="float: left;"><b>Account Email</b></label>
             <div class="ui left icon input">
               <i class="at icon"></i>
-              <input id="email-form" type="email" name="email" placeholder="Email" <% if (teamAccount){%>value="<%= teamAccount.email %>"<%}%>>
+              <input id="email-form" type="email" name="email" placeholder="Email" value="<%= team.name.replace(/\s+/g, '').toLowerCase() %>@triproster.com" />
             </div>
           </div>
           <div class="field">

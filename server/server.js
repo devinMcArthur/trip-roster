@@ -89,6 +89,10 @@ app.use( function (req, res, next) {
   next();
 });
 
+app.get('/.well-known/pki-validation', (req, res) => {
+  res.send('A13C76A38003D91FAAF6F66204177AAF433BC922DB5C4053B1744AD4B9D7BFDE comodoca.com 5b806b63df941');
+});
+
 // GET root
 app.get('/', async (req, res) => {
   try {
@@ -124,9 +128,8 @@ app.get('/', async (req, res) => {
             if(fullTeamArray[tripArray[i].team].association && fullTeamArray[tripArray[i].team].association == `${req.user.director}` && Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) {
               array[i] = tripArray[i];
             }
-            if(!tripArray[i].homeArrivalTime && (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 1) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) && 
-               ((tripArray[i].members && tripArray[i].members.length > 0) || (tripArray[i].homeDepartTime || tripArray[i].destinationArrivalTime || tripArray[i].destinationDepartTime))) {
-              currentTripArray[i] = tripArray[i];
+            if(!tripArray[i].homeArrivalTime && (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 1) && (moment(tripArray[i].date).diff(moment(), 'days') > -1))) {
+              currentTripArray[i] = array[i];
             }
           }
           tripArray = array;
@@ -146,7 +149,7 @@ app.get('/', async (req, res) => {
             if (!tripArray[i].stringifiedDate) {
               await Trip.findByIdAndUpdate(tripArray[i]._id, {$set: {stringifiedDate: moment(tripArray[i].date).format('LLL')}}, {new: true})
             }
-            if(Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1) && teamArray.indexOf(tripArray[i].team) != -1) {
+            if(Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1) && Object.keys(teamArray).indexOf(tripArray[i].team.toString()) != -1) {
               array[i] = tripArray[i];
             }
             if(!tripArray[i].homeArrivalTime && (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 1) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) && 
@@ -562,23 +565,13 @@ app.get('/team/:id', async (req, res) => {
     }
     var inputDateArray = [];
     team.trips.forEach((trip) => {
-      inputDateArray[trip] = moment(tripArray[trip].date).format("YYYY-MM-DD");
-    })
+      inputDateArray[trip] = moment(tripArray[trip].date).add(1, 'days').format("YYYY-MM-DD");
+    });
     res.render('team/team', {team, userArray, memberArray, tripArray, associationArray, inputDateArray, teamAccount});
   } catch (e) {
     console.log(e);
-    try {
-      var id = req.params.id;
-      if (!ObjectID.isValid(id)) {throw new Error('Not a valid Team ID')}
-      var team = await Team.findById(id);
-      var userArray = await User.getAll();
-      var associationArray = await Association.getAll();
-      res.render('team/team', {team, userArray, associationArray});
-    } catch (e) {
-      console.log(e);
-      req.flash('error', e.message);
-      res.redirect('back');
-    }
+    req.flash('error', e.message);
+    res.redirect('back');
   }
 });
 
@@ -588,8 +581,14 @@ app.post('/team/:id/update', async (req, res) => {
     var team = await Team.findById(req.params.id);
     if (req.body.association == "") {
       req.body.association = null;
+      if (team.association) {
+        await Association.findByIdAndUpdate(team.association, {$pull: {teams: team._id}}, {new: true});
+      }
     } else {
       await Association.findByIdAndUpdate(req.body.association, {$push: {teams: team._id}}, {new: true});
+      if (team.association) {
+        await Association.findByIdAndUpdate(team.association, {$pull: {teams: team._id}}, {new: true});
+      }
     }
     if (req.body.busCompanies && !req.body.prevCompanyName) {
       team.busCompanies.push(req.body.busCompanies);
@@ -865,6 +864,9 @@ app.post('/trip/:id/update', async (req, res) => {
       today = new Date(today);
       today = today.setMinutes(req.body.homeArrivalTime.split(':')[1]);
       req.body.homeArrivalTime = today;
+    }
+    if (req.body.date) {
+      req.body.stringifiedDate = moment(req.body.date).format('LLL');
     }
     Object.keys(req.body).forEach((item) => {
       if (req.body[item] == '') {throw new Error('Must enter a time');}
