@@ -40,7 +40,11 @@
       <% if (typeof teamArray != 'undefined' && Object.keys(teamArray).length > 0) { %>
         <h3 class="ui header">Team(s)</h3>
         <div class="ui divider"></div>
+        <!-- <% var busArray = []; %> -->
         <% for (var i in teamArray) { %>
+          <!-- <% if (teamArray[i].association) { %>
+            <% busArray[i] = teamArray[i].busCompanies.concat(associationArray[teamArray[i].association].busCompanies) %>
+          <% } %> -->
           <div class="ui clearing segment">
             <div class="ui right floated mini button" id="trip-form-button-<%= i %>" onclick="loadTripForm('<%=i%>');">Start Trip</div>
             <a href="/team/<%= teamArray[i]._id %>"><b><%= teamArray[i].name %></b></a>
@@ -155,6 +159,22 @@
                 </div>
               </div>
             </div>
+            <!-- <label style="float: left;"><b>Bus Company</b></label>
+            <div class="field" id="bus-form">
+              <div class="ui fluid search selection dropdown">
+                <input type="hidden" name="busCompany">
+                <i class="dropdown icon"></i>
+                <div class="default text">Choose company</div>
+                <div class="menu">
+                  <div class="item" data-value=""> * No Company * </div>
+                  <% if (typeof busArray != 'undefined') { %>
+                    <% for (var i in busArray) { %>
+                      <div class="item" data-value="<%= busArray[i] %>"><%= busArray[i] %></div>
+                    <% } %>
+                  <% } %>
+                </div>
+              </div>
+            </div> -->
             <input type="hidden" name="team" value="{{teamId}}">
             <div id="submit-button" class="ui fluid black large submit button" style="background-color: green;">Create</div>
           </div>

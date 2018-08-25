@@ -72,12 +72,14 @@
         </div>
       <% } %>
     </div>
-    <div class="ui container">
-      <% if (messages.error) { %>
-        <div class="ui negative message" id="alert-box">
-          <i class="close icon" id="alert-close"></i>
-          <div class="header">
-            <%= messages.error %>
+    <div class="ui container" id="contents">
+      <div class="ui active dimmer" id="dimmer">
+        <div class="ui active loader" id="loader"></div>
+        <% if (messages.error) { %>
+          <div class="ui negative message" id="alert-box">
+            <i class="close icon" id="alert-close"></i>
+            <div class="header">
+              <%= messages.error %>
+            </div>
           </div>
-        </div>
-      <% } %>
+        <% } %>

@@ -105,6 +105,7 @@ app.get('/', async (req, res) => {
       var teamArray = [];
       var fullTeamArray = await Team.getAll();
       var tripArray = await Trip.getAll();
+      var associationArray = await Association.getAll();
       var array = [];
       if (req.user.admin == true) {
         for (var i in tripArray) {
@@ -116,7 +117,7 @@ app.get('/', async (req, res) => {
           }
         }
         tripArray = array;
-        res.render('index', {teamArray: fullTeamArray, tripArray});
+        res.render('index', {teamArray: fullTeamArray, tripArray, associationArray});
       } else if (req.user.director) {
         var currentTripArray = [];
         for (var i in fullTeamArray) {
@@ -139,7 +140,6 @@ app.get('/', async (req, res) => {
           }
           tripArray = array;
         } else {tripArray = [];}
-        var associationArray = await Association.getAll();
         res.render('index', {teamArray, tripArray, currentTripArray, associationArray});
       } else {
         var currentTripArray = [];
@@ -164,7 +164,6 @@ app.get('/', async (req, res) => {
           }
           tripArray = array;
         } else {tripArray = [];}
-        var associationArray = await Association.getAll();
         res.render('index', {teamArray, tripArray, currentTripArray, associationArray});
       }
     } else {
@@ -556,23 +555,33 @@ app.get('/team/:id', async (req, res) => {
     var id = req.params.id;
     if (!ObjectID.isValid(id)) {throw new Error('Not a valid Team ID')}
     var team = await Team.findById(id);
+    var teamArray = await Team.getAll();
     var userArray = await User.getAll();
     var array = await Member.getAll();
     var tripArray = await Trip.getAll();
     var associationArray = await Association.getAll();
-    var memberArray = [];
+    var memberArray = [], associationMembers = [];
     // Find Team Account
     var teamAccount = await User.findOne({name: `${team.name} Account`});
+    var index = 0;
     for (var i in array) {
       if (array[i].teams.indexOf(team._id) != -1) {
         memberArray[i] = array[i];
+      }
+      if (team.association) {
+        array[i].teams.forEach((t) => {
+          if (teamArray[t].association.equals(team.association) && team.members.indexOf(i.toString()) == -1) {
+            associationMembers[index] = array[i];
+            index++;
+          }
+        });
       }
     }
     var inputDateArray = [];
     team.trips.forEach((trip) => {
       inputDateArray[trip] = moment(tripArray[trip].date).add(1, 'days').format("YYYY-MM-DD");
     });
-    res.render('team/team', {team, userArray, memberArray, tripArray, associationArray, inputDateArray, teamAccount});
+    res.render('team/team', {team, userArray, memberArray, tripArray, associationArray, inputDateArray, teamAccount, associationMembers});
   } catch (e) {
     console.log(e);
     req.flash('error', e.message);
@@ -653,8 +662,8 @@ app.delete('/team/:teamId/member/:memberId', async (req, res) => {
     var teamId = req.params.teamId, memberId = req.params.memberId;
     if (!ObjectID.isValid(teamId)) {throw new Error('Team ID is not valid');}
     if (!ObjectID.isValid(memberId)) {throw new Error('Member ID is not valid');}
-    var team = await Team.findByIdAndUpdate(teamId, {$pull: {members: memberId}}, {new: true});
-    var member = await Member.findByIdAndUpdate(memberId, {$pull: {teams: teamId}}, {new :true});
+    await Team.findByIdAndUpdate(teamId, {$pull: {members: memberId}}, {new: true});
+    await Member.findByIdAndUpdate(memberId, {$pull: {teams: teamId}}, {new :true});
     res.end();
   } catch (e) {
     console.log(e);

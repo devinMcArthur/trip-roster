@@ -6,6 +6,14 @@
 <h1 class="ui header"><%= team.name %></h1>
 <p><%= team.age %> <%= team.league %></p>
 
+<!-- <div class="ui search">
+  <div class="ui left icon input">
+    <input class="prompt" type="text" name="name" placeholder="Full Name">
+    <i class="user icon"></i>
+  </div>
+  <div class="results"></div>
+</div> -->
+
 <div class="ui green segment">
   <div class="ui segment">
 
@@ -153,7 +161,7 @@
       <h5 class="header"><i class="id card outline icon black"></i>Team Members</h5>
     </div>
     <div class="two wide column">
-      <a href="" onclick="loadMemberForm(); return false;" id="member-button-holder" style="float: right;"><i id="member-button" class="id add icon black"></i></a>
+      <a href="" onclick="loadMemberForm('<%= JSON.stringify(associationMembers) %>'); return false;" id="member-button-holder" style="float: right;"><i id="member-button" class="id add icon black"></i></a>
     </div>
   </div>
   <div id="member-form-div"></div>
@@ -339,21 +347,21 @@
             </div>
           </div>
           <label style="float: left;"><b>Bus Company</b></label>
-            <div class="field" id="bus-form">
-              <div class="ui fluid search selection dropdown">
-                <input type="hidden" name="busCompany">
-                <i class="dropdown icon"></i>
-                <div class="default text">Choose company</div>
-                <div class="menu">
-                  <div class="item" data-value=""> * No Company * </div>
-                  <% if (typeof busArray != 'undefined') { %>
-                    <% for (var i in busArray) { %>
-                      <div class="item" data-value="<%= busArray[i] %>"><%= busArray[i] %></div>
-                    <% } %>
+          <div class="field" id="bus-form">
+            <div class="ui fluid search selection dropdown">
+              <input type="hidden" name="busCompany">
+              <i class="dropdown icon"></i>
+              <div class="default text">Choose company</div>
+              <div class="menu">
+                <div class="item" data-value=""> * No Company * </div>
+                <% if (typeof busArray != 'undefined') { %>
+                  <% for (var i in busArray) { %>
+                    <div class="item" data-value="<%= busArray[i] %>"><%= busArray[i] %></div>
                   <% } %>
-                </div>
+                <% } %>
               </div>
             </div>
+          </div>
           <input type="hidden" name="team" value="<%= team._id %>">
           <div id="submit-button" class="ui fluid black large submit button" style="background-color: green;">Create</div>
         </div>

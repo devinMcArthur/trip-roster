@@ -4,6 +4,7 @@ function loadTripForm(id) {
   $('#trip-form-div-'+id).append(html);
   $('#trip-form-button-'+id).html('Close Form');
   $('#trip-form-button-'+id).attr('onclick', "closeTripForm('"+id+"');");
+  $('.ui.search.dropdown').dropdown();
   $('form').form().submit(function(evt) {});
 }
 

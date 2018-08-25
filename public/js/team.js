@@ -1,5 +1,21 @@
 $(document).ready(function () {
   $('.edit-form').hide();
+  // var member = [
+  // {"name": 'Maple Leafs Player'}, 
+  // {"name": 'devin'}];
+  // $('.ui.search')
+  //   .search({
+  //     apiSettings: {
+  //       url: '//api.github.com/search/repositories?q={query}'
+  //     },
+  //     fields: {
+  //       results : 'items',
+  //       title   : 'name',
+  //       url     : 'html_url'
+  //     },
+  //     minCharacters : 3
+  //   })
+  // ;
 });
 
 function loadManagerForm(managers) {
@@ -55,13 +71,17 @@ function tripDeleteForm (id) {
   })
 }
 
-function loadMemberForm() {
+function loadMemberForm(members) {
   var template = $('#member-form-template').html();
   $('#member-form-div').append(template);
   $('#member-button').remove();
   $('.ui.search.dropdown').dropdown();
   $('form').form().submit(function(evt) {});
   $('.ui.checkbox').checkbox();
+  // $('.ui.search').search({
+  //   source: member,
+  //   fullTextSearch : true
+  // });
 }
 
 function closeMemberForm() {
