@@ -32,7 +32,8 @@
     "passport-local": "1.0.0",
     "path": "0.12.7",
     "semantic-ui": "2.3.3",
-    "validator": "10.4.0"
+    "validator": "10.4.0",
+    "xoauth2": "1.2.0"
   },
   "engines": {
     "node": "9.11.1"

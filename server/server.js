@@ -15,6 +15,7 @@ const nodemailer = require('nodemailer');
 const async = require('async');
 const flash = require('express-flash');
 const moment = require('moment');
+const xoauth2 = require('xoauth2');
 
 const {User} = require('./models/user');
 const {Team} = require('./models/team');
@@ -288,15 +289,15 @@ app.post('/forgot', (req, res, next) => {
     },
     function(token, user, done) {
       var smtpTransport = nodemailer.createTransport({
-        service: 'SendGrid',
+        service: 'gmail',
         auth: {
-          user: process.env.SEND_GRID_USERNAME,
-          pass: process.env.SEND_GRID_PASSWORD
+          user: 'itsdevinmcarthur@gmail.com',
+          pass: process.env.GMAIL_PASSWORD
         }
       });
       var mailOptions = {
         to: user.email,
-        from: 'passwordreset@trip-roster.ca',
+        from: 'Devin <itsdevinmcarthur@gmmail.com>',
         subject: 'Trip Roster Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
