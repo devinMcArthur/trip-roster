@@ -291,13 +291,13 @@ app.post('/forgot', (req, res, next) => {
       var smtpTransport = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: 'itsdevinmcarthur@gmail.com',
+          user: 'triproster@gmail.com',
           pass: process.env.GMAIL_PASSWORD
         }
       });
       var mailOptions = {
         to: user.email,
-        from: 'Devin <itsdevinmcarthur@gmmail.com>',
+        from: 'Devin at Trip Roster <triproster@gmmail.com>',
         subject: 'Trip Roster Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
