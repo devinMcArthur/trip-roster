@@ -1,0 +1,48 @@
+<% include ../partial/head %>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('form').form().submit(function(evt) {});
+      $('#password-form, #confirm-form').on('keyup', function () {
+        if ($('#password-form').val() == $('#confirm-form').val()) {
+          $('#submit-button').removeClass('disabled');
+          $('#confirm-icon').removeClass('open');
+        } else {
+          $('#submit-button').addClass('disabled');
+          $('#confirm-icon').addClass('open');
+        }
+      });
+    });
+  </script>
+
+  <div class="ui center aligned middle aligned grid segment" style="margin-top: 20vh;">
+      <div class="column">
+        <h2 class="ui header" style="color: green;" >
+          <div class="content">
+            Reset account password
+          </div>
+        </h2>
+        <form class="ui large form" action="/reset/<%= token %>" method="post" >
+
+          <div class="ui stacked segment">
+              <label style="float: left;"><b>Password</b></label>
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input id="password-form" type="password" name="password" placeholder="Password">
+              </div>
+            </div>
+            <div class="field">
+              <label style="float: left;"><b>Confirm Password</b></label>
+              <div class="ui left icon input">
+                <i id="confirm-icon" class="lock open icon"></i>
+                <input id="confirm-form" type="password" name="confirm" placeholder="Confirm Password">
+              </div>
+            </div>
+            <div id="submit-button" class="ui fluid disabled black large submit button" style="background-color: green;">Create</div>
+          </div>
+    
+        </form>
+      </div>
+    </div>
+
+<% include ../partial/foot %>
