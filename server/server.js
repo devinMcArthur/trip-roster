@@ -322,7 +322,7 @@ app.get('/reset/:token', (req, res) => {
       req.flash('error', 'Password reset token is invalid or has expired.');
       return res.redirect('/forgot');
     }
-    res.render('users/reset', {
+    res.render('user/reset', {
       token: req.params.token
     });
   });
@@ -349,21 +349,21 @@ app.post('/reset/:token', function(req, res) {
     },
     function(user, done) {
       var smtpTransport = nodemailer.createTransport({
-        service: 'SendGrid',
+        service: 'gmail',
         auth: {
-          user: process.env.SEND_GRID_USERNAME,
-          pass: process.env.SEND_GRID_PASSWORD
+          user: 'triproster@gmail.com',
+          pass: process.env.GMAIL_PASSWORD
         }
       });
       var mailOptions = {
         to: user.email,
-        from: 'passwordreset@trip-roster.ca',
+        from: 'Devin at Trip Roster <triproster@gmmail.com>',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
       };
       smtpTransport.sendMail(mailOptions, function(err) {
-        req.flash('success', 'Success! Your password has been changed.');
+        req.flash('info', 'Success! Your password has been changed.');
         done(err);
       });
     }

@@ -83,3 +83,11 @@
             </div>
           </div>
         <% } %>
+        <% if (messages.info) { %>
+          <div class="ui positive message" id="info-box">
+            <i class="close icon" id="alert-close"></i>
+            <div class="header">
+              <%= messages.info %>
+            </div>
+          </div>
+        <% } %>
