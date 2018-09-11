@@ -35,7 +35,7 @@
             <h5 class="header">Director(s)</h5>
           </div>
           <div class="two wide column">
-           <a href="" onclick="loadDirectorForm('<%= associationArray[i].directors %>', '<%= associationArray[i]._id %>'); return false;" id="edit-button-holder" style="float: right;"><i id="edit-button-<%= associationArray[i]._id %>" class="edit icon black"></i></a>
+            <a href="" onclick="loadDirectorForm('<%= associationArray[i].directors %>', '<%= associationArray[i]._id %>'); return false;" id="edit-button-holder" style="float: right;"><i id="edit-button-<%= associationArray[i]._id %>" class="edit icon black"></i></a>
           </div>
         </div>
         <div id="director-form-div-<%= associationArray[i]._id %>"></div>
@@ -86,32 +86,13 @@
               <input id="name-form" type="text" name="name" placeholder="Association Name">
             </div>
           </div>
-          <div class="ui horizontal divider">
-            optional
-          </div>
           <label style="float: left;"><b>Abbreviation</b></label>
           <div class="field">
             <div class="ui input">
               <input id="abbreviation-form" type="text" name="abbreviation" placeholder="Abbreviation of Association">
             </div>
           </div>
-          <label style="float: left;"><b>Director(s)</b></label>
-          <div class="field">
-            <div class="ui fluid multiple search selection dropdown">
-              <input type="hidden" name="directors">
-              <i class="dropdown icon"></i>
-              <div class="default text">Select Directors</div>
-              <div class="menu">
-                <% if (typeof userArray != 'undefined') { %>
-                  <% for (var i in userArray) { %>
-                    <div class="item" data-value="<%= i %>"><%= userArray[i].name %></div>
-                  <% } %>
-                <% } else { %>
-                  <div class="item" data-value="">We were unable to retreive any users, please try again</div>
-                <% } %>
-              </div>
-            </div>
-          </div>
+          <input type="hidden" name="directors" value="<%=locals.user._id%>" /> 
           <div id="submit-button" class="ui fluid black submit button" style="background-color: green;">Create</div>
         </div>
       </form>

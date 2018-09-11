@@ -1,18 +1,71 @@
 <% include ../partial/head %>
 
+<script src="/js/user.js"></script>
+
 <h1 class="header"><%= user.name %></h1>
+
+<div class="ui segment">
+  <div class="ui grid">
+    <div class="fourteen wide column">
+      <h5 class="header">Association</h5>
+    </div>
+    <div class="two wide column">
+      <a href="" onclick="loadAssociationForm('<%= user.association %>'); return false;" id="edit-button-holder" style="float: right;"><i id="edit-association-button" class="edit icon black"></i></a>
+    </div>
+  </div>
+  <div id="association-form-div"></div>
+  <% if (user.association) { %>
+    <%= associationArray[user.association].name %>
+  <% } %>
+</div>
 
 <% if (user.director != undefined) { %>
   <h5 class="header">Director</h5>
-  <%= director.name %>
+  <a href="/association/<%= director._id %>"><%= director.name %></a>
 <% } %> 
 
 
 <h5 class="header">Team(s)</h5>
 <% user.teams.forEach((team) => { %>
   <div class="ui segment">
-    <%= teamArray[team].name %> - <%= teamArray[team].age %> <%= teamArray[team].league %>
+    <a href="/team/<%= teamArray[team]._id %>"><%= teamArray[team].name %> - <%= teamArray[team].age %> <%= teamArray[team].league %></a>
   </div>
 <% }); %>
 
 <% include ../partial/foot %>
+
+<script id="association-form-template" type="text/template">
+  <div class="ui center aligned middle aligned grid segment" id="association-form" style="margin:0;">
+    <div class="column">
+      <a class="black" href="" onclick="closeAssociationForm()"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+      <h2 class="ui header" style="color: green;">Select Association</h2>
+      <form class="ui large form" action="/user/<%= user._id %>/update" method="post">
+        <div class="ui stacked segment">
+          <label style="float: left;"><b>Association(s)</b></label>
+          <div class="field">
+            <div class="ui fluid search selection dropdown">
+              <input type="hidden" name="association">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select Association</div>
+              <div class="menu">
+                <div class="item" data-value=""> * No Association * </div>
+                <% if (typeof associationArray != 'undefined') { %>
+                  <% for (var i in associationArray) { %>
+                    <div class="item" data-value="<%= i %>"><%= associationArray[i].name %></div>
+                  <% } %>
+                <% } else { %>
+                  <div class="item" data-value="">We were unable to retreive any associations, please try again</div>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <div id="submit-button" class="ui fluid black submit button" style="background-color: green;">Update</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</script>
+
+<script id="association-edit-button-template" type="text/template">
+  <i id="edit-association-button" class="edit icon black"></i>
+</script>

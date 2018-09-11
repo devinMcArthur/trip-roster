@@ -22,7 +22,8 @@
           </div>
         <% } %>
       <% } %>
-  
+      
+      <!-- Load trips that are coming up soon -->
       <% if (typeof tripArray != 'undefined' && Object.keys(tripArray).length > 0) { %>
         <h3 class="ui header">Upcoming Trip(s)</h3>
         <div class="ui divider"></div>
@@ -36,7 +37,8 @@
           </div>
         <% } %>
       <% } %>
-  
+      
+      <!-- List teams user is associated with -->
       <% if (typeof teamArray != 'undefined' && Object.keys(teamArray).length > 0) { %>
         <h3 class="ui header">Team(s)</h3>
         <div class="ui divider"></div>
@@ -54,21 +56,92 @@
       <% } %>
     <% } else { %>
       <% if (!user.director) { %>
-        <div class="ui center aligned middle aligned grid green segment" style="margin-top: 15vh; padding: 2em;">
-          <div class="ui header">
-            You have successfully signed up and must now wait to be given permissions by your selected Association Director
-          </div>
-          <% if (user.association) { %>
-            <div class="ui green inverted segment">
+        <% if (user.association) { %>
+          <!-- Homepage if user is not a director or manager, but is associated with an association -->
+          <div class="ui green segment" style="margin-top: 15vh; padding: 2em;">
+            <div class="ui header">
+              You have successfully signed up and must now wait to be given permissions by your selected Association Director
+            </div>
+            <% if (user.association) { %>
+              <div class="ui green inverted segment">
                 <div class="ui sub header">
                   <u>Your Association</u></br>
                   <%= associationArray[user.association].name %>
                 </div>
-            </div>
-          <% } %>
-        </div>
+              </div>
+            <% } %>
+          </div>
+        <% } else { %> 
+          <!-- Homepage if user is not a director or manager, and not associated with an association -->
+          <div class="ui green segment" style="padding: 2em;">
+            <h3 class="ui header">
+              Welcome, 
+            </h3>
+            <p>You have successfully signed up, but have not yet linked with an association, you have <i>two options</i> to continue:</p>
+            <div class="ui divider"></div>
+            <ol class="ui list">
+              <b><li>
+                <p>You can link with an existing association (check this first)</p>
+                <form class="ui large form" action="/user/<%= locals.user._id %>/update" method="post">
+                  <div class="ui stacked segment">
+                    <label style="float: left;"><b>Association(s)</b></label>
+                    <div class="field">
+                      <div class="ui fluid search selection dropdown">
+                        <input type="hidden" name="association">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Select Association</div>
+                        <div class="menu">
+                          <div class="item" data-value=""> * No Association * </div>
+                          <% if (typeof associationArray != 'undefined') { %>
+                            <% for (var i in associationArray) { %>
+                              <div class="item" data-value="<%= i %>"><%= associationArray[i].name %></div>
+                            <% } %>
+                          <% } else { %>
+                            <div class="item" data-value="">We were unable to retreive any associations, please try again</div>
+                          <% } %>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="submit-button" class="ui fluid black submit button" style="background-color: green;">Link</div>
+                  </div>
+                </form>
+              </li></b>
+              <div class="ui horizontal divider">
+                or
+              </div>
+              <b><li>
+                <p>Create your own Sports Association</p>
+                <div class="ui segment" id="association-form" style="margin:0;">
+                  <div class="column">
+                    <h2 class="ui header" style="color: green;">Add an Association</h2>
+                    <p class="ui subheader"><i>Ensure you association has not already been added by checking above</i></p>
+                    <form class="ui large form" action="/association" method="post">
+                      <div class="ui stacked segment">
+                        <label style="float: left;"><b>Name</b></label>
+                        <div class="field">
+                          <div class="ui input">
+                            <input id="name-form" type="text" name="name" placeholder="Association Name">
+                          </div>
+                        </div>
+                        <label style="float: left;"><b>Abbreviation</b></label>
+                        <div class="field">
+                          <div class="ui input">
+                            <input id="abbreviation-form" type="text" name="abbreviation" placeholder="Abbreviation of Association">
+                          </div>
+                        </div>
+                        <input type="hidden" name="directors" value="<%= locals.user._id%>" />
+                        <div id="submit-button" class="ui fluid black submit button" style="background-color: green;">Create</div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </li></b>
+            </ol>
+          </div>
+        <% } %>
       <% } else { %>
-        <div class="ui center aligned middle aligned grid green segment" style="margin-top: 15vh; padding: 2em;">
+        <!-- Homepage if user is assigned as a director without access to any teams or trips -->
+        <div class="ui center aligned middle aligned green segment" style="margin-top: 15vh; padding: 2em;">
           <div class="ui header">
             You have been assigned as an association director, click the link below to manage your association
           </div>
@@ -185,4 +258,42 @@
       </div>
     </div>
   </div>
+</script>
+
+<script id="association-form-template" type="text/template">
+  <% if (locals.user) { %>
+    <div class="ui center aligned middle aligned grid segment" id="association-form" style="margin:0;">
+        <div class="column">
+          <a class="black" href="" onclick="closeAssociationForm()"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+          <h2 class="ui header" style="color: green;">Select Association</h2>
+          <form class="ui large form" action="/user/<%= locals.user._id %>/update" method="post">
+            <div class="ui stacked segment">
+              <label style="float: left;"><b>Association(s)</b></label>
+              <div class="field">
+                <div class="ui fluid search selection dropdown">
+                  <input type="hidden" name="association">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select Association</div>
+                  <div class="menu">
+                    <div class="item" data-value=""> * No Association * </div>
+                    <% if (typeof associationArray != 'undefined') { %>
+                      <% for (var i in associationArray) { %>
+                        <div class="item" data-value="<%= i %>"><%= associationArray[i].name %></div>
+                      <% } %>
+                    <% } else { %>
+                      <div class="item" data-value="">We were unable to retreive any associations, please try again</div>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+              <div id="submit-button" class="ui fluid black submit button" style="background-color: green;">Update</div>
+            </div>
+          </form>
+        </div>
+      </div>
+  <% } %>
+</script>
+
+<script id="association-edit-button-template" type="text/template">
+  <i id="edit-association-button" class="edit icon black"></i>
 </script>

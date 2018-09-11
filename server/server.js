@@ -393,12 +393,13 @@ app.get('/user/:id', async (req, res) => {
     if(!ObjectID.isValid(id)) {throw new Error('Not a valid User ID');}
     var user = await User.findById(id);
     var teamArray = await Team.getAll();
+    var associationArray = await Association.getAll();
     if (user.director) {
       var director = await Association.findById(user.director);
-      res.render('user/user', {user, teamArray, director});
+      res.render('user/user', {user, teamArray, director, associationArray});
       return;
     }
-    res.render('user/user', {user, teamArray});
+    res.render('user/user', {user, teamArray, associationArray});
   } catch (e) {
     console.log(e);
     req.flash('error', e.message);
@@ -442,7 +443,10 @@ app.post('/user/:id/update', async (req, res) => {
 // POST /user
 app.post('/user', async (req, res) => {
   try {
-    console.log(req.body);
+    if (req.body.association = "") {
+      req.body.association = null;
+      req.flash('info', 'You have created an account without linking to an association, you can link later by going to your User page');
+    }
     const user = new User(req.body);
     await user.save();
     if (typeof req.body.teams != 'object') {
@@ -941,7 +945,7 @@ app.get('/associations', async (req, res) => {
 // GET /association/:id
 app.get('/association/:id', async (req, res) => {
   try {
-    if (req.user.admin == true || req.user.director != undefined) {
+    if (req.user.admin == true || req.user.director == req.params.id) {
       var association = await Association.findById(req.params.id);
       var userArray = await User.getAll();
       var teamArray = await Team.getAll();
@@ -967,6 +971,13 @@ app.post('/association', async (req, res) => {
     }
     var association = new Association(req.body);
     await association.save();
+    req.body.directors.forEach(async (dir) => {
+      var user = await User.findById(dir);
+      if (user.admin == false) {
+        user.director = association._id;
+        await user.save();
+      }
+    });
     res.redirect('back');
   } catch (e) {
     console.log(e);

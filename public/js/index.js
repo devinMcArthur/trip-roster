@@ -1,3 +1,16 @@
+$(document).ready(function () {
+  $('.ui.search.dropdown').dropdown();
+  $('#name-form').on('keyup', function () {
+    var abb = "";
+    $(this).val().split(' ').forEach((word) => {
+      if (word[0] != undefined) {
+        abb += word[0];
+      }
+    });
+    $('#abbreviation-form').val(abb);
+  });
+});
+
 function loadTripForm(id) {
   var template = $('#trip-form-template').html();
   var html = Mustache.render(template, {teamId: id});

@@ -2,8 +2,16 @@ function loadAssociationForm() {
   var template = $('#association-form-template').html();
   $('#association-form-div').append(template);
   $('#association-add-button').remove();
-  $('.ui.search.dropdown').dropdown();
   $('form').form().submit(function(evt) {});
+  $('#name-form').on('keyup', function () {
+    var abb = "";
+    $(this).val().split(' ').forEach((word) => {
+      if (word[0] != undefined) {
+        abb += word[0];
+      }
+    });
+    $('#abbreviation-form').val(abb);
+  });
 }
 function closeAssociationForm() {
   var template = $('#association-form-button-template').html();

@@ -9,6 +9,10 @@ $(document).ready(function () {
     $("#alert-box").fadeOut("slowest", function () {
     });
   });
+  $('#info-close').click(function () {
+    $("#info-box").fadeOut("slowest", function () {
+    });
+  });
   $('.ui.browse').popup({
     on: 'click'
   });

@@ -9,7 +9,15 @@
   </h1>
 
   <div class="ui segment">
-    <h5 class="header">Director(s)</h5>
+    <div class="ui grid">
+      <div class="fourteen wide column">
+        <h5 class="header">Director(s)</h5>
+      </div>
+      <div class="two wide column">
+        <a href="" onclick="loadDirectorForm('<%= association.directors %>'); return false;" id="edit-button-holder" style="float: right;"><i id="edit-director-button" class="edit icon black"></i></a>
+      </div>
+    </div>
+    <div id="director-form-div"></div>
     <% if (association.directors != undefined && association.directors.length > 0) { %>
       <div class="ui celled list">
         <% association.directors.forEach((director) => { %>
@@ -59,22 +67,39 @@
     <% } %>
   </div>
 
-  <% if (association.teams) { %>
-    <% association.teams.forEach((team) => { %>
-      <div class="ui stacked green segment">
-        <h4 class="header">
-          <a href="/team/<%= team %>"><%= teamArray[team].name %></a>
-        </h4>
-        <p><%= teamArray[team].age %> <%= teamArray[team].league %></p>
-        <h5 class="header">Manager(s)</h5>
-        <% teamArray[team].managers.forEach((manager) => { %>
-          <div class="ui segment">
-            <%= userArray[manager].name %>
-          </div>
-        <% }); %>
+  <div class="ui green segment">
+    <div class="ui grid">
+      <div class="fourteen wide column">
+        <div class="ui header">Team(s)</div>
       </div>
-    <% }); %>
-  <% } %>
+      <div class="two wide column">
+        <% if (user.admin || user.director.equals(association._id)) { %>
+          <div id="team-form-button-div"></div>
+          <div id="team-add-button" class="ui black button" style="background-color: green; float: right;" onclick="loadTeamForm()">
+            <i class="add icon"></i>
+            Add
+          </div>
+        <% } %>
+      </div>
+    </div>
+    <div id="team-form-div" class="sixteen wide column"></div>
+    <% if (association.teams) { %>
+      <% association.teams.forEach((team) => { %>
+        <div class="ui stacked green segment">
+          <h4 class="header">
+            <a href="/team/<%= team %>"><%= teamArray[team].name %></a>
+          </h4>
+          <p><%= teamArray[team].age %> <%= teamArray[team].league %></p>
+          <h5 class="header">Manager(s)</h5>
+          <% teamArray[team].managers.forEach((manager) => { %>
+            <div class="ui segment">
+              <%= userArray[manager].name %>
+            </div>
+          <% }); %>
+        </div>
+      <% }); %>
+    <% } %>
+  </div>
 
 <% include ../partial/foot %>
 
@@ -139,4 +164,141 @@
 
 <script id="bus-edit-form-button-template" type="text/template">
   <i id="bus-form-button" class="edit icon black"></i>
+</script>
+
+<script id="director-form-template" type="text/template">
+  <div class="ui center aligned middle aligned grid segment" id="director-form" style="margin:0;">
+    <div class="column">
+      <a class="black" href="" onclick="closeDirectorForm()"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+      <h2 class="ui header" style="color: green;">Select Director(s)</h2>
+      <form class="ui large form" action="/association/<%= association._id %>/update" method="post">
+        <div class="ui stacked segment">
+          <label style="float: left;"><b>Directors(s)</b></label>
+          <div class="field">
+            <div class="ui fluid multiple search selection dropdown">
+              <input type="hidden" name="directors">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select Director(s)</div>
+              <div class="menu">
+                <% if (typeof userArray != 'undefined') { %>
+                  <% for (var i in userArray) { %>
+                    <% if (userArray[i].association == association._id.toString()) { %>
+                      <div class="item" data-value="<%= i %>"><%= userArray[i].name %></div>
+                    <% } %>
+                  <% } %>
+                <% } else { %>
+                  <div class="item" data-value="">We were unable to retreive any users, please try again or contact support</div>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <div id="submit-button" class="ui fluid black submit button" style="background-color: green;">Update</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</script>
+
+<script id="director-edit-button-template" type="text/template">
+  <i id="edit-director-button" class="edit icon black"></i>
+</script>
+
+<script type="text/template" id="team-form-button-template">
+  <div id="team-add-button" class="ui black button" style="background-color: green; float: right;" onclick="loadTeamForm('<%= user.director %>')">
+    <i class="add icon"></i>
+    Add
+  </div>
+</script>
+
+<script type="text/template" id="team-form-template">
+  <div class="ui center aligned middle aligned grid segment" id="team-form" style="margin:0;">
+    <div class="column">
+      <a class="black" href="" onclick="closeTeamForm()"><i class="icon delete black" style="float: right; margin: none;" ></i></a>
+      <h2 class="ui header" style="color: green;">Add a team</h2>
+      <form class="ui large form" action="/team" method="post">
+        <div class="ui stacked segment">
+          <label style="float: left;"><b>Name</b></label>
+          <div class="field">
+            <div class="ui input">
+              <input id="first-name-form" type="text" name="name" placeholder="Team Name">
+            </div>
+          </div>
+          <label style="float: left;"><b>Categories</b></label>
+          <div class="field">
+            <div class="two fields">
+              <div class="field">
+                <div class="ui fluid search selection dropdown">
+                  <input type="hidden" name="age">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select Age Group</div>
+                  <div class="menu">
+                    <div class="item" data-value="Initiation">Initiation</div>
+                    <div class="item" data-value="Novice">Novice</div>
+                    <div class="item" data-value="Atom">Atom</div>
+                    <div class="item" data-value="Peewee">Peewee</div>
+                    <div class="item" data-value="Bantam">Bantam</div>
+                    <div class="item" data-value="Midget">Midget</div>
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui fluid search selection dropdown">
+                  <input type="hidden" name="league">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select League</div>
+                  <div class="menu">
+                    <div class="item" data-value="AAA">AAA</div>
+                    <div class="item" data-value="AA">AA</div>
+                    <div class="item" data-value="A">A</div>
+                    <div class="item" data-value="B">B</div>
+                    <div class="item" data-value="C">C</div>
+                    <div class="item" data-value="D">D</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <label style="float: left;"><b>Manager(s)</b></label>
+          <div class="field">
+            <div class="ui fluid multiple search selection dropdown">
+              <input type="hidden" name="managers">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select Managers</div>
+              <div class="menu">
+                <% if (typeof userArray != 'undefined') { %>
+                  <% for (var i in userArray) { %>
+                    <div class="item" data-value="<%= i %>"><%= userArray[i].name %></div>
+                  <% } %>
+                <% } else { %>
+                  <div class="item" data-value="">We were unable to retreive any users, please try again</div>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <% if (locals.user.admin) { %>
+            <label style="float: left;"><b>Association</b></label>
+            <div class="field">
+              <div class="ui fluid multiple search selection dropdown">
+                <input type="hidden" name="association">
+                <i class="dropdown icon"></i>
+                <div class="default text">Select Association</div>
+                <div class="menu">
+                  <% if (typeof associationArray != 'undefined') { %>
+                    <% for (var i in associationArray) { %>
+                      <div class="item" data-value="<%= i %>"><%= associationArray[i].name %></div>
+                    <% } %>
+                  <% } else { %>
+                    <div class="item" data-value="">We were unable to retreive any associations, please try again</div>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          <% } else { %>
+            <input type="hidden" name="association" value="<%= locals.user.director %>" />
+          <% } %>
+          <div id="submit-button" class="ui fluid black submit button" style="background-color: green;">Create</div>
+        </div>
+      </form>
+    </div>
+  </div>
 </script>

@@ -12,6 +12,22 @@
     <link rel="stylesheet" type='text/css' href="/css/style.css" />
     <script src="/semantic/dist/semantic.min.js"></script>
     <script type="text/javascript" src="/js/head.js"></script>
+    <script type="text/javascript">
+      // Show loading icon until page is completed loading
+      document.onreadystatechange = function () {
+        var state = document.readyState;
+        var dimmer = document.getElementById('dimmer');
+        var loader = document.getElementById('loader');
+        if (state == 'interactive') {
+          document.getElementById('contents').style.visibility="hidden";
+        } else if (state == 'complete') {
+          document.getElementById('interactive');
+          dimmer.className = dimmer.className.replace(/\bui\b/g, "").replace(/\bactive\b/g, "").replace(/\bdimmer\b/g, "");
+          loader.className = loader.className.replace(/\bui\b/g, "").replace(/\bactive\b/g, "").replace(/\bloader\b/g, "");
+          document.getElementById('contents').style.visibility="visible";
+        }
+      }
+    </script>
   </head>
   <body>
     <div class="ui secondary pointing menu">
@@ -85,7 +101,7 @@
         <% } %>
         <% if (messages.info) { %>
           <div class="ui positive message" id="info-box">
-            <i class="close icon" id="alert-close"></i>
+            <i class="close icon" id="info-close"></i>
             <div class="header">
               <%= messages.info %>
             </div>

@@ -34,3 +34,30 @@ function companyDeleteForm (id, company) {
     }
   })
 }
+
+function loadDirectorForm(directors) {
+  directors = directors.split(',');
+  var template = $('#director-form-template').html();
+  $(`#director-form-div`).append(template);
+  $(`#edit-director-button`).remove();
+  $('.ui.search.dropdown').dropdown('set selected', directors);
+  $('form').form().submit(function(evt) {});
+}
+function closeDirectorForm() {
+  var template = $('#director-edit-button-template').html();
+  $('#edit-button-holder').append(template);
+  $(`#director-form`).remove();
+}
+
+function loadTeamForm() {
+  var template = $('#team-form-template').html();
+  $('#team-form-div').append(template);
+  $('#team-add-button').remove();
+  $('.ui.search.dropdown').dropdown();
+  $('form').form().submit(function(evt) {});
+}
+function closeTeamForm() {
+  var template = $('#team-form-button-template').html();
+  $('#team-form-button-div').append(template);
+  $('#team-form').remove();
+}

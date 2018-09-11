@@ -1,20 +1,4 @@
       </div>
     </div>  
-    <script type="text/javascript">
-      // Show loading icon until page is completed loading
-      document.onreadystatechange = function () {
-        var state = document.readyState;
-        var dimmer = document.getElementById('dimmer');
-        var loader = document.getElementById('loader');
-        if (state == 'interactive') {
-          document.getElementById('contents').style.visibility="hidden";
-        } else if (state == 'complete') {
-          document.getElementById('interactive');
-          dimmer.className = dimmer.className.replace(/\bui\b/g, "").replace(/\bactive\b/g, "").replace(/\bdimmer\b/g, "");
-          loader.className = loader.className.replace(/\bui\b/g, "").replace(/\bactive\b/g, "").replace(/\bloader\b/g, "");
-          document.getElementById('contents').style.visibility="visible";
-        }
-      }
-    </script>
   </body>
 </html>
