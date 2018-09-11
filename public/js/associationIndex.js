@@ -7,7 +7,7 @@ function loadAssociationForm() {
     var abb = "";
     $(this).val().split(' ').forEach((word) => {
       if (word[0] != undefined) {
-        abb += word[0];
+        abb += word[0].toUpperCase();
       }
     });
     $('#abbreviation-form').val(abb);
