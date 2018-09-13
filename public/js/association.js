@@ -63,7 +63,6 @@ function closeTeamForm() {
 }
 
 function deleteTeam(id) {
-  alert('hi');
   $.ajax({
     type: 'DELETE',
     url: `/team/${id}/`

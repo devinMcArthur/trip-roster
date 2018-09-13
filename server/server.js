@@ -443,14 +443,19 @@ app.post('/user/:id/update', async (req, res) => {
 // POST /user
 app.post('/user', async (req, res) => {
   try {
-    if (req.body.association = "") {
+    if (req.body.association == "") {
       req.body.association = null;
       req.flash('info', 'You have created an account without linking to an association, you can link later by going to your User page');
     }
     const user = new User(req.body);
     await user.save();
     if (typeof req.body.teams != 'object') {
-      await Team.findByIdAndUpdate(req.body.teams, {$push: {managers: user._id}}, {new: true});
+      var team = await Team.findById(req.body.teams);
+      if (team.managers) {
+        await Team.findByIdAndUpdate(req.body.teams, {$push: {managers: user._id}}, {new: true});
+      } else {
+        team.managers = new Array(user._id);
+      }
     }
     res.redirect('back');
   } catch (e) {
@@ -508,7 +513,6 @@ app.post('/team', async (req, res) => {
     } else {
       managers = req.body.managers.split(',');
     }
-    console.log(managers);
     var team = new Team({
       name: req.body.name,
       age: req.body.age,
