@@ -562,7 +562,7 @@ app.delete('/team/:id', async (req, res) => {
         await Trip.findByIdAndRemove(trip);
       });
     } 
-    res.redirect('back');
+    res.end();
   } catch (e) {
     console.log(e);
     req.flash('error', e.message);
