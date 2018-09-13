@@ -69,10 +69,10 @@
 
   <div class="ui green segment">
     <div class="ui grid">
-      <div class="fourteen wide column">
+      <div class="twelve wide column">
         <div class="ui header">Team(s)</div>
       </div>
-      <div class="two wide column">
+      <div class="four wide column">
         <% if (user.admin || user.director.equals(association._id)) { %>
           <div id="team-form-button-div"></div>
           <div id="team-add-button" class="ui black button" style="background-color: green; float: right;" onclick="loadTeamForm()">
@@ -93,12 +93,14 @@
             <% } %>
           </h4>
           <p><%= teamArray[team].age %> <%= teamArray[team].league %></p>
-          <h5 class="header">Manager(s)</h5>
-          <% teamArray[team].managers.forEach((manager) => { %>
-            <div class="ui segment">
-              <%= userArray[manager].name %>
-            </div>
-          <% }); %>
+          <% if (teamArray[team].managers) { %>
+            <h5 class="header">Manager(s)</h5>
+            <% teamArray[team].managers.forEach((manager) => { %>
+              <div class="ui segment">
+                <%= userArray[manager].name %>
+              </div>
+            <% }); %>
+          <% } %>
         </div>
       <% }); %>
     <% } %>

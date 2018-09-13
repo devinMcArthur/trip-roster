@@ -29,13 +29,14 @@
         <% } %>
       </h4>
       <p><%= teamArray[i].age %> <%= teamArray[i].league %><% if (teamArray[i].association){%> - <%= associationArray[teamArray[i].association].name %><%}%></p>
-    
-      <h5 class="header">Manager(s)</h5>
-      <% teamArray[i].managers.forEach((manager) => { %>
-        <div class="ui segment">
-          <%= userArray[manager].name %>
-        </div>
-      <% }); %>
+      <% if (teamArray[i].managers) { %>
+        <h5 class="header">Manager(s)</h5>
+        <% teamArray[i].managers.forEach((manager) => { %>
+          <div class="ui segment">
+            <%= userArray[manager].name %>
+          </div>
+        <% }); %>
+      <% } %>
     </div>
   <% } %>
 <% } else { %>

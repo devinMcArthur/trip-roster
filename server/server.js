@@ -502,23 +502,32 @@ app.get('/teams', async (req, res) => {
 // POST /team
 app.post('/team', async (req, res) => {
   try {
+    var managers;
+    if (req.body.managers == "") {
+      managers = null;
+    } else {
+      managers = req.body.managers.split(',');
+    }
+    console.log(managers);
     var team = new Team({
       name: req.body.name,
       age: req.body.age,
       league: req.body.league,
       association: req.body.association,
       busCompany: req.body.busCompany,
-      managers: req.body.managers.split(',')
+      managers
     });
-    tema = await team.save();
+    team = await team.save();
     if (team.association) {
       await Association.findByIdAndUpdate(team.association, {$push: {teams: team._id}}, {new: true});
     }
-    for (var i in req.body.managers.split(',')) {
-      var user = await User.findById(req.body.managers.split(',')[i]);
-      await user.teams.push(team._id);
-      await user.save();
-    } 
+    if (managers) {
+      for (var i in managers) {
+        var user = await User.findById(managers[i]);
+        await user.teams.push(team._id);
+        await user.save();
+      } 
+    }
     res.redirect('back');
   } catch (e) {
     console.log(e);
@@ -531,13 +540,18 @@ app.post('/team', async (req, res) => {
 app.delete('/team/:id', async (req, res) => {
   try {
     var team = await Team.findByIdAndRemove(req.params.id);
-    team.members.forEach(async (member) => {
-      await Member.findByIdAndUpdate(member, {$pull: {teams: team._id}}, {new: true});
-    });
-    team.managers.forEach(async (manager) => {
-      await User.findByIdAndUpdate(manager, {$pull: {teams: team._id}}, {new: true});
-    });
+    if (team.members) {
+      team.members.forEach(async (member) => {
+        await Member.findByIdAndUpdate(member, {$pull: {teams: team._id}}, {new: true});
+      });
+    }
+    if (team.managers) {
+      team.managers.forEach(async (manager) => {
+        await User.findByIdAndUpdate(manager, {$pull: {teams: team._id}}, {new: true});
+      });
+    }
     if (team.association) {
+      console.log(team);
       await Association.findByIdAndUpdate(team.association, {$pull: {teams: team._id}}, {new: true});
     }
     if (team.trips.length > 0) {
