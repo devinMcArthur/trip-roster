@@ -13,6 +13,6 @@ function closeTeamForm() {
 function deleteTeam(id) {
   $.ajax({
     type: 'DELETE',
-    url: `team/${id}/`
+    url: `/team/${id}/`
   });
 }

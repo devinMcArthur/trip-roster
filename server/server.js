@@ -531,7 +531,6 @@ app.post('/team', async (req, res) => {
 app.delete('/team/:id', async (req, res) => {
   try {
     var team = await Team.findByIdAndRemove(req.params.id);
-    console.log(team);
     team.members.forEach(async (member) => {
       await Member.findByIdAndUpdate(member, {$pull: {teams: team._id}}, {new: true});
     });

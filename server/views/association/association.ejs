@@ -88,6 +88,9 @@
         <div class="ui stacked green segment">
           <h4 class="header">
             <a href="/team/<%= team %>"><%= teamArray[team].name %></a>
+            <% if (locals.user.admin == true || locals.user.director.equals(association._id)) { %>
+              <a href="" onclick="if(confirm('Are you sure?')){deleteTeam('<%= teamArray[team]._id %>')}" style="float: right;"><i class="trash alternate icon"></i></a>
+            <% } %>
           </h4>
           <p><%= teamArray[team].age %> <%= teamArray[team].league %></p>
           <h5 class="header">Manager(s)</h5>

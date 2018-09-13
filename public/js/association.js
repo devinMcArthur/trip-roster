@@ -61,3 +61,11 @@ function closeTeamForm() {
   $('#team-form-button-div').append(template);
   $('#team-form').remove();
 }
+
+function deleteTeam(id) {
+  alert('hi');
+  $.ajax({
+    type: 'DELETE',
+    url: `/team/${id}/`
+  });
+}
