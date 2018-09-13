@@ -555,7 +555,6 @@ app.delete('/team/:id', async (req, res) => {
       });
     }
     if (team.association) {
-      console.log(team);
       await Association.findByIdAndUpdate(team.association, {$pull: {teams: team._id}}, {new: true});
     }
     if (team.trips.length > 0) {
