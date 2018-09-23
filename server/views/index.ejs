@@ -1,170 +1,190 @@
 <% include partial/head %>
 
-  <% if (locals.user) { %>
-    
-    <script src="/js/lib/mustache.js"></script>
-    <script src="/js/index.js"></script>
+<% if (locals.user) { %>
 
-    <h1 class="ui header center aligned">
-      Trip Roster
-    </h1>
-    <% if ((typeof currentTripArray != 'undefined' && Object.keys(currentTripArray).length > 0) || (typeof tripArray != 'undefined' && Object.keys(tripArray).length > 0) || (typeof teamArray != 'undefined' && Object.keys(teamArray).length > 0)) { %>
-      <% if (typeof currentTripArray != 'undefined' && Object.keys(currentTripArray).length > 0) { %>
-        <h3 class="ui header">Ongoing Trip(s)</h3>
-        <div class="ui divider"></div>
-        <% for (var i in currentTripArray) { %>
-          <div class="ui clearing segment">
-            <a href="/trip/<%= tripArray[i]._id %>"><b><%= currentTripArray[i].destination %></b></a>
-              - <%= currentTripArray[i].stringifiedDate %>
-            <% if (Object.keys(teamArray).length > 1) { %>
-              <p><%= teamArray[currentTripArray[i].team].name %> - <%= teamArray[currentTripArray[i].team].age %> <%= teamArray[currentTripArray[i].team].league %></p>
-            <% } %>
-          </div>
-        <% } %>
-      <% } %>
-      
-      <!-- Load trips that are coming up soon -->
-      <% if (typeof tripArray != 'undefined' && Object.keys(tripArray).length > 0) { %>
-        <h3 class="ui header">Upcoming Trip(s)</h3>
-        <div class="ui divider"></div>
-        <% for (var i in tripArray) { %>
-          <div class="ui clearing segment">
-            <a href="/trip/<%= tripArray[i]._id %>"><b><%= tripArray[i].destination %></b></a>
-              - <%= tripArray[i].stringifiedDate %>
-            <% if (Object.keys(teamArray).length > 1) { %>
-              <p><%= teamArray[tripArray[i].team].name %> - <%= teamArray[tripArray[i].team].age %> <%= teamArray[tripArray[i].team].league %></p>
-            <% } %>
-          </div>
-        <% } %>
-      <% } %>
-      
-      <!-- List teams user is associated with -->
-      <% if (typeof teamArray != 'undefined' && Object.keys(teamArray).length > 0) { %>
-        <h3 class="ui header">Team(s)</h3>
-        <div class="ui divider"></div>
-        <!-- <% var busArray = []; %> -->
-        <% for (var i in teamArray) { %>
-          <!-- <% if (teamArray[i].association) { %>
+<script src="/js/lib/mustache.js"></script>
+<script src="/js/index.js"></script>
+
+<h1 class="ui header center aligned">
+  Trip Roster
+</h1>
+<% if ((typeof currentTripArray != 'undefined' && Object.keys(currentTripArray).length > 0) || (typeof tripArray != 'undefined' && Object.keys(tripArray).length > 0) || (typeof teamArray != 'undefined' && Object.keys(teamArray).length > 0)) { %>
+<% if (typeof currentTripArray != 'undefined' && Object.keys(currentTripArray).length > 0) { %>
+<h3 class="ui header">Ongoing Trip(s)</h3>
+<div class="ui divider"></div>
+<% for (var i in currentTripArray) { %>
+<div class="ui clearing segment">
+  <a href="/trip/<%= tripArray[currentTripArray[i]]._id %>"><b>
+      <%= currentTripArray[i].destination %></b></a>
+  -
+  <%= currentTripArray[i].stringifiedDate %>
+  <% if (Object.keys(teamArray).length > 1) { %>
+  <p>
+    <%= teamArray[currentTripArray[i].team].name %> -
+    <%= teamArray[currentTripArray[i].team].age %>
+    <%= teamArray[currentTripArray[i].team].league %>
+  </p>
+  <% } %>
+</div>
+<% } %>
+<% } %>
+
+<!-- Load trips that are coming up soon -->
+<% if (typeof tripArray != 'undefined' && Object.keys(tripArray).length > 0) { %>
+<h3 class="ui header">Upcoming Trip(s)</h3>
+<div class="ui divider"></div>
+<% for (var i in tripArray) { %>
+<div class="ui clearing segment">
+  <a href="/trip/<%= tripArray[i]._id %>"><b>
+      <%= tripArray[i].destination %></b></a>
+  -
+  <%= tripArray[i].stringifiedDate %>
+  <% if (Object.keys(teamArray).length > 1) { %>
+  <p>
+    <%= teamArray[tripArray[i].team].name %> -
+    <%= teamArray[tripArray[i].team].age %>
+    <%= teamArray[tripArray[i].team].league %>
+  </p>
+  <% } %>
+</div>
+<% } %>
+<% } %>
+
+<!-- List teams user is associated with -->
+<% if (typeof teamArray != 'undefined' && Object.keys(teamArray).length > 0) { %>
+<h3 class="ui header">Team(s)</h3>
+<div class="ui divider"></div>
+<!-- <% var busArray = []; %> -->
+<% for (var i in teamArray) { %>
+<!-- <% if (teamArray[i].association) { %>
             <% busArray[i] = teamArray[i].busCompanies.concat(associationArray[teamArray[i].association].busCompanies) %>
           <% } %> -->
-          <div class="ui clearing segment">
-            <div class="ui right floated mini button" id="trip-form-button-<%= i %>" onclick="loadTripForm('<%=i%>');">Start Trip</div>
-            <a href="/team/<%= teamArray[i]._id %>"><b><%= teamArray[i].name %></b></a>
-            <div id="trip-form-div-<%=i%>"></div>
-          </div>
-        <% } %>
-      <% } %>
-    <% } else { %>
-      <% if (!user.director) { %>
-        <% if (user.association) { %>
-          <!-- Homepage if user is not a director or manager, but is associated with an association -->
-          <div class="ui green segment" style="margin-top: 15vh; padding: 2em;">
-            <div class="ui header">
-              You have successfully signed up and must now wait to be given permissions by your selected Association Director
-            </div>
-            <% if (user.association) { %>
-              <div class="ui green inverted segment">
-                <div class="ui sub header">
-                  <u>Your Association</u></br>
-                  <%= associationArray[user.association].name %>
-                </div>
-              </div>
-            <% } %>
-          </div>
-        <% } else { %> 
-          <!-- Homepage if user is not a director or manager, and not associated with an association -->
-          <div class="ui green segment" style="padding: 2em;">
-            <h3 class="ui header">
-              Welcome, 
-            </h3>
-            <p>You have successfully signed up, but have not yet linked with an association, you have <i>two options</i> to continue:</p>
-            <div class="ui divider"></div>
-            <ol class="ui list">
-              <b><li>
-                <p>You can link with an existing association (check this first)</p>
-                <form class="ui large form" action="/user/<%= locals.user._id %>/update" method="post">
-                  <div class="ui stacked segment">
-                    <label style="float: left;"><b>Association(s)</b></label>
-                    <div class="field">
-                      <div class="ui fluid search selection dropdown">
-                        <input type="hidden" name="association">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">Select Association</div>
-                        <div class="menu">
-                          <div class="item" data-value=""> * No Association * </div>
-                          <% if (typeof associationArray != 'undefined') { %>
-                            <% for (var i in associationArray) { %>
-                              <div class="item" data-value="<%= i %>"><%= associationArray[i].name %></div>
-                            <% } %>
-                          <% } else { %>
-                            <div class="item" data-value="">We were unable to retreive any associations, please try again</div>
-                          <% } %>
-                        </div>
-                      </div>
-                    </div>
-                    <div id="submit-button" class="ui fluid black submit button" style="background-color: green;">Link</div>
-                  </div>
-                </form>
-              </li></b>
-              <div class="ui horizontal divider">
-                or
-              </div>
-              <b><li>
-                <p>Create your own Sports Association</p>
-                <div class="ui segment" id="association-form" style="margin:0;">
-                  <div class="column">
-                    <h2 class="ui header" style="color: green;">Add an Association</h2>
-                    <p class="ui subheader"><i>Ensure you association has not already been added by checking above</i></p>
-                    <form class="ui large form" action="/association" method="post">
-                      <div class="ui stacked segment">
-                        <label style="float: left;"><b>Name</b></label>
-                        <div class="field">
-                          <div class="ui input">
-                            <input id="name-form" type="text" name="name" placeholder="Association Name">
-                          </div>
-                        </div>
-                        <label style="float: left;"><b>Abbreviation</b></label>
-                        <div class="field">
-                          <div class="ui input">
-                            <input id="abbreviation-form" type="text" name="abbreviation" placeholder="Abbreviation of Association">
-                          </div>
-                        </div>
-                        <input type="hidden" name="directors" value="<%= locals.user._id%>" />
-                        <div id="submit-button" class="ui fluid black submit button" style="background-color: green;">Create</div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </li></b>
-            </ol>
-          </div>
-        <% } %>
-      <% } else { %>
-        <!-- Homepage if user is assigned as a director without access to any teams or trips -->
-        <div class="ui center aligned middle aligned green segment" style="margin-top: 15vh; padding: 2em;">
-          <div class="ui header">
-            You have been assigned as an association director, click the link below to manage your association
-          </div>
-          <% if (user.director) { %>
-            <a href="/association/<%= user.director %>">
-              <div class="ui green inverted stacked segment">
-                <div class="ui sub header">
-                  <u>Your Association</u></br>
-                  <%= associationArray[user.director].name %>
-                </div>
-              </div>
-            </a>
-          <% } %>
-        </div>
-      <% } %>
-    <% } %>
-
+<div class="ui clearing segment">
+  <div class="ui right floated mini button" id="trip-form-button-<%= i %>" onclick="loadTripForm('<%=i%>');">Start Trip</div>
+  <a href="/team/<%= teamArray[i]._id %>"><b>
+      <%= teamArray[i].name %></b></a>
+  <div id="trip-form-div-<%=i%>"></div>
+</div>
+<% } %>
+<% } %>
+<% } else { %>
+<% if (!user.director) { %>
+<% if (user.association) { %>
+<!-- Homepage if user is not a director or manager, but is associated with an association -->
+<div class="ui green segment" style="margin-top: 15vh; padding: 2em;">
+  <div class="ui header">
+    You have successfully signed up and must now wait to be given permissions by your selected Association Director
+  </div>
+  <% if (user.association) { %>
+  <div class="ui green inverted segment">
+    <div class="ui sub header">
+      <u>Your Association</u></br>
+      <%= associationArray[user.association].name %>
     </div>
+  </div>
+  <% } %>
+</div>
+<% } else { %>
+<!-- Homepage if user is not a director or manager, and not associated with an association -->
+<div class="ui green segment" style="padding: 2em;">
+  <h3 class="ui header">
+    Welcome,
+  </h3>
+  <p>You have successfully signed up, but have not yet linked with an association, you have <i>two options</i> to
+    continue:</p>
+  <div class="ui divider"></div>
+  <ol class="ui list">
+    <b>
+      <li>
+        <p>You can link with an existing association (check this first)</p>
+        <form class="ui large form" action="/user/<%= locals.user._id %>/update" method="post">
+          <div class="ui stacked segment">
+            <label style="float: left;"><b>Association(s)</b></label>
+            <div class="field">
+              <div class="ui fluid search selection dropdown">
+                <input type="hidden" name="association">
+                <i class="dropdown icon"></i>
+                <div class="default text">Select Association</div>
+                <div class="menu">
+                  <div class="item" data-value=""> * No Association * </div>
+                  <% if (typeof associationArray != 'undefined') { %>
+                  <% for (var i in associationArray) { %>
+                  <div class="item" data-value="<%= i %>">
+                    <%= associationArray[i].name %>
+                  </div>
+                  <% } %>
+                  <% } else { %>
+                  <div class="item" data-value="">We were unable to retreive any associations, please try again</div>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+            <div id="submit-button" class="ui fluid black submit button" style="background-color: green;">Link</div>
+          </div>
+        </form>
+      </li>
+    </b>
+    <div class="ui horizontal divider">
+      or
+    </div>
+    <b>
+      <li>
+        <p>Create your own Sports Association</p>
+        <div class="ui segment" id="association-form" style="margin:0;">
+          <div class="column">
+            <h2 class="ui header" style="color: green;">Add an Association</h2>
+            <p class="ui subheader"><i>Ensure you association has not already been added by checking above</i></p>
+            <form class="ui large form" action="/association" method="post">
+              <div class="ui stacked segment">
+                <label style="float: left;"><b>Name</b></label>
+                <div class="field">
+                  <div class="ui input">
+                    <input id="name-form" type="text" name="name" placeholder="Association Name">
+                  </div>
+                </div>
+                <label style="float: left;"><b>Abbreviation</b></label>
+                <div class="field">
+                  <div class="ui input">
+                    <input id="abbreviation-form" type="text" name="abbreviation" placeholder="Abbreviation of Association">
+                  </div>
+                </div>
+                <input type="hidden" name="directors" value="<%= locals.user._id%>" />
+                <div id="submit-button" class="ui fluid black submit button" style="background-color: green;">Create</div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </li>
+    </b>
+  </ol>
+</div>
+<% } %>
+<% } else { %>
+<!-- Homepage if user is assigned as a director without access to any teams or trips -->
+<div class="ui center aligned middle aligned green segment" style="margin-top: 15vh; padding: 2em;">
+  <div class="ui header">
+    You have been assigned as an association director, click the link below to manage your association
+  </div>
+  <% if (user.director) { %>
+  <a href="/association/<%= user.director %>">
+    <div class="ui green inverted stacked segment">
+      <div class="ui sub header">
+        <u>Your Association</u></br>
+        <%= associationArray[user.director].name %>
+      </div>
+    </div>
+  </a>
+  <% } %>
+</div>
+<% } %>
+<% } %>
 
-  <% } else { %>
+</div>
 
-  <style>
-    .ui.container {
+<% } else { %>
+
+<style>
+  .ui.container {
       padding: 0 !important;
       margin: 0 !important;
       width: 100vw;
@@ -174,36 +194,37 @@
     }
   </style>
 
-  <div class="masthead segment">
-    <div class="introduction">
-      <h1 class="ui inverted header">
-        <span class="library">Trip Roster</span>
-      </h1>
-      <div class="ui hidden divider"></div>
-      <a href="/signup" class="ui huge inverted basic button">Signup Now</a>
-      <p class="or">or</p>
-      <a href="/login" class="ui huge inverted basic button">Login</a>
-    </div>
+<div class="masthead segment">
+  <div class="introduction">
+    <h1 class="ui inverted header">
+      <span class="library">Trip Roster</span>
+    </h1>
+    <div class="ui hidden divider"></div>
+    <a href="/signup" class="ui huge inverted basic button">Signup Now</a>
+    <p class="or">or</p>
+    <a href="/login" class="ui huge inverted basic button">Login</a>
   </div>
+</div>
 
-  <div class="ui vertical stripe intro segment">
-    <div class="introduction">
-      <div class="row">
-        <div class="seven wide column">
-          <div class="row">
-            <div class="ui small images">
-              <img class="ui image" src="/assets/images/ooaa_logo.png">
-              <img class="ui image" src="/assets/images/omha_logo.svg">
-            </div>
+<div class="ui vertical stripe intro segment">
+  <div class="introduction">
+    <div class="row">
+      <div class="seven wide column">
+        <div class="row">
+          <div class="ui small images">
+            <img class="ui image" src="/assets/images/ooaa_logo.png">
+            <img class="ui image" src="/assets/images/omha_logo.svg">
           </div>
-          <h1 class="ui header">Easily Record Bus Attendance</h1>
-          <p>Trip Roster is a website used to record who is on bus trips and provide the collected information to the relevant association</p>
         </div>
+        <h1 class="ui header">Easily Record Bus Attendance</h1>
+        <p>Trip Roster is a website used to record who is on bus trips and provide the collected information to the
+          relevant association</p>
       </div>
     </div>
   </div>
+</div>
 
-  <% } %>
+<% } %>
 
 <% include partial/foot %>
 
