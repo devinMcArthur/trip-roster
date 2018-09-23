@@ -159,7 +159,7 @@ app.get('/', async (req, res) => {
                         if (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1) && Object.keys(teamArray).indexOf(tripArray[i].team.toString()) != -1) {
                             array[i] = tripArray[i];
                         }
-                        if (!tripArray[i].homeArrivalTime && (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 1) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) && (teamArray[tripArray[i].team] && (teamArray[tripArray[i].team].managers.toString().includes(req.user._id)))
+                        if (!tripArray[i].homeArrivalTime && (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 1) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) && (teamArray[tripArray[i].team] && (teamArray[tripArray[i].team].managers.indexOf(req.user._id) !== -1))
                             ((tripArray[i].members && tripArray[i].members.length > 0) || (tripArray[i].homeDepartTime || tripArray[i].destinationArrivalTime || tripArray[i].destinationDepartTime))) {
                             currentTripArray[i] = tripArray[i];
                         }
