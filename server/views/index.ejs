@@ -14,7 +14,7 @@
 <div class="ui divider"></div>
 <% for (var i in currentTripArray) { %>
 <div class="ui clearing segment">
-  <a href="/trip/<%= tripArray[currentTripArray[i]]._id %>"><b>
+  <a href="/trip/<%= currentTripArray[i]._id %>"><b>
       <%= currentTripArray[i].destination %></b></a>
   -
   <%= currentTripArray[i].stringifiedDate %>
