@@ -37,7 +37,7 @@ var sess = {
 
 // Ensure requests use 'https'
 if (process.env.NODE_ENV === 'production') {
-    app.use(function(req, res, next) {
+    app.use(function (req, res, next) {
         if (req.headers['x-forwarded-proto'] !== 'https') {
             return res.redirect(['https://', req.get('Host'), req.url].join(''));
         }
@@ -47,11 +47,11 @@ if (process.env.NODE_ENV === 'production') {
 
 passport.use(new LocalStrategy({
     usernameField: 'email'
-}, function(username, password, done) {
-    User.findOne({ email: username }, function(err, user) {
+}, function (username, password, done) {
+    User.findOne({ email: username }, function (err, user) {
         if (err) return done(err);
         if (!user) return done(null, false, { message: 'Incorrect username.' });
-        user.comparePassword(password, function(err, isMatch) {
+        user.comparePassword(password, function (err, isMatch) {
             if (isMatch) {
                 return done(null, user);
             } else {
@@ -61,12 +61,12 @@ passport.use(new LocalStrategy({
     });
 }));
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
     done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
+passport.deserializeUser(function (id, done) {
+    User.findById(id, function (err, user) {
         done(err, user);
     });
 });
@@ -89,7 +89,7 @@ app.use((req, res, next) => {
     res.locals.query = req.query;
     next();
 });
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     if (req.method == 'POST' && req.url == '/login') {
         if (req.body.remember) {
             req.session.cookie.maxAge = 2592000000; // 30*24*60*60*1000 Rememeber 'me' for 30 days
@@ -159,7 +159,7 @@ app.get('/', async (req, res) => {
                         if (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 7) && (moment(tripArray[i].date).diff(moment(), 'days') > -1) && Object.keys(teamArray).indexOf(tripArray[i].team.toString()) != -1) {
                             array[i] = tripArray[i];
                         }
-                        if (!tripArray[i].homeArrivalTime && (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 1) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) &&
+                        if (!tripArray[i].homeArrivalTime && (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 1) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) && (teamArray[tripArray[i].team].managers.toString().includes(req.user._id))
                             ((tripArray[i].members && tripArray[i].members.length > 0) || (tripArray[i].homeDepartTime || tripArray[i].destinationArrivalTime || tripArray[i].destinationDepartTime))) {
                             currentTripArray[i] = tripArray[i];
                         }
@@ -188,8 +188,8 @@ app.get('/login', (req, res) => {
 });
 
 // POST /login
-app.post('/login', function(req, res, next) {
-    passport.authenticate('local', function(err, user, info) {
+app.post('/login', function (req, res, next) {
+    passport.authenticate('local', function (err, user, info) {
         if (info) {
             console.log(info);
             req.flash('error', info.message);
@@ -207,7 +207,7 @@ app.post('/login', function(req, res, next) {
             res.redirect('/login');
             return;
         }
-        req.logIn(user, function(err) {
+        req.logIn(user, function (err) {
             if (err) return next(err);
             return res.redirect('/');
         });
@@ -269,26 +269,26 @@ app.get('/forgot', (req, res) => {
 // POST /forgot
 app.post('/forgot', (req, res, next) => {
     async.waterfall([
-        function(done) {
-            crypto.randomBytes(20, function(err, buf) {
+        function (done) {
+            crypto.randomBytes(20, function (err, buf) {
                 var token = buf.toString('hex');
                 done(err, token);
             });
         },
-        function(token, done) {
-            User.findOne({ email: req.body.email }, function(err, user) {
+        function (token, done) {
+            User.findOne({ email: req.body.email }, function (err, user) {
                 if (!user) {
                     req.flash('error', 'No account with that email address exists.');
                     return res.redirect('/forgot');
                 }
                 user.resetPasswordToken = token;
                 user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-                user.save(function(err) {
+                user.save(function (err) {
                     done(err, token, user);
                 });
             });
         },
-        function(token, user, done) {
+        function (token, user, done) {
             var smtpTransport = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -305,12 +305,12 @@ app.post('/forgot', (req, res, next) => {
                     'http://' + req.headers.host + '/reset/' + token + '\n\n' +
                     'If you did not request this, please ignore this email and your password will remain unchanged.\n'
             };
-            smtpTransport.sendMail(mailOptions, function(err) {
+            smtpTransport.sendMail(mailOptions, function (err) {
                 req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
                 done(err, 'done');
             });
         }
-    ], function(err) {
+    ], function (err) {
         if (err) return next(err);
         res.redirect('/forgot');
     });
@@ -318,7 +318,7 @@ app.post('/forgot', (req, res, next) => {
 
 // GET /reset/:token
 app.get('/reset/:token', (req, res) => {
-    User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+    User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
         if (!user) {
             req.flash('error', 'Password reset token is invalid or has expired.');
             return res.redirect('/forgot');
@@ -330,10 +330,10 @@ app.get('/reset/:token', (req, res) => {
 });
 
 // POST /reset/:token
-app.post('/reset/:token', function(req, res) {
+app.post('/reset/:token', function (req, res) {
     async.waterfall([
-        function(done) {
-            User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+        function (done) {
+            User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
                 if (!user) {
                     req.flash('error', 'Password reset token is invalid or has expired.');
                     return res.redirect('back');
@@ -341,14 +341,14 @@ app.post('/reset/:token', function(req, res) {
                 user.password = req.body.password;
                 user.resetPasswordToken = undefined;
                 user.resetPasswordExpires = undefined;
-                user.save(function(err) {
-                    req.logIn(user, function(err) {
+                user.save(function (err) {
+                    req.logIn(user, function (err) {
                         done(err, user);
                     });
                 });
             });
         },
-        function(user, done) {
+        function (user, done) {
             var smtpTransport = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -363,12 +363,12 @@ app.post('/reset/:token', function(req, res) {
                 text: 'Hello,\n\n' +
                     'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
             };
-            smtpTransport.sendMail(mailOptions, function(err) {
+            smtpTransport.sendMail(mailOptions, function (err) {
                 req.flash('info', 'Success! Your password has been changed.');
                 done(err);
             });
         }
-    ], function(err) {
+    ], function (err) {
         res.redirect('/');
     });
 });
