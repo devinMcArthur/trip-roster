@@ -35,6 +35,7 @@ var sess = {
   })
 };
 
+// Ensure requests use 'https'
 if (process.env.NODE_ENV === 'production') {
   app.use(function(req, res, next) {
     if (req.headers['x-forwarded-proto'] !== 'https') {
@@ -159,7 +160,7 @@ app.get('/', async (req, res) => {
               array[i] = tripArray[i];
             }
             if(!tripArray[i].homeArrivalTime && (Math.abs(moment(tripArray[i].date).diff(moment(), 'days') < 1) && (moment(tripArray[i].date).diff(moment(), 'days') > -1)) && 
-               ((tripArray[i].members && tripArray[i].members.length > 0) || (tripArray[i].homeDepartTime || tripArray[i].destinationArrivalTime || tripArray[i].destinationDepartTime))) {
+              ((tripArray[i].members && tripArray[i].members.length > 0) || (tripArray[i].homeDepartTime || tripArray[i].destinationArrivalTime || tripArray[i].destinationDepartTime))) {
               currentTripArray[i] = tripArray[i];
             }
           }
