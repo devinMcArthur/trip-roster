@@ -3,8 +3,13 @@
 <script src="/js/team.js"></script>
 <script src="/js/lib/mustache.js"></script>
 
-<h1 class="ui header"><%= team.name %></h1>
-<p><%= team.age %> <%= team.league %></p>
+<h1 class="ui header">
+  <%= team.name %>
+</h1>
+<p>
+  <%= team.age %>
+  <%= team.league %>
+</p>
 
 <!-- <div class="ui search">
   <div class="ui left icon input">
@@ -23,16 +28,17 @@
       </div>
       <div class="two wide column">
         <% if (locals.user.admin == true || locals.user.association == team.association) { %>
-          <a href="" onclick="loadAssociationForm('<%= team.association %>', '<%= team._id %>'); return false;" id="edit-button-holder" style="float: right;"><i id="edit-button-<%= team._id %>" class="edit icon black"></i></a>
+        <a href="" onclick="loadAssociationForm('<%= team.association %>', '<%= team._id %>'); return false;" id="edit-button-holder"
+          style="float: right;"><i id="edit-button-<%= team._id %>" class="edit icon black"></i></a>
         <% } %>
       </div>
     </div>
     <div id="association-form-div-<%= team._id %>"></div>
     <% if (team.association) { %>
-      <%= associationArray[team.association].name %>
+    <%= associationArray[team.association].name %>
     <% } %>
   </div>
-  
+
   <div class="ui segment">
     <div class="ui grid">
       <div class="fourteen wide column">
@@ -40,18 +46,20 @@
       </div>
       <div class="two wide column">
         <% if (locals.user.admin == true || locals.user.director == team.association) { %>
-          <a href="" onclick="loadManagerForm('<%= team.managers %>'); return false;" id="edit-button-holder" style="float: right;"><i id="edit-button" class="edit icon black"></i></a>
+        <a href="" onclick="loadManagerForm('<%= team.managers %>'); return false;" id="edit-button-holder" style="float: right;"><i
+            id="edit-button" class="edit icon black"></i></a>
         <% } %>
       </div>
     </div>
     <div id="manager-form-div"></div>
     <div class="ui celled list">
       <% if (team.managers) { %>
-        <% team.managers.forEach((manager) => { %>
-          <div class="item" style="padding: 1em;">
-            <a href="/user/<%= userArray[manager]._id %>"><%= userArray[manager].name %></a>
-          </div>
-        <% }); %>
+      <% team.managers.forEach((manager) => { %>
+      <div class="item" style="padding: 1em;">
+        <a href="/user/<%= userArray[manager]._id %>">
+          <%= userArray[manager].name %></a>
+      </div>
+      <% }); %>
       <% } %>
     </div>
   </div>
@@ -62,62 +70,70 @@
         <h5 class="header">Bus Companies</h5>
       </div>
       <div class="two wide column">
-        <a href="" onclick="loadBusForm(); return false;" id="bus-form-button-holder" style="float: right;"><i id="bus-form-button" class="plus icon black"></i></a>
+        <a href="" onclick="loadBusForm(); return false;" id="bus-form-button-holder" style="float: right;"><i id="bus-form-button"
+            class="plus icon black"></i></a>
       </div>
     </div>
     <div id="bus-form-div"></div>
     <% if (team.association) { %>
-      <% var busArray = team.busCompanies.concat(associationArray[team.association].busCompanies) %>
+    <% var busArray = team.busCompanies.concat(associationArray[team.association].busCompanies) %>
     <% } %>
     <% if (busArray && busArray.length > 0) { %>
-      <div class="ui celled list">
-        <% busArray.forEach((busCompany) => { %>
-          <div class="item" style="padding: 1em;">
-            <div class="ui grid">
-              <div class="fourteen wide column">
-                <%= busCompany %>
-              </div>
-              <% if (team.busCompanies.indexOf(busCompany) != -1) { %>
-                <div class="two wide column">
-                  <a href="" onclick="loadBusEditForm('<%= busCompany %>', '<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>'); return false;" id="bus-<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>-edit-form-button-holder" style="float: right;"><i id="bus-<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>-edit-form-button" class="edit icon black"></i></a>
-                </div>
-              <% } else { %>
-                <div class="two wide column">
-                  <% if (associationArray[team.association].abbreviation) { %>
-                    <%= associationArray[team.association].abbreviation %>
-                  <% } %>
-                </div>
-              <% } %>
-            </div>
+    <div class="ui celled list">
+      <% busArray.forEach((busCompany) => { %>
+      <div class="item" style="padding: 1em;">
+        <div class="ui grid">
+          <div class="fourteen wide column">
+            <%= busCompany %>
           </div>
-          <div id="<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>-edit-div"></div>
-        <% }); %>
+          <% if (team.busCompanies.indexOf(busCompany) != -1) { %>
+          <div class="two wide column">
+            <a href="" onclick="loadBusEditForm('<%= busCompany %>', '<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>'); return false;"
+              id="bus-<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>-edit-form-button-holder" style="float: right;"><i
+                id="bus-<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>-edit-form-button" class="edit icon black"></i></a>
+          </div>
+          <% } else { %>
+          <div class="two wide column">
+            <% if (associationArray[team.association].abbreviation) { %>
+            <%= associationArray[team.association].abbreviation %>
+            <% } %>
+          </div>
+          <% } %>
+        </div>
       </div>
+      <div id="<%= busCompany.replace(/\s+/g, '-').toLowerCase(); %>-edit-div"></div>
+      <% }); %>
+    </div>
     <% } %>
   </div>
 
   <% if (team.association && locals.user.director && (team.association.toString() == locals.user.director.toString() || locals.user.teams.toString().includes(team._id) || locals.user.admin == true)) { %>
-    <div class="ui segment">
-      <div class="ui grid">
-          <div class="twelve wide column">
-            <h5 class="header">Team Login Account</h5>
-          </div>
-          <div class="four wide column" id="account-form-button-holder">
-            <% if (!teamAccount) { %>
-              <div class="ui right floated mini button" id="account-form-button" onclick="loadAccountForm(); return false;">Create Account</div>            
-            <% } else { %>
-              <div class="ui right floated mini button" id="account-edit-form-button" onclick="loadAccountEditForm(); return false;">Edit Account</div>            
-            <% } %>
-          </div>
-        </div>
-        <% if (teamAccount) { %>
-          <div class="ui divider"></div>
-          <b>Name: </b><%= teamAccount.name %>
-          <p><b>Email: </b><%= teamAccount.email %></p>
+  <div class="ui segment">
+    <div class="ui grid">
+      <div class="twelve wide column">
+        <h5 class="header">Team Login Account</h5>
+      </div>
+      <div class="four wide column" id="account-form-button-holder">
+        <% if (!teamAccount) { %>
+        <div class="ui right floated mini button" id="account-form-button" onclick="loadAccountForm(); return false;">Create
+          Account</div>
+        <% } else { %>
+        <div class="ui right floated mini button" id="account-edit-form-button" onclick="loadAccountEditForm(); return false;">Edit
+          Account</div>
         <% } %>
-        <div id="account-form-div"></div>
-        <div id="account-edit-form-div"></div>
+      </div>
     </div>
+    <% if (teamAccount) { %>
+    <div class="ui divider"></div>
+    <b>Name: </b>
+    <%= teamAccount.name %>
+    <p><b>Email: </b>
+      <%= teamAccount.email %>
+    </p>
+    <% } %>
+    <div id="account-form-div"></div>
+    <div id="account-edit-form-div"></div>
+  </div>
   <% } %>
 
 </div>
@@ -128,29 +144,37 @@
       <h5 class="header"><i class="car icon black"></i>Trips</h5>
     </div>
     <div class="two wide column">
-      <a href="" onclick="loadTripForm(); return false;" id="trip-form-button-holder" style="float: right;"><i id="trip-form-button" class="add icon black"></i></a>
+      <a href="" onclick="loadTripForm(); return false;" id="trip-form-button-holder" style="float: right;"><i id="trip-form-button"
+          class="add icon black"></i></a>
     </div>
   </div>
   <div id="trip-form-div"></div>
   <div class="ui celled list">
     <% if (team.trips) { %>
-      <% team.trips.forEach((trip) => { %>
-        <div class="item" style="padding: 1em;">
-          <div class="ui grid">
-            <div class="fourteen wide column">
-              <a href="/trip/<%= tripArray[trip]._id %>"><b><%= tripArray[trip].destination %></b></a>
-              <p><%= tripArray[trip].stringifiedDate %></p>
-              <% if (tripArray[trip].busCompany) { %>
-                <%= tripArray[trip].busCompany %>
-              <% } %>
-            </div>
-            <div class="two wide column">
-              <a href="" onclick="loadTripEditForm('<%= tripArray[trip]._id %>', '<%= tripArray[trip].destination %>', '<%= inputDateArray[trip] %>'); return false;" id="trip-edit-form-button-holder" style="float: right;"><i id="trip-<%= tripArray[trip]._id %>-edit-form-button" class="edit icon black"></i></a>
-            </div>
-          </div>
-          <div id="trip-<%= tripArray[trip]._id %>-edit-form-div"></div>
+    <% team.trips.forEach((trip) => { %>
+    <% if (tripArray[trip]) { %>
+    <div class="item" style="padding: 1em;">
+      <div class="ui grid">
+        <div class="fourteen wide column">
+          <a href="/trip/<%= tripArray[trip]._id %>"><b>
+              <%= tripArray[trip].destination %></b></a>
+          <p>
+            <%= tripArray[trip].stringifiedDate %>
+          </p>
+          <% if (tripArray[trip].busCompany) { %>
+          <%= tripArray[trip].busCompany %>
+          <% } %>
         </div>
-      <% }); %>
+        <div class="two wide column">
+          <a href="" onclick="loadTripEditForm('<%= tripArray[trip]._id %>', '<%= tripArray[trip].destination %>', '<%= inputDateArray[trip] %>'); return false;"
+            id="trip-edit-form-button-holder" style="float: right;"><i id="trip-<%= tripArray[trip]._id %>-edit-form-button"
+              class="edit icon black"></i></a>
+        </div>
+      </div>
+      <div id="trip-<%= tripArray[trip]._id %>-edit-form-div"></div>
+    </div>
+    <% } %>
+    <% }); %>
     <% } %>
   </div>
 </div>
@@ -161,40 +185,44 @@
       <h5 class="header"><i class="id card outline icon black"></i>Team Members</h5>
     </div>
     <div class="two wide column">
-      <a href="" onclick="loadMemberForm('<%= JSON.stringify(associationMembers) %>'); return false;" id="member-button-holder" style="float: right;"><i id="member-button" class="id add icon black"></i></a>
+      <a href="" onclick="loadMemberForm('<%= JSON.stringify(associationMembers) %>'); return false;" id="member-button-holder"
+        style="float: right;"><i id="member-button" class="id add icon black"></i></a>
     </div>
   </div>
   <div id="member-form-div"></div>
   <div class="ui list">
     <% if (typeof memberArray != 'undefined') { %>
-      <% team.members.forEach((member) => { %>
-        <% if (memberArray[member].player == true) { %>
-          <div class="ui segment">
-            <a href="" id="member-<%= member %>-edit-button-holder" onclick="loadMemberEditForm('<%= member %>', '<%= memberArray[member].relationships %>'); return false;" style="float:right;"><i id="member-<%= member %>-edit-button" class="edit black icon floated right"></i></a>
-            <%= memberArray[member].name %>
-            <% var id = member; var name = memberArray[member].name; var phoneNumber = memberArray[member].phoneNumber; var emergencyName = memberArray[member].emergencyName; var emergencyPhone = memberArray[member].emergencyPhone; var player = memberArray[member].player; var array = memberArray %>
-            <% include ../partial/memberEditForm %>
-            <div class="ui celled list">
-              <% memberArray[member].relationships.forEach((rel) => { %>
-                <div class="item" style="padding: 1em;">
-                  <a href="" id="member-<%= rel %>-edit-button-holder" onclick="loadMemberEditForm('<%= rel %>', '<%= memberArray[rel].relationships %>');return false;" style="float:right;"><i id="member-<%= rel %>-edit-button" class="edit black icon floated right"></i></a>
-                  <%= memberArray[rel].name %>
-                  <% var id = rel; var name = memberArray[rel].name; var phoneNumber = memberArray[rel].phoneNumber; var emergencyName = memberArray[rel].emergencyName; var emergencyPhone = memberArray[rel].emergencyPhone; var player = memberArray[rel].player; var array = memberArray %>
-                  <% include ../partial/memberEditForm %>
-                </div>
-              <% }); %>
-            </div>
-          </div>
-        <% } %>
-        <% if (memberArray[member].relationships == '' && memberArray[member].player == false) { %>
-          <div class="ui segment">
-            <a href="" id="member-<%= member %>-edit-button-holder" onclick="loadMemberEditForm('<%= member %>', '<%= memberArray[member].relationships %>');return false;" style="float:right;"><i id="member-<%= member %>-edit-button" class="edit black icon floated right"></i></a>
-            <%= memberArray[member].name %>
-            <% var id = member; var name = memberArray[member].name; var phoneNumber = memberArray[member].phoneNumber; var emergencyName = memberArray[member].emergencyName; var emergencyPhone = memberArray[member].emergencyPhone; var player = memberArray[member].player; var array = memberArray %>
-            <% include ../partial/memberEditForm %>
-          </div>
-        <% } %>
-      <% }); %>
+    <% team.members.forEach((member) => { %>
+    <% if (memberArray[member].player == true) { %>
+    <div class="ui segment">
+      <a href="" id="member-<%= member %>-edit-button-holder" onclick="loadMemberEditForm('<%= member %>', '<%= memberArray[member].relationships %>'); return false;"
+        style="float:right;"><i id="member-<%= member %>-edit-button" class="edit black icon floated right"></i></a>
+      <%= memberArray[member].name %>
+      <% var id = member; var name = memberArray[member].name; var phoneNumber = memberArray[member].phoneNumber; var emergencyName = memberArray[member].emergencyName; var emergencyPhone = memberArray[member].emergencyPhone; var player = memberArray[member].player; var array = memberArray %>
+      <% include ../partial/memberEditForm %>
+      <div class="ui celled list">
+        <% memberArray[member].relationships.forEach((rel) => { %>
+        <div class="item" style="padding: 1em;">
+          <a href="" id="member-<%= rel %>-edit-button-holder" onclick="loadMemberEditForm('<%= rel %>', '<%= memberArray[rel].relationships %>');return false;"
+            style="float:right;"><i id="member-<%= rel %>-edit-button" class="edit black icon floated right"></i></a>
+          <%= memberArray[rel].name %>
+          <% var id = rel; var name = memberArray[rel].name; var phoneNumber = memberArray[rel].phoneNumber; var emergencyName = memberArray[rel].emergencyName; var emergencyPhone = memberArray[rel].emergencyPhone; var player = memberArray[rel].player; var array = memberArray %>
+          <% include ../partial/memberEditForm %>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+    <% } %>
+    <% if (memberArray[member].relationships == '' && memberArray[member].player == false) { %>
+    <div class="ui segment">
+      <a href="" id="member-<%= member %>-edit-button-holder" onclick="loadMemberEditForm('<%= member %>', '<%= memberArray[member].relationships %>');return false;"
+        style="float:right;"><i id="member-<%= member %>-edit-button" class="edit black icon floated right"></i></a>
+      <%= memberArray[member].name %>
+      <% var id = member; var name = memberArray[member].name; var phoneNumber = memberArray[member].phoneNumber; var emergencyName = memberArray[member].emergencyName; var emergencyPhone = memberArray[member].emergencyPhone; var player = memberArray[member].player; var array = memberArray %>
+      <% include ../partial/memberEditForm %>
+    </div>
+    <% } %>
+    <% }); %>
     <% } %>
   </div>
 </div>
