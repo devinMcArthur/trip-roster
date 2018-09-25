@@ -601,7 +601,7 @@ app.get('/team/:id', async (req, res) => {
     }
     var inputDateArray = [];
     team.trips.forEach((trip) => {
-      if (Object.keys(tripArray[trip]).length > 0) {
+      if (typeof tripArray[trip] !== null) {
         inputDateArray[trip] = moment(tripArray[trip].date).add(1, 'days').format("YYYY-MM-DD");
       }
     });
