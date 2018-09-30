@@ -202,6 +202,7 @@
       <% include ../partial/memberEditForm %>
       <div class="ui celled list">
         <% memberArray[member].relationships.forEach((rel) => { %>
+        <% if (memberArray[rel]) { %>
         <div class="item" style="padding: 1em;">
           <a href="" id="member-<%= rel %>-edit-button-holder" onclick="loadMemberEditForm('<%= rel %>', '<%= memberArray[rel].relationships %>');return false;"
             style="float:right;"><i id="member-<%= rel %>-edit-button" class="edit black icon floated right"></i></a>
@@ -209,6 +210,7 @@
           <% var id = rel; var name = memberArray[rel].name; var phoneNumber = memberArray[rel].phoneNumber; var emergencyName = memberArray[rel].emergencyName; var emergencyPhone = memberArray[rel].emergencyPhone; var player = memberArray[rel].player; var array = memberArray %>
           <% include ../partial/memberEditForm %>
         </div>
+        <% } %>
         <% }); %>
       </div>
     </div>
