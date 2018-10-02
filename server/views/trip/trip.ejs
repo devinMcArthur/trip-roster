@@ -219,20 +219,22 @@
       </label>
       <div class="ui celled list" style="margin: 0;">
         <% memberArray[member].relationships.forEach((rel) => { %>
-        <div class="item">
-          <label for="member-toggle-<%=rel%>">
-            <div class="ui basic segment" style="margin: 0;">
-              <div class="ui toggle checkbox member-checkbox">
-                <input class="id" type="hidden" value="<%= trip._id %>" />
-                <input class="checkbox toggleMember" id="member-toggle-<%=rel%>" type="checkbox" name="members" value="<%= memberArray[rel]._id %>"
-                  <% if (trip.members.toString().includes(memberArray[rel]._id)) { %> checked=""
-                <%}%> />
-              </div>
-              <b>
-                <%= memberArray[rel].name %></b>
+          <% if (memberArray[rel]) { %>
+            <div class="item">
+              <label for="member-toggle-<%=rel%>">
+                <div class="ui basic segment" style="margin: 0;">
+                  <div class="ui toggle checkbox member-checkbox">
+                    <input class="id" type="hidden" value="<%= trip._id %>" />
+                    <input class="checkbox toggleMember" id="member-toggle-<%=rel%>" type="checkbox" name="members" value="<%= memberArray[rel]._id %>"
+                      <% if (trip.members.toString().includes(memberArray[rel]._id)) { %> checked=""
+                    <%}%> />
+                  </div>
+                  <b>
+                    <%= memberArray[rel].name %></b>
+                </div>
+              </label>
             </div>
-          </label>
-        </div>
+          <% } %>
         <% }); %>
       </div>
     </div>
