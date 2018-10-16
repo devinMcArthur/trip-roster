@@ -198,6 +198,7 @@
   <div id="mobile-time-edit-div-2"></div>
 </div>
 
+<!-- Attendance -->
 <div class="ui green segment">
   <h4 class="ui header">Attendance</h4>
   <div class="ui list">
@@ -262,7 +263,7 @@
   </div>
 </div>
 
-<% if (team.association && locals.user.director && (team.association.toString() == locals.user.director.toString() && locals.user.teams.indexOf(team._id) == -1) && locals.user.admin == false) { %>
+<% if (team.association && locals.user.director && (team.association.toString() === locals.user.director.toString() && locals.user.teams.indexOf(team._id) == -1) && locals.user.admin == false) { %>
 <script>disableCheckboxes();</script>
 <% } %>
 
