@@ -136,6 +136,7 @@ app.get('/podcast/feed', async (req, res) => {
 
 
     /* loop over data and add to feed */
+    // Add first podcast
     feed.addItem({
       title: 'First Podcast',
       description: '<h1>Content</h1>',
@@ -146,7 +147,7 @@ app.get('/podcast/feed', async (req, res) => {
       date: 'Nov 4, 2018', // any format that js Date can parse.
       lat: 33.417974, //optional latitude field for GeoRSS
       long: -111.933231, //optional longitude field for GeoRSS
-      enclosure: { url: 'https://www.triproster.com/podcasts/podcast1.m4a' }, // optional enclosure
+      enclosure: { url: 'https://www.triproster.com/podcasts/podcast1.m4a', file: __dirname + '/podcasts/podcast1.m4a' }, // optional enclosure
       itunesAuthor: 'Devin McArthur & Curtis Colbary',
       itunesExplicit: false,
       itunesSubtitle: 'I am a sub title',
@@ -157,7 +158,6 @@ app.get('/podcast/feed', async (req, res) => {
 
     // cache the xml to send to clients
     const xml = feed.buildXml();
-    console.log(xml);
 
     res.set('Content-Type', 'text/xml');
     res.send(xml);
