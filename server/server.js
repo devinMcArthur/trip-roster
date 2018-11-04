@@ -107,29 +107,31 @@ app.get('/podcast/feed', async (req, res) => {
       title: 'Stories From The Nish',
       description: 'description',
       feed_url: 'https://www.triproster.com/podcast/feed',
-      site_url: 'http://instagram.com/',
-      image_url: 'http://example.com/icon.png',
-      docs: 'http://example.com/rss/docs.html',
-      author: 'Dylan Greene',
-      managingEditor: 'Dylan Greene',
-      webMaster: 'Dylan Greene',
-      copyright: '2013 Dylan Greene',
+      site_url: 'http://instagram.com/storiesfromthenish',
+      image_url: 'https://www.triproster.com/podcast/thumbnail.jpg',
+      // docs: 'http://example.com/rss/docs.html',
+      author: 'Devin McArthur & Curtis Colbary',
+      managingEditor: 'Curtis Colbary',
+      webMaster: 'Devin McArthur',
+      copyright: '2018 Devin McArthur',
       language: 'en',
-      categories: ['Category 1', 'Category 2', 'Category 3'],
-      pubDate: 'May 20, 2012 04:00:00 GMT',
+      categories: ['Conversation', 'University', 'Business', 'Tech'],
+      pubDate: 'Nov 4, 2018 2:00:00 GMT',
       ttl: '60',
-      itunesAuthor: 'Max Nowack',
-      itunesSubtitle: 'I am a sub title',
-      itunesSummary: 'I am a summary',
-      itunesOwner: { name: 'Max Nowack', email: 'max@unsou.de' },
+      itunesAuthor: 'Curtis Colbary',
+      itunesSubtitle: 'A dive into the lives of the people in the Nish',
+      itunesSummary: 'Story time with Curtis and Devin',
+      itunesOwner: { name: 'Curtis Colbary', email: 'colbary88@gmail.com' },
       itunesExplicit: false,
       itunesCategory: {
         "text": "Entertainment",
+        "text": "Tech",
+        "text": "Conversation",
         "subcats": [{
-          "text": "Television"
+          "text": "Business"
         }]
       },
-      itunesImage: 'http://link.to/image.png'
+      itunesImage: 'https://www.triproster.com/podcast/thumbnail.jpg'
     });
 
 
@@ -137,20 +139,20 @@ app.get('/podcast/feed', async (req, res) => {
     feed.addItem({
       title: 'First Podcast',
       description: '<h1>Content</h1>',
-      url: 'http://example.com/article4?this&that', // link to the item
-      guid: '1123', // optional - defaults to url
-      categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4'], // optional - array of item categories
-      author: 'Guest Author', // optional - defaults to feed author property
-      date: 'May 27, 2012', // any format that js Date can parse.
+      url: 'https://www.triproster.com/podcasts/podcast1.m4a', // link to the item
+      guid: '001', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      date: 'Nov 4, 2018', // any format that js Date can parse.
       lat: 33.417974, //optional latitude field for GeoRSS
       long: -111.933231, //optional longitude field for GeoRSS
       enclosure: { url: 'https://www.triproster.com/podcasts/podcast1.m4a' }, // optional enclosure
-      itunesAuthor: 'Max Nowack',
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
       itunesExplicit: false,
       itunesSubtitle: 'I am a sub title',
-      itunesSummary: 'I am a summary',
-      itunesDuration: 12345,
-      itunesKeywords: ['javascript', 'podcast']
+      itunesSummary: 'The First ',
+      itunesDuration: 2919,
+      itunesKeywords: ['business', 'nish', 'stories', 'from', 'podcast']
     });
 
     // cache the xml to send to clients
@@ -178,6 +180,33 @@ app.get('/podcast/:name', async (req, res) => {
     };
 
     var fileName = req.params.name;
+    res.set('Content-Type', 'audio/mp4');
+    res.sendFile(fileName, options, function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('Sent:', fileName);
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('/');
+  }
+});
+
+app.get('/podcast/thumbnail.jpg', async (req, res) => {
+  try {
+    var options = {
+      root: __dirname + '/podcasts/',
+      dotfiles: 'deny',
+      headers: {
+        'x-timestamp': Date.now(),
+        'x-sent': true
+      }
+    };
+
+    var fileName = 'thumbnail.jpg';
     res.sendFile(fileName, options, function (err) {
       if (err) {
         console.log(err);
