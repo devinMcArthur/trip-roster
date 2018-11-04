@@ -135,8 +135,8 @@ app.get('/podcast/feed', async (req, res) => {
 
     /* loop over data and add to feed */
     feed.addItem({
-      title: 'item title',
-      description: 'use this for the content. It can include html.',
+      title: 'First Podcast',
+      description: '<h1>Content</h1>',
       url: 'http://example.com/article4?this&that', // link to the item
       guid: '1123', // optional - defaults to url
       categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4'], // optional - array of item categories
@@ -144,7 +144,7 @@ app.get('/podcast/feed', async (req, res) => {
       date: 'May 27, 2012', // any format that js Date can parse.
       lat: 33.417974, //optional latitude field for GeoRSS
       long: -111.933231, //optional longitude field for GeoRSS
-      enclosure: { url: 'https://' }, // optional enclosure
+      enclosure: { url: 'https://www.triproster.com/podcasts/podcast1.m4a' }, // optional enclosure
       itunesAuthor: 'Max Nowack',
       itunesExplicit: false,
       itunesSubtitle: 'I am a sub title',
