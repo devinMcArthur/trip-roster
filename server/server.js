@@ -109,7 +109,7 @@ app.get('/podcast/feed', async (req, res) => {
       description: 'description',
       feed_url: 'http://www.triproster.com/podcast/feed',
       site_url: 'http://instagram.com/storiesfromthenish',
-      image_url: 'http://www.triproster.com/podcast/thumbnail.jpg',
+      image_url: 'http://www.triproster.com/podcast/img/thumbnail.jpg',
       // docs: 'http://example.com/rss/docs.html',
       // author: 'Devin McArthur & Curtis Colbary',
       // managingEditor: 'Curtis Colbary',
@@ -132,7 +132,7 @@ app.get('/podcast/feed', async (req, res) => {
           "text": "Business"
         }]
       },
-      itunesImage: 'http://www.triproster.com/podcast/thumbnail.jpg'
+      itunesImage: 'http://www.triproster.com/podcast/img/thumbnail.jpg'
     });
 
 
@@ -217,7 +217,7 @@ app.get('/podcast/:name', async (req, res) => {
   }
 });
 
-app.get('/podcast/thumbnail.jpg', async (req, res) => {
+app.get('/podcast/img/thumbnail.jpg', async (req, res) => {
   try {
     var options = {
       root: __dirname + '/podcasts/',
