@@ -111,7 +111,7 @@ app.get('/podcast/feed', async (req, res) => {
       site_url: 'http://instagram.com/storiesfromthenish',
       image_url: 'http://www.triproster.com/podcast/thumbnail.jpg',
       // docs: 'http://example.com/rss/docs.html',
-      author: 'Devin McArthur & Curtis Colbary',
+      // author: 'Devin McArthur & Curtis Colbary',
       // managingEditor: 'Curtis Colbary',
       // webMaster: 'Devin McArthur',
       copyright: '2018 Devin McArthur',
