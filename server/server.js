@@ -107,13 +107,13 @@ app.get('/podcast/feed', async (req, res) => {
     const feed = new Podcast({
       title: 'Stories From The Nish',
       description: 'description',
-      feed_url: 'https://www.triproster.com/podcast/feed',
+      feed_url: 'http://www.triproster.com/podcast/feed',
       site_url: 'http://instagram.com/storiesfromthenish',
-      image_url: 'https://www.triproster.com/podcast/thumbnail.jpg',
+      image_url: 'http://www.triproster.com/podcast/thumbnail.jpg',
       // docs: 'http://example.com/rss/docs.html',
       author: 'Devin McArthur & Curtis Colbary',
-      managingEditor: 'Curtis Colbary',
-      webMaster: 'Devin McArthur',
+      // managingEditor: 'Curtis Colbary',
+      // webMaster: 'Devin McArthur',
       copyright: '2018 Devin McArthur',
       language: 'en',
       categories: ['Conversation', 'University', 'Business', 'Tech'],
@@ -132,7 +132,7 @@ app.get('/podcast/feed', async (req, res) => {
           "text": "Business"
         }]
       },
-      itunesImage: 'https://www.triproster.com/podcast/thumbnail.jpg'
+      itunesImage: 'http://www.triproster.com/podcast/thumbnail.jpg'
     });
 
 
@@ -141,14 +141,14 @@ app.get('/podcast/feed', async (req, res) => {
     feed.addItem({
       title: 'First Podcast',
       description: '<h1>Content</h1>',
-      url: 'https://www.triproster.com/podcasts/podcast1.m4a', // link to the item
+      url: 'http://www.triproster.com/podcasts/podcast1.m4a', // link to the item
       guid: '001', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
       author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
       date: 'Nov 4, 2018', // any format that js Date can parse.
       lat: 33.417974, //optional latitude field for GeoRSS
       long: -111.933231, //optional longitude field for GeoRSS
-      enclosure: { url: 'https://www.triproster.com/podcasts/podcast1.m4a', file: __dirname + '/podcasts/podcast1.m4a' }, // optional enclosure
+      enclosure: { url: 'http://www.triproster.com/podcasts/podcast1.m4a', file: __dirname + '/podcasts/podcast1.m4a' }, // optional enclosure
       itunesAuthor: 'Devin McArthur & Curtis Colbary',
       itunesExplicit: false,
       itunesSubtitle: 'I am a sub title',
