@@ -141,14 +141,14 @@ app.get('/podcast/feed', async (req, res) => {
     feed.addItem({
       title: 'First Podcast',
       description: '<h1>Content</h1>',
-      url: 'http://www.triproster.com/podcasts/podcast1.m4a', // link to the item
+      url: 'http://www.triproster.com/podcast/podcast1.m4a', // link to the item
       guid: '001', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
       author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
       date: 'Nov 4, 2018', // any format that js Date can parse.
       lat: 33.417974, //optional latitude field for GeoRSS
       long: -111.933231, //optional longitude field for GeoRSS
-      enclosure: { url: 'http://www.triproster.com/podcasts/podcast1.m4a', file: __dirname + '/podcasts/podcast1.m4a' }, // optional enclosure
+      enclosure: { url: 'http://www.triproster.com/podcast/podcast1.m4a', file: __dirname + '/podcasts/podcast1.m4a' }, // optional enclosure
       itunesAuthor: 'Devin McArthur & Curtis Colbary',
       itunesExplicit: false,
       itunesSubtitle: 'I am a sub title',
