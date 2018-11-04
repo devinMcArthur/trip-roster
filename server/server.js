@@ -15,7 +15,8 @@ const nodemailer = require('nodemailer');
 const async = require('async');
 const flash = require('express-flash');
 const moment = require('moment');
-const Podcast = require('podcast')
+const Podcast = require('podcast');
+const fs = require('fs');
 
 const { User } = require('./models/user');
 const { Team } = require('./models/team');
@@ -159,8 +160,29 @@ app.get('/podcast/feed', async (req, res) => {
     // cache the xml to send to clients
     const xml = feed.buildXml();
 
+    fs.writeFile(__dirname + '/podcasts/feed.xml', xml, function (err) { err && console.log(err) });
+
+    var options = {
+      root: __dirname + '/podcasts/',
+      dotfiles: 'deny',
+      headers: {
+        'x-timestamp': Date.now(),
+        'x-sent': true
+      }
+    };
+
+    var fileName = 'feed.xml';
+
     res.set('Content-Type', 'text/xml');
-    res.send(xml);
+    res.end(xml);
+
+    // res.sendFile(fileName, options, function (err) {
+    //   if (err) {
+    //     console.log(err);
+    //   } else {
+    //     console.log('Sent:', fileName);
+    //   }
+    // });
   } catch (e) {
     console.log(e);
     req.flash('error', e.message);
