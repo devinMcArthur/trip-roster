@@ -13,19 +13,22 @@
 <h3 class="ui header">Ongoing Trip(s)</h3>
 <div class="ui divider"></div>
 <% for (var i in currentTripArray) { %>
-<div class="ui clearing segment">
-  <a href="/trip/<%= currentTripArray[i]._id %>"><b>
-      <%= currentTripArray[i].destination %></b></a>
-  -
-  <%= currentTripArray[i].stringifiedDate %>
-  <% if (Object.keys(teamArray).length > 1) { %>
-  <p>
-    <%= teamArray[currentTripArray[i].team].name %> -
-    <%= teamArray[currentTripArray[i].team].age %>
-    <%= teamArray[currentTripArray[i].team].league %>
-  </p>
-  <% } %>
-</div>
+  <% if (currentTripArray[i]) { %>
+    <div class="ui clearing segment">
+      <a href="/trip/<%= currentTripArray[i]._id %>"><b>
+          <%= currentTripArray[i].destination %></b></a>
+      -
+      <%= currentTripArray[i].stringifiedDate %>
+      <% if (Object.keys(teamArray).length > 1) { %>
+      <p>
+        <%= teamArray[currentTripArray[i].team].name %> -
+        <%= teamArray[currentTripArray[i].team].age %>
+        <%= teamArray[currentTripArray[i].team].league %>
+      </p>
+      <% } %>
+    </div>
+  <%} %>
+
 <% } %>
 <% } %>
 
