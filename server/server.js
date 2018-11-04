@@ -144,7 +144,7 @@ app.get('/podcast/feed', async (req, res) => {
       date: 'May 27, 2012', // any format that js Date can parse.
       lat: 33.417974, //optional latitude field for GeoRSS
       long: -111.933231, //optional longitude field for GeoRSS
-      // enclosure: { url: '...' }, // optional enclosure
+      enclosure: { url: 'https://' }, // optional enclosure
       itunesAuthor: 'Max Nowack',
       itunesExplicit: false,
       itunesSubtitle: 'I am a sub title',
@@ -159,6 +159,32 @@ app.get('/podcast/feed', async (req, res) => {
 
     res.set('Content-Type', 'text/xml');
     res.send(xml);
+  } catch (e) {
+    console.log(e);
+    req.flash('error', e.message);
+    res.redirect('/');
+  }
+});
+
+app.get('/podcast/:name', async (req, res) => {
+  try {
+    var options = {
+      root: __dirname + '/podcasts/',
+      dotfiles: 'deny',
+      headers: {
+        'x-timestamp': Date.now(),
+        'x-sent': true
+      }
+    };
+
+    var fileName = req.params.name;
+    res.sendFile(fileName, options, function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('Sent:', fileName);
+      }
+    });
   } catch (e) {
     console.log(e);
     req.flash('error', e.message);
