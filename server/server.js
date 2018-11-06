@@ -114,7 +114,7 @@ app.get('/podcast/feed', async (req, res) => {
       // author: 'Devin McArthur & Curtis Colbary',
       // managingEditor: 'Curtis Colbary',
       // webMaster: 'Devin McArthur',
-      copyright: '2018 Devin McArthur',
+      copyright: 'Stories From The Nish 2018',
       language: 'en',
       categories: ['Conversation', 'University', 'Business', 'Tech', 'Technology', 'Society & Culture', 'Entrepreneur'],
       pubDate: 'Nov 4, 2018 2:00:00 GMT',
