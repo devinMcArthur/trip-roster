@@ -108,7 +108,7 @@ app.get('/podcast/feed', async (req, res) => {
       title: 'From The Nish',
       description: 'Curtis Colbary and Devin McArthur dive into the world of podcasting. From stories only heard in a small University town on the outskirts of the Canadian Maritimes, to discussions of Business, Technology and everything in between. Theses are the Stories from the Nish.',
       feed_url: 'http://www.triproster.com/podcast/feed',
-      site_url: 'http://instagram.com/storiesfromthenish',
+      site_url: 'http://instagram.com/fromthenish',
       image_url: 'http://www.triproster.com/podcast/img/thumbnail.jpg',
       // docs: 'http://example.com/rss/docs.html',
       // author: 'Devin McArthur & Curtis Colbary',
@@ -123,7 +123,7 @@ app.get('/podcast/feed', async (req, res) => {
       itunesSubtitle: 'Stories From The Nish',
       itunesSummary: 'Curtis Colbary and Devin McArthur dive into the world of podcasting. From stories only heard in a small University town on the outskirts of the Canadian Maritimes, to discussions of Business, Technology and everything in between. Theses are the Stories from the Nish.',
       itunesOwner: { name: 'Curtis Colbary', email: 'colbary88@gmail.com' },
-      itunesExplicit: false,
+      itunesExplicit: true,
       itunesCategory: {
         "text": "Business",
         "text": "Technology",
