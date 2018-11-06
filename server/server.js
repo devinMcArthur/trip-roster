@@ -106,7 +106,7 @@ app.get('/podcast/feed', async (req, res) => {
   try {
     const feed = new Podcast({
       title: 'Stories From The Nish',
-      description: 'description',
+      description: 'Entrepreneurs, Innovators, Roomates. Curtis Colbary and Devin McArthur dive into the world of podcasting. From stories only heard in a small University town on the outskirts of the Canadian Maritimes, to discussions of Business, Technology and everything in between. Theses are the Stories from the Nish.',
       feed_url: 'http://www.triproster.com/podcast/feed',
       site_url: 'http://instagram.com/storiesfromthenish',
       image_url: 'http://www.triproster.com/podcast/img/thumbnail.jpg',
@@ -116,45 +116,42 @@ app.get('/podcast/feed', async (req, res) => {
       // webMaster: 'Devin McArthur',
       copyright: '2018 Devin McArthur',
       language: 'en',
-      categories: ['Conversation', 'University', 'Business', 'Tech'],
+      categories: ['Conversation', 'University', 'Business', 'Tech', 'Technology', 'Society & Culture', 'Entrepreneur'],
       pubDate: 'Nov 4, 2018 2:00:00 GMT',
       ttl: '60',
-      itunesAuthor: 'Curtis Colbary',
-      itunesSubtitle: 'A dive into the lives of the people in the Nish',
-      itunesSummary: 'Story time with Curtis and Devin',
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesSubtitle: 'Conversations, stories, and opinions from the Nish',
+      itunesSummary: 'Entrepreneurs, Innovators, Roomates. Curtis Colbary and Devin McArthur dive into the world of podcasting. From stories only heard in a small University town on the outskirts of the Canadian Maritimes, to discussions of Business, Technology and everything in between. Theses are the Stories from the Nish.',
       itunesOwner: { name: 'Curtis Colbary', email: 'colbary88@gmail.com' },
       itunesExplicit: false,
       itunesCategory: {
-        "text": "Entertainment",
-        "text": "Tech",
-        "text": "Conversation",
-        "subcats": [{
-          "text": "Business"
-        }]
+        "text": "Business",
+        "text": "Technology",
+        "text": "Society & Culture",
       },
       itunesImage: 'http://www.triproster.com/podcast/img/thumbnail.jpg'
     });
 
 
     /* loop over data and add to feed */
-    // Add first podcast
+    // Add Introduction Podcast
     feed.addItem({
-      title: 'First Podcast',
-      description: '<h1>Content</h1>',
-      url: 'http://www.triproster.com/podcast/podcast1.m4a', // link to the item
-      guid: '001', // optional - defaults to url
+      title: '000 // Introduction',
+      description: 'Entrepreneurs, Innovators, Roomates. Curtis Colbary and Devin McArthur introduce themselves into the world of podcasting. What is this podcast? Who are we? Why are we doing this? The answers to these questions and more can be found in this Introductory Podcast',
+      url: 'http://www.triproster.com/podcast/Introduction.mp3', // link to the item
+      guid: '000', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
       author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
-      date: 'Nov 4, 2018', // any format that js Date can parse.
-      lat: 33.417974, //optional latitude field for GeoRSS
-      long: -111.933231, //optional longitude field for GeoRSS
-      enclosure: { url: 'http://www.triproster.com/podcast/podcast1.m4a', file: __dirname + '/podcasts/podcast1.m4a' }, // optional enclosure
+      date: 'Nov 5, 2018', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://www.triproster.com/podcast/Introduction.mp3', file: __dirname + '/podcasts/Introduction.mp3' }, // optional enclosure
       itunesAuthor: 'Devin McArthur & Curtis Colbary',
       itunesExplicit: false,
-      itunesSubtitle: 'I am a sub title',
-      itunesSummary: 'The First ',
-      itunesDuration: 2919,
-      itunesKeywords: ['business', 'nish', 'stories', 'from', 'podcast']
+      itunesSubtitle: 'Conversations, stories, and opinions from the Nish',
+      itunesSummary: 'Entrepreneurs, Innovators, Roomates. Curtis Colbary and Devin McArthur introduce themselves into the world of podcasting. What is this podcast? Who are we? Why are we doing this? The answers to these questions and more can be found in this Introductory Podcast',
+      itunesDuration: 661,
+      itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'introduction', 'entrepreneurship']
     });
 
     // cache the xml to send to clients
@@ -175,14 +172,6 @@ app.get('/podcast/feed', async (req, res) => {
 
     res.set('Content-Type', 'text/xml');
     res.end(xml);
-
-    // res.sendFile(fileName, options, function (err) {
-    //   if (err) {
-    //     console.log(err);
-    //   } else {
-    //     console.log('Sent:', fileName);
-    //   }
-    // });
   } catch (e) {
     console.log(e);
     req.flash('error', e.message);
@@ -202,7 +191,7 @@ app.get('/podcast/:name', async (req, res) => {
     };
 
     var fileName = req.params.name;
-    res.set('Content-Type', 'audio/mp4');
+    res.set('Content-Type', 'audio/mpeg');
     res.sendFile(fileName, options, function (err) {
       if (err) {
         console.log(err);
