@@ -105,8 +105,8 @@ app.use(function (req, res, next) {
 app.get('/podcast/feed', async (req, res) => {
   try {
     const feed = new Podcast({
-      title: 'Stories From The Nish',
-      description: 'Entrepreneurs, Innovators, Roomates. Curtis Colbary and Devin McArthur dive into the world of podcasting. From stories only heard in a small University town on the outskirts of the Canadian Maritimes, to discussions of Business, Technology and everything in between. Theses are the Stories from the Nish.',
+      title: 'From The Nish',
+      description: 'Curtis Colbary and Devin McArthur dive into the world of podcasting. From stories only heard in a small University town on the outskirts of the Canadian Maritimes, to discussions of Business, Technology and everything in between. Theses are the Stories from the Nish.',
       feed_url: 'http://www.triproster.com/podcast/feed',
       site_url: 'http://instagram.com/storiesfromthenish',
       image_url: 'http://www.triproster.com/podcast/img/thumbnail.jpg',
@@ -114,14 +114,14 @@ app.get('/podcast/feed', async (req, res) => {
       // author: 'Devin McArthur & Curtis Colbary',
       // managingEditor: 'Curtis Colbary',
       // webMaster: 'Devin McArthur',
-      copyright: 'Stories From The Nish 2018',
+      copyright: 'From The Nish 2018',
       language: 'en',
       categories: ['Conversation', 'University', 'Business', 'Tech', 'Technology', 'Society & Culture', 'Entrepreneur'],
       pubDate: 'Nov 4, 2018 2:00:00 GMT',
       ttl: '60',
       itunesAuthor: 'Devin McArthur & Curtis Colbary',
-      itunesSubtitle: 'Conversations, stories, and opinions from the Nish',
-      itunesSummary: 'Entrepreneurs, Innovators, Roomates. Curtis Colbary and Devin McArthur dive into the world of podcasting. From stories only heard in a small University town on the outskirts of the Canadian Maritimes, to discussions of Business, Technology and everything in between. Theses are the Stories from the Nish.',
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: 'Curtis Colbary and Devin McArthur dive into the world of podcasting. From stories only heard in a small University town on the outskirts of the Canadian Maritimes, to discussions of Business, Technology and everything in between. Theses are the Stories from the Nish.',
       itunesOwner: { name: 'Curtis Colbary', email: 'colbary88@gmail.com' },
       itunesExplicit: false,
       itunesCategory: {
@@ -137,7 +137,7 @@ app.get('/podcast/feed', async (req, res) => {
     // Add Introduction Podcast
     feed.addItem({
       title: '000 // Introduction',
-      description: 'Entrepreneurs, Innovators, Roomates. Curtis Colbary and Devin McArthur introduce themselves into the world of podcasting. What is this podcast? Who are we? Why are we doing this? The answers to these questions and more can be found in this Introductory Podcast',
+      description: 'Curtis Colbary and Devin McArthur introduce themselves into the world of podcasting. What is this podcast? Who are we? Why are we doing this? The answers to these questions and more can be found in this Introductory Podcast',
       url: 'http://www.triproster.com/podcast/Introduction.mp3', // link to the item
       guid: '000', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
@@ -149,7 +149,7 @@ app.get('/podcast/feed', async (req, res) => {
       itunesAuthor: 'Devin McArthur & Curtis Colbary',
       itunesExplicit: false,
       itunesSubtitle: 'Conversations, stories, and opinions from the Nish',
-      itunesSummary: 'Entrepreneurs, Innovators, Roomates. Curtis Colbary and Devin McArthur introduce themselves into the world of podcasting. What is this podcast? Who are we? Why are we doing this? The answers to these questions and more can be found in this Introductory Podcast',
+      itunesSummary: 'Curtis Colbary and Devin McArthur introduce themselves into the world of podcasting. What is this podcast? Who are we? Why are we doing this? The answers to these questions and more can be found in this Introductory Podcast',
       itunesDuration: 661,
       itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'introduction', 'entrepreneurship']
     });
