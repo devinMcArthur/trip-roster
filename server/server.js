@@ -125,9 +125,10 @@ app.get('/podcast/feed', async (req, res) => {
       itunesOwner: { name: 'Curtis Colbary', email: 'colbary88@gmail.com' },
       itunesExplicit: true,
       itunesCategory: {
-        "text": "Business",
-        "text": "Technology",
         "text": "Society & Culture",
+        "subcats": [{
+          "text": "Personal Journals"
+        }]
       },
       itunesImage: 'http://www.triproster.com/podcast/img/thumbnail.jpg'
     });
