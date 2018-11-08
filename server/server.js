@@ -172,8 +172,8 @@ app.get('/podcast/feed', async (req, res) => {
       itunesAuthor: 'Devin McArthur & Curtis Colbary',
       itunesExplicit: true,
       itunesSubtitle: 'Stories From The Nish',
-      itunesSummary: "What is this podcast? Who are we? Why are we still doing this? Well... we still don't know, but here we are again talking about some stuff." +
-        "Tonights primary topic of choice, was education and its different styles including an open ended conversation about the liberal and technical domains of the education system." +
+      itunesSummary: "What is this podcast? Who are we? Why are we still doing this? Well... we still don't know, but here we are again talking about some stuff. " +
+        "Tonights primary topic of choice, was education and its different styles including an open ended conversation about the liberal and technical domains of the education system. " +
         "And we may have talked about who our first guest could be.",
       itunesDuration: 6723,
       itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'introduction', 'entrepreneurship', 'university']
