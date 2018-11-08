@@ -161,14 +161,14 @@ app.get('/podcast/feed', async (req, res) => {
       description: "What is this podcast? Who are we? Why are we still doing this? Well... we still don't know, but here we are again talking about some stuff." +
         "Tonights primary topic of choice, was education and its different styles inlcuding an open ended conversation about the liberal and technical domains of the education system." +
         "And we may have talked about who our first guest could be.",
-      url: 'https://www.dropbox.com/s/3h6cnshbbvuzkjx/Conversation%201.mp3?dl=0', // link to the item
+      url: 'https://uc631024759eb083b6be595c796c.dl.dropboxusercontent.com/cd/0/inline/AVG0NmkJmfGnRppxPNnGNXD-UWjzMEVZoLFtuj3HM5PF2JPDRAZZOeYS9GOg2A1bupDTctBOz1Ip4lq7-Ge3VlxwQyQEPvGLz13jP3CQMeiHCF0X3rUKnBCXiVEe9-hYtRfrirzL6jPLloEnTpi80MCEAk44r6Q6-PTyrk_NcZYIKUL6iG_QNQboo3ktOHl1wNY/file', // link to the item
       guid: 'Conversation 1.mp3 at https://www.dropbox.com/sh/qnamtmxon04jv4c/AAAho4z2ygqOmmS8gaG_Vkgsa?dl=0', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
       author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
       date: 'Nov 7, 2018', // any format that js Date can parse.
       lat: 45.622459, //optional latitude field for GeoRSS
       long: -61.991421, //optional longitude field for GeoRSS
-      enclosure: { url: 'https://www.dropbox.com/s/3h6cnshbbvuzkjx/Conversation%201.mp3?dl=0', size: '215142742', type: 'audio/mpeg' }, // optional enclosure
+      enclosure: { url: 'https://uc631024759eb083b6be595c796c.dl.dropboxusercontent.com/cd/0/inline/AVG0NmkJmfGnRppxPNnGNXD-UWjzMEVZoLFtuj3HM5PF2JPDRAZZOeYS9GOg2A1bupDTctBOz1Ip4lq7-Ge3VlxwQyQEPvGLz13jP3CQMeiHCF0X3rUKnBCXiVEe9-hYtRfrirzL6jPLloEnTpi80MCEAk44r6Q6-PTyrk_NcZYIKUL6iG_QNQboo3ktOHl1wNY/file', size: '215142742', type: 'audio/mpeg' }, // optional enclosure
       itunesAuthor: 'Devin McArthur & Curtis Colbary',
       itunesExplicit: true,
       itunesSubtitle: 'Stories From The Nish',
