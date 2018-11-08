@@ -155,6 +155,30 @@ app.get('/podcast/feed', async (req, res) => {
       itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'introduction', 'entrepreneurship']
     });
 
+    // Add First Conversation Podcast
+    feed.addItem({
+      title: '001 // Conversation: First',
+      description: "What is this podcast? Who are we? Why are we still doing this? Well... we still don't know, but here we are again talking about some stuff." +
+        "Tonights primary topic of choice, was education and its different styles inlcuding an open ended conversation about the liberal and technical domains of the education system." +
+        "And we may have talked about who our first guest could be.",
+      url: 'https://www.dropbox.com/s/3h6cnshbbvuzkjx/Conversation%201.mp3?dl=0', // link to the item
+      guid: 'Conversation 1.mp3 at https://www.dropbox.com/sh/qnamtmxon04jv4c/AAAho4z2ygqOmmS8gaG_Vkgsa?dl=0', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      date: 'Nov 7, 2018', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      // enclosure: { url: 'http://www.triproster.com/podcast/Conversation1.mp3', file: __dirname + '/podcasts/Conversation1.mp3' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "What is this podcast? Who are we? Why are we still doing this? Well... we still don't know, but here we are again talking about some stuff." +
+        "Tonights primary topic of choice, was education and its different styles including an open ended conversation about the liberal and technical domains of the education system." +
+        "And we may have talked about who our first guest could be.",
+      itunesDuration: 6723,
+      itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'introduction', 'entrepreneurship', 'university']
+    });
+
     // cache the xml to send to clients
     const xml = feed.buildXml();
 
