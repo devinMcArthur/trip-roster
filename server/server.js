@@ -140,7 +140,7 @@ app.get('/podcast/feed', async (req, res) => {
       title: '000 // Introduction',
       description: 'Curtis Colbary and Devin McArthur introduce themselves into the world of podcasting. What is this podcast? Who are we? Why are we doing this? The answers to these questions and more can be found in this Introductory Podcast',
       url: 'http://www.triproster.com/podcast/Introduction.mp3', // link to the item
-      guid: '000', // optional - defaults to url
+      guid: 'The only audio at http://www.triproster.com/podcast/Introduction.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
       author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
       date: 'Nov 5, 2018', // any format that js Date can parse.
@@ -161,14 +161,14 @@ app.get('/podcast/feed', async (req, res) => {
       description: "What is this podcast? Who are we? Why are we still doing this? Well... we still don't know, but here we are again talking about some stuff." +
         "Tonights primary topic of choice, was education and its different styles inlcuding an open ended conversation about the liberal and technical domains of the education system." +
         "And we may have talked about who our first guest could be.",
-      url: 'https://www.dropbox.com/s/3h6cnshbbvuzkjx/Conversation%201.mp3?raw=1', // link to the item
-      guid: 'Conversation 1.mp3 at https://www.dropbox.com/sh/qnamtmxon04jv4c/AAAho4z2ygqOmmS8gaG_Vkgsa?dl=0', // optional - defaults to url
+      url: 'http://www.dropbox.com/s/3h6cnshbbvuzkjx/Conversation%201.mp3?raw=1', // link to the item
+      guid: 'Conversation 1.mp3 at http://www.dropbox.com/sh/qnamtmxon04jv4c/AAAho4z2ygqOmmS8gaG_Vkgsa?dl=0', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
       author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
-      date: 'Nov 7, 2018', // any format that js Date can parse.
+      pubDate: 'Nov 7, 2018', // any format that js Date can parse.
       lat: 45.622459, //optional latitude field for GeoRSS
       long: -61.991421, //optional longitude field for GeoRSS
-      enclosure: { url: 'https://www.dropbox.com/s/3h6cnshbbvuzkjx/Conversation%201.mp3', size: '215142742', type: 'audio/mpeg' }, // optional enclosure
+      enclosure: { url: 'http://www.dropbox.com/s/3h6cnshbbvuzkjx/Conversation%201.mp3', size: '215142742', type: 'audio/mpeg' }, // optional enclosure
       itunesAuthor: 'Devin McArthur & Curtis Colbary',
       itunesExplicit: true,
       itunesSubtitle: 'Stories From The Nish',
