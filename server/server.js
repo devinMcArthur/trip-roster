@@ -162,7 +162,7 @@ app.get('/podcast/feed', async (req, res) => {
         "Tonights primary topic of choice, was education and its different styles inlcuding an open ended conversation about the liberal and technical domains of the education system." +
         "And we may have talked about who our first guest could be.",
       url: 'http://www.dropbox.com/s/3h6cnshbbvuzkjx/Conversation%201.mp3?raw=1', // link to the item
-      guid: 'Conversation 1.mp3 at http://www.dropbox.com/sh/qnamtmxon04jv4c/AAAho4z2ygqOmmS8gaG_Vkgsa?dl=0', // optional - defaults to url
+      guid: 'http://www.dropbox.com/sh/qnamtmxon04jv4c/AAAho4z2ygqOmmS8gaG_Vkgsa?dl=0', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
       author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
       pubDate: 'Nov 7, 2018', // any format that js Date can parse.
