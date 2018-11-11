@@ -182,7 +182,7 @@ app.get('/podcast/feed', async (req, res) => {
     // Add First Conversation Podcast
     feed.addItem({
       title: '002 // Guest: Brandon Hope',
-      description: "ToToday we interviewed our first guest on From the Nish, Brandon Hope, a former X-Men goalie on a championship contending team, and St.FX accounting student. Brandon talks about his experience transitioning from goalie to working professional, his experience running a business, and his general life philosphy, wrapped up with some great stories from the nish.",
+      description: "Today we interviewed our first guest on From the Nish, Brandon Hope, a former X-Men goalie on a championship contending team, and St.FX accounting student. Brandon talks about his experience transitioning from goalie to working professional, his experience running a business, and his general life philosphy, wrapped up with some great stories from the nish.",
       url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest001.mp3', // link to the item
       guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest001.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
@@ -194,10 +194,8 @@ app.get('/podcast/feed', async (req, res) => {
       itunesAuthor: 'Devin McArthur & Curtis Colbary',
       itunesExplicit: true,
       itunesSubtitle: 'Stories From The Nish',
-      itunesSummary: "What is this podcast? Who are we? Why are we still doing this? Well... we still don't know, but here we are again talking about some stuff. " +
-        "Tonights primary topic of choice, was education and its different styles including an open ended conversation about the liberal and technical domains of the education system. " +
-        "And we may have talked about who our first guest could be.",
-      itunesDuration: 6723,
+      itunesSummary: "Today we interviewed our first guest on From the Nish, Brandon Hope, a former X-Men goalie on a championship contending team, and St.FX accounting student. Brandon talks about his experience transitioning from goalie to working professional, his experience running a business, and his general life philosphy, wrapped up with some great stories from the nish.",
+      itunesDuration: 3865,
       itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'introduction', 'entrepreneurship', 'university', 'hockey']
     });
 
