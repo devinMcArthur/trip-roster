@@ -205,7 +205,7 @@ app.get('/podcast/feed', async (req, res) => {
     // Add Second Guest Podcast: Ty & Ras
     feed.addItem({
       title: '003 // Guest: Ty Allen & Brendan Laframboise ',
-      description: "Today we talk to Ty Allen & Brendan Laframboise about life in Toronto and Gateneau (Buckingham), their experiences at St.FX, the tales of playing XHL hockey, all brought together with some juicy stories from the Nish.",
+      description: "Today we talk to Ty Allen & Brendan Laframboise about life in Toronto and Gatineau (Buckingham), their experiences at St.FX, the tales of playing XHL hockey, all brought together with some juicy stories from the Nish.",
       url: 'https://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest002.mp3', // link to the item
       guid: 'https://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest002.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
@@ -218,7 +218,7 @@ app.get('/podcast/feed', async (req, res) => {
       itunesAuthor: 'Devin McArthur & Curtis Colbary',
       itunesExplicit: true,
       itunesSubtitle: 'Stories From The Nish',
-      itunesSummary: "Today we talk to Ty Allen & Brendan Laframboise about life in Toronto and Gateneau (Buckingham), their experiences at St.FX, the tales of playing XHL hockey, all brought together with some juicy stories from the Nish.",
+      itunesSummary: "Today we talk to Ty Allen & Brendan Laframboise about life in Toronto and Gatineau (Buckingham), their experiences at St.FX, the tales of playing XHL hockey, all brought together with some juicy stories from the Nish.",
       itunesDuration: 6619,
       itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'introduction', 'entrepreneurship', 'university', 'hockey']
     });
