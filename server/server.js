@@ -199,6 +199,27 @@ app.get('/podcast/feed', async (req, res) => {
       itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'introduction', 'entrepreneurship', 'university', 'hockey']
     });
 
+    // Add Second Guest Podcast: Ty & Ras
+    feed.addItem({
+      title: '003 // Guest: Ty Allen & Brendan Laframboise ',
+      description: "Today we talk to Ty Allen & Brendan Laframboise about life in Toronto and Gateneau (Buckingham), their experiences at St.FX, the tales of playing XHL hockey, all brought together with some juicy stories from the Nish.",
+      url: 'https://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest002.mp3', // link to the item
+      guid: 'https://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest002.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Nov 15, 2018', // any format that js Date can parse.
+      date: 'Nov 15, 2018', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'https://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest002.mp3', size: '123694941', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "Today we talk to Ty Allen & Brendan Laframboise about life in Toronto and Gateneau (Buckingham), their experiences at St.FX, the tales of playing XHL hockey, all brought together with some juicy stories from the Nish.",
+      itunesDuration: 6619,
+      itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'introduction', 'entrepreneurship', 'university', 'hockey']
+    });
+
     // cache the xml to send to clients
     const xml = feed.buildXml();
 
