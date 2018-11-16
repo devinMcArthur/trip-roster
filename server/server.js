@@ -143,7 +143,8 @@ app.get('/podcast/feed', async (req, res) => {
       guid: 'The only audio at http://www.triproster.com/podcast/Introduction.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
       author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
-      date: 'Nov 5, 2018', // any format that js Date can parse.
+      pubDate: new Date('Nov 5, 2018'), // any format that js Date can parse.
+      date: new Date('Nov 5, 2018'), // any format that js Date can parse.
       lat: 45.622459, //optional latitude field for GeoRSS
       long: -61.991421, //optional longitude field for GeoRSS
       enclosure: { url: 'http://www.triproster.com/podcast/Introduction.mp3', file: __dirname + '/podcasts/Introduction.mp3' }, // optional enclosure
@@ -165,7 +166,8 @@ app.get('/podcast/feed', async (req, res) => {
       guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Conversation+1.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
       author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
-      pubDate: 'Nov 7, 2018', // any format that js Date can parse.
+      pubDate: new Date('Nov 7, 2018'), // any format that js Date can parse.
+      date: new Date('Nov 7, 2018'), // any format that js Date can parse.
       lat: 45.622459, //optional latitude field for GeoRSS
       long: -61.991421, //optional longitude field for GeoRSS
       enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Conversation+1.mp3', size: '215142742', type: 'audio/mpeg' }, // optional enclosure
@@ -187,7 +189,8 @@ app.get('/podcast/feed', async (req, res) => {
       guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest001.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
       author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
-      pubDate: 'Nov 10, 2018', // any format that js Date can parse.
+      pubDate: new Date('Nov 10, 2018'), // any format that js Date can parse.
+      date: new Date('Nov 10, 2018'), // any format that js Date can parse.
       lat: 45.622459, //optional latitude field for GeoRSS
       long: -61.991421, //optional longitude field for GeoRSS
       enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest001.mp3', size: '123694941', type: 'audio/mpeg' }, // optional enclosure
