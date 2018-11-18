@@ -178,7 +178,7 @@ app.get('/podcast/feed', async (req, res) => {
         "Tonights primary topic of choice, was education and its different styles including an open ended conversation about the liberal and technical domains of the education system. " +
         "And we may have talked about who our first guest could be.",
       itunesDuration: 6723,
-      itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'introduction', 'entrepreneurship', 'university']
+      itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'entrepreneurship', 'university']
     });
 
     // Add First Conversation Podcast
@@ -199,12 +199,12 @@ app.get('/podcast/feed', async (req, res) => {
       itunesSubtitle: 'Stories From The Nish',
       itunesSummary: "Today we interviewed our first guest on From the Nish, Brandon Hope, a former X-Men goalie on a championship contending team, and St.FX accounting student. Brandon talks about his experience transitioning from goalie to working professional, his experience running a business, and his general life philosphy, wrapped up with some great stories from the nish.",
       itunesDuration: 3865,
-      itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'introduction', 'entrepreneurship', 'university', 'hockey']
+      itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'entrepreneurship', 'university', 'hockey']
     });
 
     // Add Second Guest Podcast: Ty & Ras
     feed.addItem({
-      title: '003 // Guest: Ty Allen & Brendan Laframboise ',
+      title: '003 // Guest: Ty Allen & Brendan Laframboise',
       description: "Today we talk to Ty Allen & Brendan Laframboise about life in Toronto and Gatineau (Buckingham), their experiences at St.FX, the tales of playing XHL hockey, all brought together with some juicy stories from the Nish.",
       url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest002.mp3', // link to the item
       guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest002.mp3', // optional - defaults to url
@@ -220,7 +220,28 @@ app.get('/podcast/feed', async (req, res) => {
       itunesSubtitle: 'Stories From The Nish',
       itunesSummary: "Today we talk to Ty Allen & Brendan Laframboise about life in Toronto and Gatineau (Buckingham), their experiences at St.FX, the tales of playing XHL hockey, all brought together with some juicy stories from the Nish.",
       itunesDuration: 6619,
-      itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'introduction', 'entrepreneurship', 'university', 'hockey']
+      itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'entrepreneurship', 'university', 'hockey']
+    });
+
+    // Add Third Guest Podcast: Sean Brophy
+    feed.addItem({
+      title: '004 // Guest: Sean Brophy',
+      description: "Tonight we had a conversation with Sean Brophy, a father, retired paramadic, radio personality, former race car driver, and talented Tattoo artist working out of Antigonish.",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest003.mp3', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest003.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Nov 15, 2018', // any format that js Date can parse.
+      date: 'Nov 15, 2018', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest003.mp3', size: '217852790', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "Tonight we had a conversation with Sean Brophy, a father, retired paramadic, radio personality, former race car driver, and talented Tattoo artist working out of Antigonish.",
+      itunesDuration: 6780 + 27,
+      itunesKeywords: ['nish', 'tattoo', 'antigonish', 'stories', 'from', 'podcast', 'entrepreneurship', 'university']
     });
 
     // cache the xml to send to clients
