@@ -234,7 +234,7 @@ app.get('/podcast/feed', async (req, res) => {
     // Add Third Guest Podcast: Sean Brophy
     feed.addItem({
       title: '004 // Guest: Sean Brophy',
-      description: "Tonight we had a conversation with Sean Brophy, a father, retired paramadic, radio personality, former race car driver, and talented Tattoo artist working out of Antigonish." +
+      description: "Tonight we had a conversation with Sean Brophy <a href='http://www.instagram.com/seancbrophy/'>(@seancbrophy)</a>, a father, retired paramadic, radio personality, former race car driver, and talented Tattoo artist working out of Antigonish." +
         "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
         "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
       url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest003.mp3', // link to the item
