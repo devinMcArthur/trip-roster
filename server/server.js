@@ -138,7 +138,9 @@ app.get('/podcast/feed', async (req, res) => {
     // Add Introduction Podcast
     feed.addItem({
       title: '000 // Introduction',
-      description: 'Curtis Colbary and Devin McArthur introduce themselves into the world of podcasting. What is this podcast? Who are we? Why are we doing this? The answers to these questions and more can be found in this Introductory Podcast',
+      description: 'Curtis Colbary and Devin McArthur introduce themselves into the world of podcasting. What is this podcast? Who are we? Why are we doing this? The answers to these questions and more can be found in this Introductory Podcast' +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
       url: 'http://www.triproster.com/podcast/Introduction.mp3', // link to the item
       guid: 'The only audio at http://www.triproster.com/podcast/Introduction.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
@@ -161,7 +163,9 @@ app.get('/podcast/feed', async (req, res) => {
       title: '001 // Conversation: First',
       description: "What is this podcast? Who are we? Why are we still doing this? Well... we still don't know, but here we are again talking about some stuff." +
         "Tonights primary topic of choice, was education and its different styles inlcuding an open ended conversation about the liberal and technical domains of the education system." +
-        "And we may have talked about who our first guest could be.",
+        "And we may have talked about who our first guest could be." +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
       url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Conversation+1.mp3', // link to the item
       guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Conversation+1.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
@@ -184,7 +188,9 @@ app.get('/podcast/feed', async (req, res) => {
     // Add First Conversation Podcast
     feed.addItem({
       title: '002 // Guest: Brandon Hope',
-      description: "Today we interviewed our first guest on From the Nish, Brandon Hope, a former X-Men goalie on a championship contending team, and St.FX accounting student. Brandon talks about his experience transitioning from goalie to working professional, his experience running a business, and his general life philosphy, wrapped up with some great stories from the nish.",
+      description: "Today we interviewed our first guest on From the Nish, Brandon Hope <a href='http://www.instagram.com/brandonhope/'>(@brandonhope)</a>, a former X-Men goalie on a championship contending team, and St.FX accounting student. Brandon talks about his experience transitioning from goalie to working professional, his experience running a business, and his general life philosphy, wrapped up with some great stories from the nish." +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
       url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest001.mp3', // link to the item
       guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest001.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
@@ -205,7 +211,9 @@ app.get('/podcast/feed', async (req, res) => {
     // Add Second Guest Podcast: Ty & Ras
     feed.addItem({
       title: '003 // Guest: Ty Allen & Brendan Laframboise',
-      description: "Today we talk to Ty Allen & Brendan Laframboise about life in Toronto and Gatineau (Buckingham), their experiences at St.FX, the tales of playing XHL hockey, all brought together with some juicy stories from the Nish.",
+      description: "Today we talk to Ty Allen <a href='http://www.instagram.com/tallen1389/'>(@tallen1389)</a> & Brendan Laframboise <a href='http://www.instagram.com/brendanlaframboise/'>(@brendanlaframboise)</a> about life in Toronto and Gatineau (Buckingham), their experiences at St.FX, the tales of playing XHL hockey, all brought together with some juicy stories from the Nish." +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
       url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest002.mp3', // link to the item
       guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest002.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
@@ -226,7 +234,9 @@ app.get('/podcast/feed', async (req, res) => {
     // Add Third Guest Podcast: Sean Brophy
     feed.addItem({
       title: '004 // Guest: Sean Brophy',
-      description: "Tonight we had a conversation with Sean Brophy, a father, retired paramadic, radio personality, former race car driver, and talented Tattoo artist working out of Antigonish.",
+      description: "Tonight we had a conversation with Sean Brophy, a father, retired paramadic, radio personality, former race car driver, and talented Tattoo artist working out of Antigonish." +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
       url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest003.mp3', // link to the item
       guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest003.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
