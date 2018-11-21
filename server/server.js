@@ -244,6 +244,29 @@ app.get('/podcast/feed', async (req, res) => {
       itunesKeywords: ['nish', 'tattoo', 'antigonish', 'stories', 'from', 'podcast', 'entrepreneurship', 'university']
     });
 
+    // Add Fourth Guest Podcast: Nic Latulippe
+    feed.addItem({
+      title: '005 // Guest: Nic Latulippe',
+      description: "Today we talked with <b>Nic Latulippe</b> <a href='http://www.instagram.com/nic_latulippe/'>(@nic_latulippe)</a>, a third year Philosophy student and photographer here at St.FX. We start this conversation with a dive into our collective love of St.FX culture and our opinions on the current state of this culture. Nic also gets into his love and experience with photography and his philosophy on creative expression, as well as his experience being involved in the New York Model UN event last year. We finish the conversation off - big surprise - with a classic story from the Nish." +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a></p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary</a></p>",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest004.mp4', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest004.mp4', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Business', 'Tech', 'Photography', 'Art'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Nov 20, 2018', // any format that js Date can parse.
+      date: 'Nov 20, 2018', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest004.mp3', size: '134680581', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "",
+      itunesDuration: 4200 + 10,
+      itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'entrepreneurship', 'university', 'photography', 'art', 'artist', 'un']
+    });
+
     // cache the xml to send to clients
     const xml = feed.buildXml();
 
