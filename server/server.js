@@ -247,9 +247,9 @@ app.get('/podcast/feed', async (req, res) => {
     // Add Fourth Guest Podcast: Nic Latulippe
     feed.addItem({
       title: '005 // Guest: Nic Latulippe',
-      description: "Today we talked with <b>Nic Latulippe</b> <a href='http://www.instagram.com/nic_latulippe/'>(@nic_latulippe)</a>, a third year Philosophy student and photographer here at St.FX. We start this conversation with a dive into our collective love of St.FX culture and our opinions on the current state of this culture. Nic also gets into his love and experience with photography and his philosophy on creative expression, as well as his experience being involved in the New York Model UN event last year. We finish the conversation off - big surprise - with a classic story from the Nish." +
-        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a></p>" +
-        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary</a></p>",
+      description: "Today we talked with <b>Nic Latulippe</b> <a href='http://www.instagram.com/nic_latulippe/'>(@nic_latulippe)</a>, a third year Philosophy student and photographer here at St.FX. We start this conversation with a dive into our collective love of St.FX culture and our opinions on the current state of this culture. Nic also gets into his love and experience with photography and his philosophy on creative expression, as well as his experience being involved in the New York Model UN event last year. We finish the conversation off - big surprise - with a classic story from the Nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
       url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest004.mp3', // link to the item
       guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest004.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech', 'Photography', 'Art'], // optional - array of item categories
