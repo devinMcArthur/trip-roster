@@ -272,9 +272,38 @@ app.get('/podcast/feed', async (req, res) => {
       itunesAuthor: 'Devin McArthur & Curtis Colbary',
       itunesExplicit: true,
       itunesSubtitle: 'Stories From The Nish',
-      itunesSummary: "",
+      itunesSummary: "Today we talked with <b>Nic Latulippe</b> <a href='http://www.instagram.com/nic_latulippe/'>(@nic_latulippe)</a>, a third year Philosophy student and photographer here at St.FX. We start this conversation with a dive into our collective love of St.FX culture and our opinions on the current state of this culture. Nic also gets into his love and experience with photography and his philosophy on creative expression, as well as his experience being involved in the New York Model UN event last year. We finish the conversation off - big surprise - with a classic story from the Nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
       itunesDuration: 4200 + 10,
       itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'entrepreneurship', 'university', 'photography', 'art', 'artist', 'un']
+    });
+
+    // Add Fifth Guest Podcast: Nathan Pancel & Marcus Cuomo
+    feed.addItem({
+      title: '006 // Guest: Nathan Pancel & Marcus Cuomo',
+      description: "Tonight we talked with <b>Nathan Pancel</b> <a href='http://www.instagram.com/nathanpancel/'>(@nathanpancel)</a> and <b>Marcus Cuomo</b> <a href='http://www.instagram.com/cuomo61/'>(@cuomo61)</a>, who have both been members of the X-Men hockey team here at St.FX. This entertaining conversation covers a wide range of topics: including their time playing Junior hockey, Cuomo 2020 (a promising campaign for student office), the underground market of super-sub tickets, finished off with some hilarious stories from the nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>" +
+        "<p><b>Link from tonights podcast:</b></p><a href='http//www.youtube.com/watch?v=0bnpNF32Zm4'> Pancel Trade Interview</a>",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest005.mp3', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest005.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Business', 'Tech', 'Hockey', 'Athletics'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Nov 22, 2018', // any format that js Date can parse.
+      date: 'Nov 22, 2018', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest005.mp3', size: '216188476', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "Tonight we talked with <b>Nathan Pancel</b> <a href='http://www.instagram.com/nathanpancel/'>(@nathanpancel)</a> and <b>Marcus Cuomo</b> <a href='http://www.instagram.com/cuomo61/'>(@cuomo61)</a>, who have both been members of the X-Men hockey team here at St.FX. This entertaining conversation covers a wide range of topics: including their time playing Junior hockey, Cuomo 2020 (a promising campaign for student office), the underground market of super-sub tickets, finished off with some hilarious stories from the nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>" +
+        "<p><b>Link from tonights podcast:</b></p><a href='http//www.youtube.com/watch?v=0bnpNF32Zm4'> Pancel Trade Interview</a>",
+      itunesDuration: 6720 + 35,
+      itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'entrepreneurship', 'university', 'hockey', 'athletics', 'entertainment']
     });
 
     // cache the xml to send to clients
