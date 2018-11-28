@@ -306,6 +306,31 @@ app.get('/podcast/feed', async (req, res) => {
       itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'entrepreneurship', 'university', 'hockey', 'athletics', 'entertainment']
     });
 
+    // Add Sixth Guest Podcast Seventh Episode: Michael Near & Jamison Sampson
+    feed.addItem({
+      title: '007 // Guest: Michael Near & Jamison Sampson',
+      description: "Tonight we talked with <b>Michael Near</b> <a href='http://www.instagram.com/michaelnear/'>(@michaelnear)</a> and <b>Jamison Sampson</b> <a href='http://www.instagram.com/jamisonsampson/'>(@jamisonsampson)</a>, two X veterans. We talked with them about St.FX sports, school life, the journey of our years at the school, all wrapped up with some unique party stories from the Nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest006.mp3', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest006.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Hockey', 'Culture'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Nov 22, 2018', // any format that js Date can parse.
+      date: 'Nov 22, 2018', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest006.mp3', size: '160597395', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "Tonight we talked with <b>Michael Near</b> <a href='http://www.instagram.com/michaelnear/'>(@michaelnear)</a> and <b>Jamison Sampson</b> <a href='http://www.instagram.com/jamisonsampson/'>(@jamisonsampson)</a>, two X veterans. We talked with them about St.FX sports, school life, the journey of our years at the school, all wrapped up with some unique party stories from the Nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      itunesDuration: ((60 + 23) * 60) + 38,
+      itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'university', 'hockey', 'athletics', 'culture']
+    });
+
     // cache the xml to send to clients
     const xml = feed.buildXml();
 
