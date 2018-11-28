@@ -309,7 +309,7 @@ app.get('/podcast/feed', async (req, res) => {
     // Add Sixth Guest Podcast Seventh Episode: Michael Near & Jamison Sampson
     feed.addItem({
       title: '007 // Guest: Michael Near & Jamison Sampson',
-      description: "Tonight we talked with <b>Michael Near</b> <a href='http://www.instagram.com/michaelnear/'>(@michaelnear)</a> and <b>Jamison Sampson</b> <a href='http://www.instagram.com/jamisonsampson/'>(@jamisonsampson)</a>, two X veterans. We talked with them about St.FX sports, school life, the journey of our years at the school, all wrapped up with some unique party stories from the Nish. " +
+      description: "Tonight we talked with <b>Michael Near</b> <a href='http://www.instagram.com/michaelnear/'>(@michaelnear)</a> and <b>Jamison Sampson</b> <a href='http://www.instagram.com/jamisonsampson/'>(@jamisonsampson)</a>, two St.FX veterans. We chatted with them about X sports, school life, and the journey of our years at the school, all wrapped up with some unique party stories from the Nish. " +
         "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
         "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
       url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest006.mp3', // link to the item
