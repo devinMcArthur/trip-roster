@@ -335,7 +335,7 @@ app.get('/podcast/feed', async (req, res) => {
     feed.addItem({
       title: '008 // Guest: Emma Logan',
       description: "Tonight we talked with <b>Emma Logan</b> <a href='http://www.instagram.com/emmaalogan/'>(@emmaalogan)</a>, a 4th year St.FX student and brain child behind Hearing For All. Hearing For All is a non-profit organization with the goal of collecting used hearing aids and distributing them to those in need. On top of this, we chatted about her experience with hearing loss, and how it has influenced her life. </br> If you wish to hear more about her endeavour all links to Emmas projects can be found bellow: " +
-        "<ul><li><a href='http://www.hearingforall.ca/'>Website</a></li><li><a href='http://www.facebook.com/Hearing-for-All-258279188199608/'>Facebook</a></li></ul>" +
+        "<ul><li><a href='http://www.hearingforall.ca/'>Website (hearingforall.ca) </a></li><li><a href='http://www.facebook.com/Hearing-for-All-258279188199608/'>Facebook ()</a></li></ul>" +
         "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
         "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
       url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest007.mp3', // link to the item
@@ -351,7 +351,7 @@ app.get('/podcast/feed', async (req, res) => {
       itunesExplicit: true,
       itunesSubtitle: 'Stories From The Nish',
       itunesSummary: "Tonight we talked with <b>Emma Logan</b> <a href='http://www.instagram.com/emmaalogan/'>(@emmaalogan)</a>, a 4th year St.FX student and brain child behind Hearing For All. Hearing For All is a non-profit organization with the goal of collecting used hearing aids and distributing them to those in need. On top of this, we chatted about her experience with hearing loss, and how it has influenced her life. </br> If you wish to hear more about her endeavour all links to Emmas projects can be found bellow: " +
-        "<ul><li><a href='http://www.hearingforall.ca/'>Website</a></li><li><a href='http://www.facebook.com/Hearing-for-All-258279188199608/'>Facebook</a></li></ul>" +
+        "<ul><li><a href='http://www.hearingforall.ca/'>Website</a></li><li><a href='http://www.facebook.com/Hearing-for-All-258279188199608/'>Facebook (bit.ly/2zNalbt) </a></li></ul>" +
         "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
         "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
       itunesDuration: ((60 + 16) * 60) + 36,
