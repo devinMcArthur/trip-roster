@@ -1052,7 +1052,8 @@ app.delete('/trip/:tripId/member/:memberId', async (req, res) => {
 // POST /trip/:id/time
 app.post('/trip/:id/time', async (req, res) => {
   try {
-    var date = await getTime(-6);
+    // CHANGE THIS FOR DAYLIGHT SAVINGS TIME (-6 When in Daylight savings, -5 when not)
+    var date = await getTime(-5);
     if (!ObjectID.isValid(req.params.id)) { throw new Error('Trip ID is invalid!'); }
     if (req.body.type == 'homeDepartTime') {
       await Trip.findByIdAndUpdate(req.params.id, { $set: { homeDepartTime: date } }, { new: true });
