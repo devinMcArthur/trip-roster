@@ -138,7 +138,9 @@ app.get('/podcast/feed', async (req, res) => {
     // Add Introduction Podcast
     feed.addItem({
       title: '000 // Introduction',
-      description: 'Curtis Colbary and Devin McArthur introduce themselves into the world of podcasting. What is this podcast? Who are we? Why are we doing this? The answers to these questions and more can be found in this Introductory Podcast',
+      description: 'Curtis Colbary and Devin McArthur introduce themselves into the world of podcasting. What is this podcast? Who are we? Why are we doing this? The answers to these questions and more can be found in this Introductory Podcast' +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
       url: 'http://www.triproster.com/podcast/Introduction.mp3', // link to the item
       guid: 'The only audio at http://www.triproster.com/podcast/Introduction.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
@@ -161,7 +163,9 @@ app.get('/podcast/feed', async (req, res) => {
       title: '001 // Conversation: First',
       description: "What is this podcast? Who are we? Why are we still doing this? Well... we still don't know, but here we are again talking about some stuff." +
         "Tonights primary topic of choice, was education and its different styles inlcuding an open ended conversation about the liberal and technical domains of the education system." +
-        "And we may have talked about who our first guest could be.",
+        "And we may have talked about who our first guest could be." +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
       url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Conversation+1.mp3', // link to the item
       guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Conversation+1.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
@@ -178,13 +182,15 @@ app.get('/podcast/feed', async (req, res) => {
         "Tonights primary topic of choice, was education and its different styles including an open ended conversation about the liberal and technical domains of the education system. " +
         "And we may have talked about who our first guest could be.",
       itunesDuration: 6723,
-      itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'introduction', 'entrepreneurship', 'university']
+      itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'entrepreneurship', 'university']
     });
 
     // Add First Conversation Podcast
     feed.addItem({
       title: '002 // Guest: Brandon Hope',
-      description: "Today we interviewed our first guest on From the Nish, Brandon Hope, a former X-Men goalie on a championship contending team, and St.FX accounting student. Brandon talks about his experience transitioning from goalie to working professional, his experience running a business, and his general life philosphy, wrapped up with some great stories from the nish.",
+      description: "Today we interviewed our first guest on From the Nish, Brandon Hope <a href='http://www.instagram.com/brandonhope/'>(@brandonhope)</a>, a former X-Men goalie on a championship contending team, and St.FX accounting student. Brandon talks about his experience transitioning from goalie to working professional, his experience running a business, and his general life philosphy, wrapped up with some great stories from the nish." +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
       url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest001.mp3', // link to the item
       guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest001.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
@@ -199,7 +205,182 @@ app.get('/podcast/feed', async (req, res) => {
       itunesSubtitle: 'Stories From The Nish',
       itunesSummary: "Today we interviewed our first guest on From the Nish, Brandon Hope, a former X-Men goalie on a championship contending team, and St.FX accounting student. Brandon talks about his experience transitioning from goalie to working professional, his experience running a business, and his general life philosphy, wrapped up with some great stories from the nish.",
       itunesDuration: 3865,
-      itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'introduction', 'entrepreneurship', 'university', 'hockey']
+      itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'entrepreneurship', 'university', 'hockey']
+    });
+
+    // Add Second Guest Podcast: Ty & Ras
+    feed.addItem({
+      title: '003 // Guest: Ty Allen & Brendan Laframboise',
+      description: "Today we talk to Ty Allen <a href='http://www.instagram.com/tallen1389/'>(@tallen1389)</a> & Brendan Laframboise <a href='http://www.instagram.com/brendanlaframboise/'>(@brendanlaframboise)</a> about life in Toronto and Gatineau (Buckingham), their experiences at St.FX, the tales of playing XHL hockey, all brought together with some juicy stories from the Nish." +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest002.mp3', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest002.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Nov 15, 2018', // any format that js Date can parse.
+      date: 'Nov 15, 2018', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest002.mp3', size: '211766468', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "Today we talk to Ty Allen & Brendan Laframboise about life in Toronto and Gatineau (Buckingham), their experiences at St.FX, the tales of playing XHL hockey, all brought together with some juicy stories from the Nish.",
+      itunesDuration: 6619,
+      itunesKeywords: ['business', 'nish', 'antigonish', 'stories', 'from', 'podcast', 'entrepreneurship', 'university', 'hockey']
+    });
+
+    // Add Third Guest Podcast: Sean Brophy
+    feed.addItem({
+      title: '004 // Guest: Sean Brophy',
+      description: "Tonight we had a conversation with Sean Brophy <a href='http://www.instagram.com/seancbrophy/'>(@seancbrophy)</a>, a father, retired paramadic, radio personality, former race car driver, and talented Tattoo artist working out of Antigonish." +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest003.mp3', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest003.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Business', 'Tech'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Nov 17, 2018', // any format that js Date can parse.
+      date: 'Nov 17, 2018', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest003.mp3', size: '217852790', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "Tonight we had a conversation with Sean Brophy, a father, retired paramadic, radio personality, former race car driver, and talented Tattoo artist working out of Antigonish.",
+      itunesDuration: 6780 + 27,
+      itunesKeywords: ['nish', 'tattoo', 'antigonish', 'stories', 'from', 'podcast', 'entrepreneurship', 'university']
+    });
+
+    // Add Fourth Guest Podcast: Nic Latulippe
+    feed.addItem({
+      title: '005 // Guest: Nic Latulippe',
+      description: "Today we talked with <b>Nic Latulippe</b> <a href='http://www.instagram.com/nic_latulippe/'>(@nic_latulippe)</a>, a third year Philosophy student and photographer here at St.FX. We start this conversation with a dive into our collective love of St.FX culture and our opinions on the current state of this culture. Nic also gets into his love and experience with photography and his philosophy on creative expression, as well as his experience being involved in the New York Model UN event last year. We finish the conversation off - big surprise - with a classic story from the Nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest004.mp3', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest004.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Business', 'Tech', 'Photography', 'Art'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Nov 20, 2018', // any format that js Date can parse.
+      date: 'Nov 20, 2018', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest004.mp3', size: '134680581', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "Today we talked with <b>Nic Latulippe</b> <a href='http://www.instagram.com/nic_latulippe/'>(@nic_latulippe)</a>, a third year Philosophy student and photographer here at St.FX. We start this conversation with a dive into our collective love of St.FX culture and our opinions on the current state of this culture. Nic also gets into his love and experience with photography and his philosophy on creative expression, as well as his experience being involved in the New York Model UN event last year. We finish the conversation off - big surprise - with a classic story from the Nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      itunesDuration: 4200 + 10,
+      itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'entrepreneurship', 'university', 'photography', 'art', 'artist', 'un']
+    });
+
+    // Add Fifth Guest Podcast: Nathan Pancel & Marcus Cuomo
+    feed.addItem({
+      title: '006 // Guest: Nathan Pancel & Marcus Cuomo',
+      description: "Tonight we talked with <b>Nathan Pancel</b> <a href='http://www.instagram.com/nathanpancel/'>(@nathanpancel)</a> and <b>Marcus Cuomo</b> <a href='http://www.instagram.com/cuomo61/'>(@cuomo61)</a>, who have both been members of the X-Men hockey team here at St.FX. This entertaining conversation covers a wide range of topics: including their time playing Junior hockey, Cuomo 2020 (a promising campaign for student office), the underground market of super-sub tickets, finished off with some hilarious stories from the nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>" +
+        "<p><b>Link from tonights podcast:</b></p><a href='http//www.youtube.com/watch?v=0bnpNF32Zm4'> Pancel Trade Interview</a>",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest005.mp3', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest005.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Business', 'Tech', 'Hockey', 'Athletics'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Nov 22, 2018', // any format that js Date can parse.
+      date: 'Nov 22, 2018', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest005.mp3', size: '216188476', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "Tonight we talked with <b>Nathan Pancel</b> <a href='http://www.instagram.com/nathanpancel/'>(@nathanpancel)</a> and <b>Marcus Cuomo</b> <a href='http://www.instagram.com/cuomo61/'>(@cuomo61)</a>, who have both been members of the X-Men hockey team here at St.FX. This entertaining conversation covers a wide range of topics: including their time playing Junior hockey, Cuomo 2020 (a promising campaign for student office), the underground market of super-sub tickets, finished off with some hilarious stories from the nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>" +
+        "<p><b>Link from tonights podcast:</b></p><a href='http//www.youtube.com/watch?v=0bnpNF32Zm4'> Pancel Trade Interview</a>",
+      itunesDuration: 6720 + 35,
+      itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'entrepreneurship', 'university', 'hockey', 'athletics', 'entertainment']
+    });
+
+    // Add Sixth Guest Podcast Seventh Episode: Michael Near & Jamison Sampson
+    feed.addItem({
+      title: '007 // Guest: Michael Near & Jamison Sampson',
+      description: "Tonight we talked with <b>Michael Near</b> <a href='http://www.instagram.com/michaelnear/'>(@michaelnear)</a> and <b>Jamison Sampson</b> <a href='http://www.instagram.com/jamisonsampson/'>(@jamisonsampson)</a>, two St.FX veterans. We chatted with them about X sports, school life, and the journey of our years at the school, all wrapped up with some unique party stories from the Nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest006.mp3', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest006.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Hockey', 'Culture'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Nov 27, 2018', // any format that js Date can parse.
+      date: 'Nov 27, 2018', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest006.mp3', size: '160597395', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "Tonight we talked with <b>Michael Near</b> <a href='http://www.instagram.com/michaelnear/'>(@michaelnear)</a> and <b>Jamison Sampson</b> <a href='http://www.instagram.com/jamisonsampson/'>(@jamisonsampson)</a>, two X veterans. We talked with them about St.FX sports, school life, the journey of our years at the school, all wrapped up with some unique party stories from the Nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      itunesDuration: ((60 + 23) * 60) + 38,
+      itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'university', 'hockey', 'athletics', 'culture']
+    });
+
+    // Add Seventh Guest Podcast Eighth Episode: Emma Logan
+    feed.addItem({
+      title: '008 // Guest: Emma Logan',
+      description: "Tonight we talked with <b>Emma Logan</b> <a href='http://www.instagram.com/emmaalogan/'>(@emmaalogan)</a>, a 4th year St.FX student and brain child behind Hearing For All. Hearing For All is a non-profit organization with the goal of collecting used hearing aids and distributing them to those in need. On top of this, we chatted about her experience with hearing loss, and how it has influenced her life. </br> If you wish to hear more about her endeavour all links to Emmas projects can be found bellow: " +
+        "<ul><li><a href='http://www.hearingforall.ca/'>Website (hearingforall.ca) </a></li><li><a href='http://www.facebook.com/Hearing-for-All-258279188199608/'>Facebook ()</a></li></ul>" +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest007.mp3', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest007.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Hearing', 'Culture', 'Hearing Aids'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Dec 7, 2018', // any format that js Date can parse.
+      date: 'Dec 7, 2018', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest007.mp3', size: '147092297', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "Tonight we talked with <b>Emma Logan</b> <a href='http://www.instagram.com/emmaalogan/'>(@emmaalogan)</a>, a 4th year St.FX student and brain child behind Hearing For All. Hearing For All is a non-profit organization with the goal of collecting used hearing aids and distributing them to those in need. On top of this, we chatted about her experience with hearing loss, and how it has influenced her life. </br> If you wish to hear more about her endeavour all links to Emmas projects can be found bellow: " +
+        "<ul><li><a href='http://www.hearingforall.ca/'>Website</a></li><li><a href='http://www.facebook.com/Hearing-for-All-258279188199608/'>Facebook (bit.ly/2zNalbt) </a></li></ul>" +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      itunesDuration: ((60 + 16) * 60) + 36,
+      itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'university', 'hearingaids', 'hearing']
+    });
+
+    // Add Eighth Guest Podcast Ninth Episode: Delia Boulton & Jill Clarke
+    feed.addItem({
+      title: '009 // Guest: Delia Boulton & Jill Clarke',
+      description: "Tonight we talked with <b>Delia Boulton</b> <a href='http://www.instagram.com/deliaboulton/'>(@deliaboulton)</a> & <b>Jill Clarke</b>, two 4th year St.FX Nursing students. We talked with them about their experience in the St.FX nursing program and their thoughts on the demanding schedules that come with Nursing. On top of this, we of course chatted about our time at St.FX, as well as nutrition, relationships, training, and the management of a work-life balance, all topped off with some great stories from the Nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest008.mp3', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest008.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Nursing', 'Culture', 'Medical'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Dec 8, 2018', // any format that js Date can parse.
+      date: 'Dec 8, 2018', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest008.mp3', size: '248145636', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "Tonight we talked with <b>Delia Boulton</b> <a href='http://www.instagram.com/deliaboulton/'>(@deliaboulton)</a> & <b>Jill Clarke</b>, two 4th year St.FX Nursing students. We talked with them about their experience in the St.FX nursing program and their thoughts on the demanding schedules that come with Nursing. On top of this, we of course chatted about our time at St.FX, as well as nutrition, relationships, training, and the management of a work-life balance, all topped off with some great stories from the Nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      itunesDuration: (((2 * 60) + 9) * 60) + 14,
+      itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'university', 'nursing', 'medical', 'hospital']
     });
 
     // cache the xml to send to clients
