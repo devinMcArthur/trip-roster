@@ -358,6 +358,31 @@ app.get('/podcast/feed', async (req, res) => {
       itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'university', 'hearingaids', 'hearing']
     });
 
+    // Add Eighth Guest Podcast Ninth Episode: Delia Boulton & Jill Clarke
+    feed.addItem({
+      title: '009 // Guest: Delia Boulton & Jill Clarke',
+      description: "Tonight we talked with <b>Delia Boulton</b> <a href='http://www.instagram.com/deliaboulton/'>(@deliaboulton)</a> & <b>Jill Clarke</b>, two 4th year St.FX Nursing students. We talked with them about their experience in the St.FX nursing program and their thoughts on the demanding schedules that come with Nursing. On top of this, we of course chatted about our time at St.FX, as well as nutrition, relationships, training, and the management of a work-life balance, all topped off with some great stories from the Nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest008.mp3', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest008.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Nursing', 'Culture', 'Medical'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Dec 8, 2018', // any format that js Date can parse.
+      date: 'Dec 8, 2018', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest008.mp3', size: '248145636', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "Tonight we talked with <b>Delia Boulton</b> <a href='http://www.instagram.com/deliaboulton/'>(@deliaboulton)</a> & <b>Jill Clarke</b>, two 4th year St.FX Nursing students. We talked with them about their experience in the St.FX nursing program and their thoughts on the demanding schedules that come with Nursing. On top of this, we of course chatted about our time at St.FX, as well as nutrition, relationships, training, and the management of a work-life balance, all topped off with some great stories from the Nish. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      itunesDuration: (((2 * 60) + 9) * 60) + 14,
+      itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'university', 'nursing', 'medical', 'hospital']
+    });
+
     // cache the xml to send to clients
     const xml = feed.buildXml();
 
