@@ -383,6 +383,31 @@ app.get('/podcast/feed', async (req, res) => {
       itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'university', 'nursing', 'medical', 'hospital']
     });
 
+    // Add Ninth Guest Podcast Tenth Episode: Dylan Thompson-Mackay 
+    feed.addItem({
+      title: '010 // Guest: Dylan Thompson-Mackay',
+      description: "Today we had the pleasure of talking with <b>Dylan Thompson-Mackay</b> <a href='http://www.instagram.com/dylanthompsonmackay/'>(@dylanthompsonmackay)</a> owner of Elwood Pens <a href='http://www.instagram.com/elwoodpens/'>(@elwoodpens)</a>. We got to chat with Dylan about his life story, how he came to get involved in the business of making handcrafted wooden pens, as well as his vision for the future. Elwood Pens is located on Argyle street in Halifax, you can check out his products on his Instagram page, and on his website (once is it up and running again) at elwoodpens.ca. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest009.mp3', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest009.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Handcrafted', 'Artisan', 'Business', 'Pens'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Jan 11, 2019', // any format that js Date can parse.
+      date: 'Jan 11, 2019', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest009.mp3', size: '227702000', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "Today we had the pleasure of talking with <b>Dylan Thompson-Mackay</b> <a href='http://www.instagram.com/dylanthompsonmackay/'>(@dylanthompsonmackay)</a> owner of Elwood Pens <a href='http://www.instagram.com/elwoodpens/'>(@elwoodpens)</a>. We got to chat with Dylan about his life story, how he came to get involved in the business of making handcrafted wooden pens, as well as his vision for the future. Elwood Pens is located on Argyle street in Halifax, you can check out his products on his Instagram page, and on his website (once is it up and running again) at elwoodpens.ca. " +
+        "<p>Follow <b>From The Nish</b> on Instragram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      itunesDuration: (((2 * 60) + 1) * 60) + 26,
+      itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'university', 'handcrafted', 'elwood', 'pens']
+    });
+
     // cache the xml to send to clients
     const xml = feed.buildXml();
 
