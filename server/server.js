@@ -422,7 +422,7 @@ app.get('/podcast/feed', async (req, res) => {
       date: 'Jan 22, 2019', // any format that js Date can parse.
       lat: 45.622459, //optional latitude field for GeoRSS
       long: -61.991421, //optional longitude field for GeoRSS
-      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Conversation+2.mp3', size: '227702000', type: 'audio/mpeg' }, // optional enclosure
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Conversation+2.mp3', size: '181200000', type: 'audio/mpeg' }, // optional enclosure
       itunesAuthor: 'Devin McArthur & Curtis Colbary',
       itunesExplicit: true,
       itunesSubtitle: 'Stories From The Nish',
