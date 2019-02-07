@@ -433,6 +433,31 @@ app.get('/podcast/feed', async (req, res) => {
       itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'university', 'socialmedia', 'marketing', 'politics']
     });
 
+    // Add Tenth Guest: Sean Hopkins and Jack Johnson 
+    feed.addItem({
+      title: '012 // Guest: Sean Hopkins & Jack Johnson',
+      description: "Tonight we talked with <b>Sean Hopkins</b> <a href='http://www.instagram.com/sean_hopkins/'>(@sean_hopkins)</a> and <b>Jack Johnson</b> <a href='http://www.instagram.com/jjohnson.93/'>(@jjohnson.93)</a>, two St.FX vets who are heavily involved in the X bar and event scene. We talk with Jack and Sean about their roles here at X, as Golden X Inn Manager and VP of Events and Activities respectively. We also get the chance to chat with them about their time here at X, play some Valley vs City, and all topped off with some unique stories from the Nish. " +
+        "<p>Follow <b>From The Nish</b> on Instagram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest010.mp3', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest010.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Social Media', 'Marketing', 'Music'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Fed 6, 2019', // any format that js Date can parse.
+      date: 'Fed 6, 2019', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest010.mp3', size: '182100000', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "Tonight we talked with <b>Sean Hopkins</b> <a href='http://www.instagram.com/sean_hopkins/'>(@sean_hopkins)</a> and <b>Jack Johnson</b> <a href='http://www.instagram.com/jjohnson.93/'>(@jjohnson.93)</a>, two St.FX vets who are heavily involved in the X bar and event scene. We talk with Jack and Sean about their roles here at X, as Golden X Inn Manager and VP of Events and Activities respectively. We also get the chance to chat with them about their time here at X, play some Valley vs City, and all topped off with some unique stories from the Nish. " +
+        "<p>Follow <b>From The Nish</b> on Instagram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      itunesDuration: (((1 * 60) + 39) * 60) + 28,
+      itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'university', 'socialmedia', 'marketing', 'music', 'bar']
+    });
+
     // cache the xml to send to clients
     const xml = feed.buildXml();
 
