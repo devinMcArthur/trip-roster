@@ -443,8 +443,8 @@ app.get('/podcast/feed', async (req, res) => {
       guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest010.mp3', // optional - defaults to url
       categories: ['Conversation', 'University', 'Social Media', 'Marketing', 'Music'], // optional - array of item categories
       author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
-      pubDate: 'Fed 6, 2019', // any format that js Date can parse.
-      date: 'Fed 6, 2019', // any format that js Date can parse.
+      pubDate: 'Feb 6, 2019', // any format that js Date can parse.
+      date: 'Feb 6, 2019', // any format that js Date can parse.
       lat: 45.622459, //optional latitude field for GeoRSS
       long: -61.991421, //optional longitude field for GeoRSS
       enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest010.mp3', size: '182100000', type: 'audio/mpeg' }, // optional enclosure
