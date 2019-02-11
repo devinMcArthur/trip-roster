@@ -910,7 +910,7 @@ app.get('/teams', async (req, res) => {
     var associationArray = await Association.getAll();
     var array = [];
     if (!req.user) {
-      res.render("/login");
+      res.redirect("/login");
     }
     if (req.user.admin == true) {
       res.render('team/teamIndex', { teamArray, userArray, associationArray });
