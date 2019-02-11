@@ -27,7 +27,7 @@
         <h5 class="header">Association</h5>
       </div>
       <div class="two wide column">
-        <% if (locals.user.admin == true || locals.user.association == team.association) { %>
+        <% if (locals.user && locals.user.admin == true || locals.user.association == team.association) { %>
         <a href="" onclick="loadAssociationForm('<%= team.association %>', '<%= team._id %>'); return false;" id="edit-button-holder"
           style="float: right;"><i id="edit-button-<%= team._id %>" class="edit icon black"></i></a>
         <% } %>
