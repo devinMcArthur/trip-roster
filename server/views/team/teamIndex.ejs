@@ -7,7 +7,7 @@
   <div class="eight wide column">
     <h1 class="ui header">Teams</h1>
   </div>
-  <% if (locals.user.admin || locals.user.director) { %>
+  <% if (locals.user && (locals.user.admin || locals.user.director)) { %>
     <div class="eight wide column float right">
       <div id="team-form-button-div"></div>
       <div id="team-add-button" class="ui black button" style="background-color: green; float: right;" onclick="loadTeamForm()">
