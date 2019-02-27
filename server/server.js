@@ -458,6 +458,31 @@ app.get('/podcast/feed', async (req, res) => {
       itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'university', 'socialmedia', 'marketing', 'music', 'bar']
     });
 
+    // Add Eleventh Guest: Cecil VanBuskirk 
+    feed.addItem({
+      title: '013 // Guest: Cecil VanBuskirk',
+      description: "We have a treat for all St.FX students in tonights podcast as we have the pleasure of chatting with the beautiful <b>Cecil VanBuskirk</b> <a href='http://www.instagram.com/cecilvanbuskirk/'>(@cecilvanbuskirk)</a>, our recently elected future President of the Students Union. We chatted with Cecil about a wide range of topics - including his background before St.FX, his experience in the campaign, and our amazing community here at St.FX. Finally we picked Cecils brain about his platform, and the improvements that he is aiming to make while running the Student Union, be sure to tune in to hear what's in store for the 2019-2020 year at St.FX. " +
+        "<p>Follow <b>From The Nish</b> on Instagram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest011.mp3', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest011.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Social Media', 'Marketing', 'Politics'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Feb 26, 2019', // any format that js Date can parse.
+      date: 'Feb 26, 2019', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest011.mp3', size: '158000000', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "We have a treat for all St.FX students in tonights podcast as we have the pleasure of chatting with the beautiful <b>Cecil VanBuskirk</b> <a href='http://www.instagram.com/cecilvanbuskirk/'>(@cecilvanbuskirk)</a>, our recently elected future President of the Students Union. We chatted with Cecil about a wide range of topics - including his background before St.FX, his experience in the campaign, and our amazing community here at St.FX. Finally we picked Cecils brain about his platform, and the improvements that he is aiming to make while running the Student Union, be sure to tune in to hear what's in store for the 2019-2020 year at St.FX. " +
+        "<p>Follow <b>From The Nish</b> on Instagram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      itunesDuration: (((1 * 60) + 26) * 60) + 16,
+      itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'university', 'socialmedia', 'marketing', 'politics', 'progressive']
+    });
+
     // cache the xml to send to clients
     const xml = feed.buildXml();
 
