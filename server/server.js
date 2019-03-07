@@ -483,6 +483,31 @@ app.get('/podcast/feed', async (req, res) => {
       itunesKeywords: ['nish', 'antigonish', 'stories', 'from', 'podcast', 'university', 'socialmedia', 'marketing', 'politics', 'progressive']
     });
 
+    // Add Twelfth Guest: Cole McIsaac 
+    feed.addItem({
+      title: '014 // Guest: Cole McIsaac',
+      description: "Tonight we chatted with <b>Cole McIsaac</b> <a href='http://www.instagram.com/cole_mcisaac/'>(@cole_mcisaac)</a>, Inn Bartender, movie buff, and an all around great dude. Cole talked about the story of how he came to St.FX, his time in MacIsaac hall, and a harrowing story of why you shouldn't slip on ice. Was a great conversation about nothing in particular. " +
+        "<p>Follow <b>From The Nish</b> on Instagram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest012.mp3', // link to the item
+      guid: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest012.mp3', // optional - defaults to url
+      categories: ['Conversation', 'University', 'Social Media', 'Marketing', 'Politics'], // optional - array of item categories
+      author: 'Devin McArthur & Curtis Colbary', // optional - defaults to feed author property
+      pubDate: 'Mar 6, 2019', // any format that js Date can parse.
+      date: 'Mar 6, 2019', // any format that js Date can parse.
+      lat: 45.622459, //optional latitude field for GeoRSS
+      long: -61.991421, //optional longitude field for GeoRSS
+      enclosure: { url: 'http://s3.us-east-2.amazonaws.com/from-the-nish-podcast-episodes/Guest012.mp3', size: '154900000', type: 'audio/mpeg' }, // optional enclosure
+      itunesAuthor: 'Devin McArthur & Curtis Colbary',
+      itunesExplicit: true,
+      itunesSubtitle: 'Stories From The Nish',
+      itunesSummary: "Tonight we chatted with <b>Cole McIsaac</b> <a href='http://www.instagram.com/cole_mcisaac/'>(@cole_mcisaac)</a>, Inn Bartender, movie buff, and an all around great dude. Cole talked about the story of how he came to St.FX, his time in MacIsaac hall, and a harrowing story of why you shouldn't slip on ice. Was a great conversation about nothing in particular. " +
+        "<p>Follow <b>From The Nish</b> on Instagram <a href='http://www.instagram.com/fromthenish/'>@fromthenish</a>. </p>" +
+        "<p>Hosted by: <a href='http://www.instagram.com/devin_mcarthur/'>@devin_mcarthur</a> & <a href='http://www.instagram.com/curtiscolbary/'>@curtiscolbary </a></p>",
+      itunesDuration: (((1 * 60) + 24) * 60) + 35,
+      itunesKeywords: ['from', 'the', 'nish', 'antigonish', 'stories', 'podcast', 'university', 'socialmedia', 'marketing', 'politics', 'winter']
+    });
+
     // cache the xml to send to clients
     const xml = feed.buildXml();
 
