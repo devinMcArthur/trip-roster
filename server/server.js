@@ -632,7 +632,7 @@ app.get('/', async (req, res) => {
       } else {
         var currentTripArray = [];
         for (var i in fullTeamArray) {
-          if (fullTeamArray[i].managers.toString().includes(req.user._id)) {
+          if (fullTeamArray[i].managers && fullTeamArray[i].managers.toString().includes(req.user._id)) {
             array[i] = fullTeamArray[i];
           }
         }
@@ -784,7 +784,7 @@ app.post('/forgot', (req, res, next) => {
       });
       var mailOptions = {
         to: user.email,
-        from: 'Devin at Trip Roster <triproster@gmmail.com>',
+        from: 'Devin at Trip Roster <triproster@gmail.com>',
         subject: 'Trip Roster Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
