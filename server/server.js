@@ -947,19 +947,19 @@ app.get("/podcast/img/thumbnail.jpg", async (req, res) => {
 });
 
 app.get("/olttpusadt-1", async (req, res) => {
-  res.sendFile("./images/olttpusadt-1.jpg");
+  res.sendFile(path.join(__dirname, "./images/olttpusadt-1.jpg"));
 });
 
 app.get("/olttpusadt-2", async (req, res) => {
-  res.sendFile("./images/olttpusadt-2");
+  res.sendFile(path.join(__dirname, "./images/olttpusadt-2.jpg"));
 });
 
 app.get("/olttpusadt-3", async (req, res) => {
-  res.sendFile("./images/olttpusadt-3");
+  res.sendFile(path.join(__dirname, "./images/olttpusadt-3.jpg"));
 });
 
 app.get("/olttpusadt-4", async (req, res) => {
-  res.sendFile("./images/olttpusadt-4");
+  res.sendFile(path.join(__dirname, "./images/olttpusadt-4.jpg"));
 });
 
 // GET root
