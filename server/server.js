@@ -947,7 +947,7 @@ app.get("/podcast/img/thumbnail.jpg", async (req, res) => {
 });
 
 app.get("/olttpusadt-1", async (req, res) => {
-  res.sendFile("./images/olttpusadt-1");
+  res.sendFile("./images/olttpusadt-1.jpg");
 });
 
 app.get("/olttpusadt-2", async (req, res) => {
