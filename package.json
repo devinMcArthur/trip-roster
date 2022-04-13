@@ -11,7 +11,7 @@
   "author": "Solitaire Design",
   "license": "ISC",
   "dependencies": {
-    "async": "2.6.1",
+    "async": "3.2.2",
     "bcryptjs": "2.4.3",
     "body-parser": "1.18.3",
     "connect-mongo": "2.0.1",
